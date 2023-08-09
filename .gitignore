@@ -12,6 +12,7 @@ logs/
 
 # Build artefacts
 build/
+bin/
 
 # Gradle
 .gradle/
