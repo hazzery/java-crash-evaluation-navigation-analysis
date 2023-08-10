@@ -5,10 +5,10 @@ plugins {
     id 'jacoco'
 }
 
-archivesBaseName = 'seng202_teamX'
-group = 'seng202.team0'
+archivesBaseName = 'seng202_team2'
+group = 'seng202.team2'
 version = '1.0-SNAPSHOT'
-mainClassName = 'seng202.team0.App'
+mainClassName = 'seng202.team2.App'
 
 def javaVersion = '17'
 def javafxVersion = '20.0.1'
@@ -90,7 +90,7 @@ test {
     useJUnitPlatform()
 
     filter {
-        includeTestsMatching "seng202.team0.unittests.*"
+        includeTestsMatching "seng202.team2.unittests.*"
     }
 
     finalizedBy jacocoTestReport
@@ -103,7 +103,7 @@ tasks.register("cucumber", Test)  {
     useJUnitPlatform()
 
     filter {
-        includeTestsMatching "seng202.team0.cucumber.*"
+        includeTestsMatching "seng202.team2.cucumber.*"
     }
 
     testLogging {
@@ -142,5 +142,9 @@ jacocoTestReport {
     }
     reports {
         html.destination file("${buildDir}/reports/tests/coverage/")
+    }
+
+    dependsOn {
+        startScripts
     }
 }

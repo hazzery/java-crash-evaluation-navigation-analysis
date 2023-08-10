@@ -8,7 +8,7 @@ However, we expect that this README becomes your own
 
 ## Prerequisites
 - JDK >= 17 [click here to get the latest stable OpenJDK release (as of writing this README)](https://jdk.java.net/18/)
-- Maven [Download](https://gradle.org/releases/) and [Install](https://gradle.org/install/)
+- Gradle [Download](https://gradle.org/releases/) and [Install](https://gradle.org/install/)
 
 
 ## What's Included
@@ -40,7 +40,7 @@ IntelliJ has built-in support for Gradle. To import your project:
 You can run the project through your IDE from the main class (App.java) or use the `./gradlew run` command from your terminal
 
 ## Build Project 
-1. Open a command line interface inside the project directory and run `./gradlew jar` to build a .jar file. The file is located at `build/libs/seng202_teamX-1.0-SNAPSHOT.jar
+1. Open a command line interface inside the project directory and run `./gradlew jar` to build a .jar file. The file is located at `build/libs/seng202_team2-1.0-SNAPSHOT.jar
 
 ## Run App
 - If you haven't already, Build the project.

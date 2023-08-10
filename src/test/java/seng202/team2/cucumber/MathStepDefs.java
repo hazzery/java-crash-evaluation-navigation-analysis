@@ -1,4 +1,4 @@
-package seng202.team0.cucumber;
+package seng202.team2.cucumber;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

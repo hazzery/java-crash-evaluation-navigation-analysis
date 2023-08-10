@@ -1,4 +1,4 @@
-package seng202.team0;
+package seng202.team2;
 
 import org.junit.jupiter.api.Test;
 

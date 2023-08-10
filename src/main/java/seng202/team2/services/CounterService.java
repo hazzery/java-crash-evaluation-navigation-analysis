@@ -1,6 +1,6 @@
-package seng202.team0.services;
+package seng202.team2.services;
 
-import seng202.team0.models.Counter;
+import seng202.team2.models.Counter;
 
 /**
  * Simple service class to interact with counters
