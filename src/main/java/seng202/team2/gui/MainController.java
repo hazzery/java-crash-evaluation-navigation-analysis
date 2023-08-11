@@ -44,6 +44,10 @@ public class MainController {
         counterService.incrementCounter();
 
         int count = counterService.getCurrentCount();
-        defaultLabel.setText(Integer.toString(count));
+        if (count == 69) {
+            defaultLabel.setText(Integer.toString(count) + " Nice :)");
+        } else {
+            defaultLabel.setText(Integer.toString(count));
+        }
     }
 }
