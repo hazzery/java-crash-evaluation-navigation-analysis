@@ -1,53 +1,96 @@
 package seng202.team2.services;
 
-import seng202.team2.models.Crash;
+import seng202.team2.models.*;
 
 import java.util.*;
 import java.io.*;
 
 public class CSVReader {
-    static final int NUM_OF_ATTRIBUTES = 69;
-    File csvData;
-    Scanner scanner;
+    FileReader csvData;
 
     /**
      *
      * @param fileName The name of the file to read
      * @throws FileNotFoundException If the given file does not exist
      */
-    public CSVReader(String fileName) throws FileNotFoundException
-    {
-        csvData = new File(fileName);
-        scanner = new Scanner(csvData);
+    public CSVReader(String fileName) throws FileNotFoundException {
+        csvData = new FileReader(fileName);
     }
 
     /**
-     *
+     * Creates an array of vehicles from a list containing a crash's whole row from the CSV.
+     * @param crashData A list containing the crash's whole row from the CSV.
+     * @return An array of {@link Vehicle} objects for the given crash data
      */
-    public void read()
-    {
-        scanner.useDelimiter(",");
-        for (int crash = 0; crash < 10; crash++)
-        {
-            List<String> crashData = new ArrayList<>(NUM_OF_ATTRIBUTES);
+    private Vehicle[] vehiclesFromCSVData(String[] crashData) {
+        List<Vehicle> vehicles = new ArrayList<>();
 
-            for (int attribute = 0; attribute < NUM_OF_ATTRIBUTES * 2; attribute++)
-            {
-                crashData.set(attribute, scanner.next());  //find and returns the next complete token from this scanner
+        for (Vehicle vehicle : Vehicle.values()) {
+            int vehicleCount;
+            try {
+                vehicleCount = Integer.parseInt(crashData[vehicle.getCSVColumn()]);
+            } catch (NumberFormatException e) {
+                continue;
             }
-            Crash crash1 = new Crash();
+
+            for (int i = 0; i < vehicleCount; i++) {
+                vehicles.add(vehicle);
+            }
         }
-        scanner.close();  //closes the scanner
+        System.out.println();
+        return vehicles.toArray(new Vehicle[0]);
     }
 
-    public static void doTheThing()
-    {
-        CSVReader obj = null;
+    /**
+     * Creates a Crash object from a list containing crash's whole row from the CSV.
+     * @param crashData A list containing the crash's whole row from the CSV.
+     * @return A new {@link Crash} object for the given crash data
+     */
+    private Crash crashFromCSVData(String[] crashData) {
+        int year = Integer.parseInt(crashData[CSVAtrributes.crashYear.ordinal()]);
+        int fatalities = Integer.parseInt(crashData[CSVAtrributes.fatalCount.ordinal()]);
+        double latitude = Double.parseDouble(crashData[CSVAtrributes.lat.ordinal()]);
+        double longitude = Double.parseDouble(crashData[CSVAtrributes.lng.ordinal()]);
+        Vehicle[] vehicles = vehiclesFromCSVData(crashData);
+        Weather weather = Weather.fromString(crashData[CSVAtrributes.weatherA.ordinal()]);
+        Lighting lighting = Lighting.fromString(crashData[CSVAtrributes.light.ordinal()]);
+        Severity severity = Severity.fromString(crashData[CSVAtrributes.crashSeverity.ordinal()]);
+
+        return new Crash(year, fatalities, latitude, longitude, vehicles, weather, lighting, severity);
+    }
+
+
+    /**
+     * Reads the CSV file and creates a new {@link Crash} object for each row.
+     */
+    public Crash[] readLines(int numCrashes) {
+        Crash[] crashes = new Crash[numCrashes];
+
+        try (BufferedReader reader = new BufferedReader(this.csvData)) {
+            reader.readLine(); // skip the first line of headers
+
+            for (int crash = 0; crash < numCrashes; crash++) {
+                String[] values = reader.readLine().split(",");
+
+                crashes[crash] = crashFromCSVData(values);
+            }
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+        return crashes;
+    }
+
+    public static void printCrashes() {
+        CSVReader csvReader;
         try {
-            obj = new CSVReader("src/main/resources/crash_data.csv");
+            csvReader = new CSVReader("src/main/resources/crash_data.csv");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        obj.read();
+        Crash[] crashes = csvReader.readLines(10);
+
+        for (Crash crash : crashes) {
+            System.out.println(crash);
+        }
     }
 }
