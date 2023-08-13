@@ -1,6 +1,13 @@
 package seng202.team2.services;
 
-public enum CSVAtrributes {
+
+/**
+ * An enum containing the column names of the CSV file.
+ * This is used to get the index of the column in the CSV file.
+ *
+ * @author Harrison Parkes
+ */
+public enum CSVAttributes {
     OBJECTID,
     advisorySpeed,
     bicycle,

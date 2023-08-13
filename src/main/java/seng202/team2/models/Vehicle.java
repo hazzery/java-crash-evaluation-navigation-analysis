@@ -1,5 +1,12 @@
 package seng202.team2.models;
 
+
+/**
+ * Enum listing all possible vehicle types
+ * and the zero based index that the vehicle count is located in the CSV file
+ *
+ * @author Harrison Parkes
+ */
 public enum Vehicle {
     CarOrStationWagon(5),
     VanOrUte(62),

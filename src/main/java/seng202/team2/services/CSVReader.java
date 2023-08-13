@@ -5,11 +5,17 @@ import seng202.team2.models.*;
 import java.util.*;
 import java.io.*;
 
+
+/**
+ * CSVReader class provides the ability to read in the CSV file and generate {@link Crash} objects for each row.
+ *
+ * @author Harrison Parkes
+ */
 public class CSVReader {
     FileReader csvData;
 
     /**
-     *
+     * Creates a new CSVReader object for the given file.
      * @param fileName The name of the file to read
      * @throws FileNotFoundException If the given file does not exist
      */
@@ -47,14 +53,14 @@ public class CSVReader {
      * @return A new {@link Crash} object for the given crash data
      */
     private Crash crashFromCSVData(String[] crashData) {
-        int year = Integer.parseInt(crashData[CSVAtrributes.crashYear.ordinal()]);
-        int fatalities = Integer.parseInt(crashData[CSVAtrributes.fatalCount.ordinal()]);
-        double latitude = Double.parseDouble(crashData[CSVAtrributes.lat.ordinal()]);
-        double longitude = Double.parseDouble(crashData[CSVAtrributes.lng.ordinal()]);
+        int year = Integer.parseInt(crashData[CSVAttributes.crashYear.ordinal()]);
+        int fatalities = Integer.parseInt(crashData[CSVAttributes.fatalCount.ordinal()]);
+        double latitude = Double.parseDouble(crashData[CSVAttributes.lat.ordinal()]);
+        double longitude = Double.parseDouble(crashData[CSVAttributes.lng.ordinal()]);
         Vehicle[] vehicles = vehiclesFromCSVData(crashData);
-        Weather weather = Weather.fromString(crashData[CSVAtrributes.weatherA.ordinal()]);
-        Lighting lighting = Lighting.fromString(crashData[CSVAtrributes.light.ordinal()]);
-        Severity severity = Severity.fromString(crashData[CSVAtrributes.crashSeverity.ordinal()]);
+        Weather weather = Weather.fromString(crashData[CSVAttributes.weatherA.ordinal()]);
+        Lighting lighting = Lighting.fromString(crashData[CSVAttributes.light.ordinal()]);
+        Severity severity = Severity.fromString(crashData[CSVAttributes.crashSeverity.ordinal()]);
 
         return new Crash(year, fatalities, latitude, longitude, vehicles, weather, lighting, severity);
     }
@@ -62,6 +68,8 @@ public class CSVReader {
 
     /**
      * Reads the CSV file and creates a new {@link Crash} object for each row.
+     *
+     * @param numCrashes The number of crashes to read from the CSV file
      */
     public Crash[] readLines(int numCrashes) {
         Crash[] crashes = new Crash[numCrashes];
@@ -80,6 +88,9 @@ public class CSVReader {
         return crashes;
     }
 
+    /**
+     * Prints the first 10 crashes in the CSV file.
+     */
     public static void printCrashes() {
         CSVReader csvReader;
         try {
