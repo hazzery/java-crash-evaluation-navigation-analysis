@@ -29,7 +29,7 @@ public enum Vehicle {
      * Get the zero based index that the vehicle count is located in the CSV file
      * @return The zero based index that the vehicle count is located in the CSV file
      */
-    int getCsvColumn() {
+    public int getCSVColumn() {
         return csvDataColumn;
     }
 }
