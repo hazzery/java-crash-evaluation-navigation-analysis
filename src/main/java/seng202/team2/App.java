@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 
 import seng202.team2.services.CSVReader;
 import seng202.team2.gui.MainWindow;
+import seng202.team2.gui.TableWindow;
 
 /**
  * Default entry point class
@@ -25,8 +26,8 @@ public class App {
         log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, but is only an example!')");
         log.log(Level.INFO, "There are many ways to log!");
 
-        CSVReader.printCrashes();
+//        CSVReader.printCrashes();
 
-        MainWindow.main(args);
+        TableWindow.main(args);
     }
 }
