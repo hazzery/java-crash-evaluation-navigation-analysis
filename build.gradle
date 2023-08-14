@@ -48,6 +48,10 @@ dependencies {
     // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
+    // Some vulnerabilities present
+    // https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+    testImplementation 'io.rest-assured:rest-assured:5.3.1'
+
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-junit-platform-engine
     testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.5.0'
 
