@@ -8,19 +8,19 @@ package seng202.team2.models;
  * @author Harrison Parkes
  */
 public enum Vehicle {
-    CarOrStationWagon(5),
-    VanOrUte(62),
+    CAR_OR_STATION_WAGON(5),
+    VAN_OR_UTE(62),
     SUV(50),
-    Truck(59),
-    Bicycle(2),
-    Bus(4),
-    SchoolBus(44),
-    Moped(28),
-    MotorCycle(29),
-    Pedestrian(36),
-    Taxi(51),
-    Train(57),
-    Other(33);
+    TRUCK(59),
+    BICYCLE(2),
+    BUS(4),
+    SCHOOL_BUS(44),
+    MOPED(28),
+    MOTOR_CYCLE(29),
+    PEDESTRIAN(36),
+    TAXI(51),
+    TRAIN(57),
+    OTHER(33);
 
     private final int csvDataColumn;
 
