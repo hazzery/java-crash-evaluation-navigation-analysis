@@ -1,5 +1,6 @@
 package seng202.team2.models;
 
+//Stores information about Crash, from CSV
 public class Crash {
     private int year;
     private int fatalities;
