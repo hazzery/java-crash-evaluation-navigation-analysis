@@ -1,7 +1,6 @@
 package seng202.team2.unittests.models;
 
 import org.junit.jupiter.api.Test;
-import seng202.team2.models.Severity;
 import seng202.team2.models.Vehicle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
