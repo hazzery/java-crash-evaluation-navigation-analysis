@@ -11,7 +11,7 @@ import java.io.*;
  *
  * @author Harrison Parkes
  */
-public class CSVReader {
+public class CsvReader {
     FileReader csvData;
 
     /**
@@ -19,7 +19,7 @@ public class CSVReader {
      * @param fileName The name of the file to read
      * @throws FileNotFoundException If the given file does not exist
      */
-    public CSVReader(String fileName) throws FileNotFoundException {
+    public CsvReader(String fileName) throws FileNotFoundException {
         csvData = new FileReader(fileName);
     }
 
@@ -34,7 +34,7 @@ public class CSVReader {
         for (Vehicle vehicle : Vehicle.values()) {
             int vehicleCount;
             try {
-                vehicleCount = Integer.parseInt(crashData[vehicle.getCSVColumn()]);
+                vehicleCount = Integer.parseInt(crashData[vehicle.getCsvColumn()]);
             } catch (NumberFormatException e) {
                 continue;
             }
@@ -53,14 +53,14 @@ public class CSVReader {
      * @return A new {@link Crash} object for the given crash data
      */
     private Crash crashFromCSVData(String[] crashData) {
-        int year = Integer.parseInt(crashData[CSVAttributes.crashYear.ordinal()]);
-        int fatalities = Integer.parseInt(crashData[CSVAttributes.fatalCount.ordinal()]);
-        double latitude = Double.parseDouble(crashData[CSVAttributes.lat.ordinal()]);
-        double longitude = Double.parseDouble(crashData[CSVAttributes.lng.ordinal()]);
+        int year = Integer.parseInt(crashData[CsvAttributes.CRASH_YEAR.ordinal()]);
+        int fatalities = Integer.parseInt(crashData[CsvAttributes.FATAL_COUNT.ordinal()]);
+        double latitude = Double.parseDouble(crashData[CsvAttributes.LAT.ordinal()]);
+        double longitude = Double.parseDouble(crashData[CsvAttributes.LNG.ordinal()]);
         Vehicle[] vehicles = vehiclesFromCSVData(crashData);
-        Weather weather = Weather.fromString(crashData[CSVAttributes.weatherA.ordinal()]);
-        Lighting lighting = Lighting.fromString(crashData[CSVAttributes.light.ordinal()]);
-        Severity severity = Severity.fromString(crashData[CSVAttributes.crashSeverity.ordinal()]);
+        Weather weather = Weather.fromString(crashData[CsvAttributes.WEATHER_A.ordinal()]);
+        Lighting lighting = Lighting.fromString(crashData[CsvAttributes.LIGHT.ordinal()]);
+        Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
 
         return new Crash(year, fatalities, latitude, longitude, vehicles, weather, lighting, severity);
     }
@@ -92,9 +92,9 @@ public class CSVReader {
      * Prints the first 10 crashes in the CSV file.
      */
     public static void printCrashes() {
-        CSVReader csvReader;
+        CsvReader csvReader;
         try {
-            csvReader = new CSVReader("src/main/resources/crash_data.csv");
+            csvReader = new CsvReader("src/main/resources/crash_data.csv");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
