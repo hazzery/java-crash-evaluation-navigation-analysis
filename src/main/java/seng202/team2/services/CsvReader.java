@@ -62,7 +62,7 @@ public class CsvReader {
         double longitude = Double.parseDouble(crashData[CsvAttributes.LNG.ordinal()]);
         String roadName1 = crashData[CsvAttributes.CRASH_LOCATION_1.ordinal()];
         String roadName2 = crashData[CsvAttributes.CRASH_LOCATION_2.ordinal()];
-        String reigon = crashData[CsvAttributes.REGION.ordinal()];
+        String region = crashData[CsvAttributes.REGION.ordinal()];
 
         Vehicle[] vehicles = vehiclesFromCSVData(crashData);
         Weather weather = Weather.fromString(crashData[CsvAttributes.WEATHER_A.ordinal()]);
@@ -70,7 +70,7 @@ public class CsvReader {
         Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
 
         return new Crash(year, fatalities, seriousInjuries, minorInjuries,
-                latitude, longitude, roadName1, roadName2, reigon,
+                latitude, longitude, roadName1, roadName2, region,
                 vehicles, weather, lighting, severity);
     }
 
