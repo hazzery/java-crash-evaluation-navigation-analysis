@@ -57,15 +57,20 @@ public class CsvReader {
         int fatalities = Integer.parseInt(crashData[CsvAttributes.FATAL_COUNT.ordinal()]);
         int seriousInjuries = Integer.parseInt(crashData[CsvAttributes.SERIOUS_INJURY_COUNT.ordinal()]);
         int minorInjuries = Integer.parseInt(crashData[CsvAttributes.MINOR_INJURY_COUNT.ordinal()]);
+
         double latitude = Double.parseDouble(crashData[CsvAttributes.LAT.ordinal()]);
         double longitude = Double.parseDouble(crashData[CsvAttributes.LNG.ordinal()]);
+        String roadName1 = crashData[CsvAttributes.CRASH_LOCATION_1.ordinal()];
+        String roadName2 = crashData[CsvAttributes.CRASH_LOCATION_2.ordinal()];
+
         Vehicle[] vehicles = vehiclesFromCSVData(crashData);
         Weather weather = Weather.fromString(crashData[CsvAttributes.WEATHER_A.ordinal()]);
         Lighting lighting = Lighting.fromString(crashData[CsvAttributes.LIGHT.ordinal()]);
         Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
 
         return new Crash(year, fatalities, seriousInjuries, minorInjuries,
-                latitude, longitude, vehicles, weather, lighting, severity);
+                latitude, longitude, roadName1, roadName2,
+                vehicles, weather, lighting, severity);
     }
 
 

@@ -9,7 +9,8 @@ import java.util.Arrays;
  *
  * @author Harrison Parkes
  */
-public record Crash(int year, int fatalities, int seriousInjuries, int minorInjuries, double latitude, double longitude,
+public record Crash(int year, int fatalities, int seriousInjuries, int minorInjuries,
+                    double latitude, double longitude, String roadName1, String roadName2,
                     Vehicle[] vehicles, Weather weather, Lighting lighting, Severity severity) {
 
     /**
@@ -22,8 +23,12 @@ public record Crash(int year, int fatalities, int seriousInjuries, int minorInju
         return "Crash{" +
                 "year=" + year +
                 ", fatalities=" + fatalities +
+                ", seriousInjuries=" + seriousInjuries +
+                ", minorInjuries=" + minorInjuries +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", roadName1='" + roadName1 + '\'' +
+                ", roadName2='" + roadName2 + '\'' +
                 ", vehicles=" + Arrays.toString(vehicles) +
                 ", weather=" + weather +
                 ", lighting=" + lighting +
