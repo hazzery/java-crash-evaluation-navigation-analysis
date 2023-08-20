@@ -1,4 +1,4 @@
-package seng202.team2.services;
+package seng202.team2.io;
 
 import seng202.team2.models.*;
 
@@ -28,7 +28,7 @@ public class CsvReader {
      * @param crashData A list containing the crash's whole row from the CSV.
      * @return An array of {@link Vehicle} objects for the given crash data
      */
-    private Vehicle[] vehiclesFromCSVData(String[] crashData) {
+    private Vehicle[] vehiclesFromCsvData(String[] crashData) {
         List<Vehicle> vehicles = new ArrayList<>();
 
         for (Vehicle vehicle : Vehicle.values()) {
@@ -52,7 +52,7 @@ public class CsvReader {
      * @param crashData A list containing the crash's whole row from the CSV.
      * @return A new {@link Crash} object for the given crash data
      */
-    private Crash crashFromCSVData(String[] crashData) {
+    private Crash crashFromCsvData(String[] crashData) {
         int year = Integer.parseInt(crashData[CsvAttributes.CRASH_YEAR.ordinal()]);
         int fatalities = Integer.parseInt(crashData[CsvAttributes.FATAL_COUNT.ordinal()]);
         int seriousInjuries = Integer.parseInt(crashData[CsvAttributes.SERIOUS_INJURY_COUNT.ordinal()]);
@@ -64,7 +64,7 @@ public class CsvReader {
         String roadName2 = crashData[CsvAttributes.CRASH_LOCATION_2.ordinal()];
         String region = crashData[CsvAttributes.REGION.ordinal()];
 
-        Vehicle[] vehicles = vehiclesFromCSVData(crashData);
+        Vehicle[] vehicles = vehiclesFromCsvData(crashData);
         Weather weather = Weather.fromString(crashData[CsvAttributes.WEATHER_A.ordinal()]);
         Lighting lighting = Lighting.fromString(crashData[CsvAttributes.LIGHT.ordinal()]);
         Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
@@ -89,7 +89,7 @@ public class CsvReader {
             for (int crash = 0; crash < numCrashes; crash++) {
                 String[] values = reader.readLine().split(",");
 
-                crashes[crash] = crashFromCSVData(values);
+                crashes[crash] = crashFromCsvData(values);
             }
         } catch (IOException exception) {
             throw new RuntimeException(exception);

@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Level;
 
-import seng202.team2.services.CsvReader;
+import seng202.team2.io.CsvReader;
 import seng202.team2.gui.MainWindow;
 
 /**
