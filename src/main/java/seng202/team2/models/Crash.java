@@ -9,22 +9,9 @@ import java.util.Arrays;
  *
  * @author Harrison Parkes
  */
-public record Crash(int year, int fatalities, double latitude, double longitude, Vehicle[] vehicles, Weather weather,
-                    Lighting lighting, Severity severity) {
-    /**
-     * Construct a new crash object
-     *
-     * @param year       The year the crash occurred
-     * @param fatalities The number of fatalities in the crash
-     * @param latitude   The latitude ordinate of the crash location
-     * @param longitude  The longitude ordinate of the crash location
-     * @param vehicles   The vehicles involved in the crash
-     * @param weather    The weather conditions at the time of the crash
-     * @param lighting   The lighting conditions at the time of the crash
-     * @param severity   The severity of the crash
-     */
-    public Crash {
-    }
+public record Crash(int year, int fatalities, int seriousInjuries, int minorInjuries,
+                    double latitude, double longitude, String roadName1, String roadName2, String region,
+                    Vehicle[] vehicles, Weather weather, Lighting lighting, Severity severity) {
 
     /**
      * Creates a human-readable string representation of the crash's attributes
@@ -36,8 +23,13 @@ public record Crash(int year, int fatalities, double latitude, double longitude,
         return "Crash{" +
                 "year=" + year +
                 ", fatalities=" + fatalities +
+                ", seriousInjuries=" + seriousInjuries +
+                ", minorInjuries=" + minorInjuries +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", roadName1='" + roadName1 +
+                ", roadName2='" + roadName2 +
+                ", region='" + region +
                 ", vehicles=" + Arrays.toString(vehicles) +
                 ", weather=" + weather +
                 ", lighting=" + lighting +
