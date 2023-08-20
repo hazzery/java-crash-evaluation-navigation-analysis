@@ -80,7 +80,7 @@ public class CrashDao implements DaoInterface<Crash> {
 
         for (Vehicle vehicle : Vehicle.values()) {
             // TODO yeah Crash::vehicles should definitely be a map
-            int vehicleCount = resultSet.getInt(12 + vehicle.ordinal());
+            int vehicleCount = resultSet.getInt(13 + vehicle.ordinal());
             for (int i = 0; i < vehicleCount; i++) {
                 vehicles.add(vehicle);
             }
@@ -102,6 +102,28 @@ public class CrashDao implements DaoInterface<Crash> {
         );
     }
 
+    public void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
+        preparedStatement.setInt(1, crash.year());
+        preparedStatement.setInt(2, crash.fatalities());
+        preparedStatement.setInt(3, crash.seriousInjuries());
+        preparedStatement.setInt(4, crash.minorInjuries());
+        preparedStatement.setDouble(5, crash.latitude());
+        preparedStatement.setDouble(6, crash.longitude());
+        preparedStatement.setString(7, crash.roadName1());
+        preparedStatement.setString(8, crash.roadName2());
+        preparedStatement.setString(9, crash.region());
+        preparedStatement.setString(10, crash.weather().toString());
+        preparedStatement.setString(11, crash.lighting().toString());
+        preparedStatement.setString(12, crash.severity().toString());
+
+        // TODO maybe crash::vehicles should be a map
+        ResultSet resultSet =  preparedStatement.getGeneratedKeys();
+        for (Vehicle vehicle : crash.vehicles()) {
+            preparedStatement.setInt(13 + vehicle.ordinal(), resultSet.getInt(vehicle.getCsvColumn()) + 1);
+        }
+    }
+
+
     /**
      * Adds a single object of type T to database
      *
@@ -110,27 +132,9 @@ public class CrashDao implements DaoInterface<Crash> {
      */
     @Override
     public int add(Crash toAdd) {
-        String sql = "INSERT INTO crashes values (?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
-            for (Vehicle vehicle : toAdd.vehicles()) {
-                // TODO maybe crash::vehicles should be a map
-                ResultSet resultSet =  preparedStatement.getGeneratedKeys();
-                preparedStatement.setInt(12 + vehicle.ordinal(), resultSet.getInt(vehicle.getCsvColumn()) + 1);
-            }
-
-            preparedStatement.setInt(0, toAdd.year());
-            preparedStatement.setInt(1, toAdd.fatalities());
-            preparedStatement.setInt(2, toAdd.seriousInjuries());
-            preparedStatement.setInt(3, toAdd.minorInjuries());
-            preparedStatement.setDouble(4, toAdd.latitude());
-            preparedStatement.setDouble(5, toAdd.longitude());
-            preparedStatement.setString(6, toAdd.roadName1());
-            preparedStatement.setString(7, toAdd.roadName2());
-            preparedStatement.setString(8, toAdd.region());
-            preparedStatement.setString(9, toAdd.weather().toString());
-            preparedStatement.setString(10, toAdd.lighting().toString());
-            preparedStatement.setString(11, toAdd.severity().toString());
-
+            prepareStatementForCrash(preparedStatement, toAdd);
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             int insertId = -1;
@@ -141,6 +145,31 @@ public class CrashDao implements DaoInterface<Crash> {
         } catch (SQLException sqlException) {
             log.error(sqlException);
             return -1;
+        }
+    }
+
+    /**
+     * Adds a batch of sales to the database
+     * This is done much quicker than individually
+     * @param toAdd list of sales to add to the database
+     */
+    public void addBatch (List <Crash> toAdd) {
+        String sql = "INSERT OR IGNORE INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            connection.setAutoCommit(false);
+            for (Crash crash : toAdd) {
+                prepareStatementForCrash(preparedStatement, crash);
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            while (resultSet.next()){
+                log.info(resultSet.getLong(1));
+            }
+            connection.commit();
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
         }
     }
 

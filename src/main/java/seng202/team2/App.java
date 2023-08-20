@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Level;
 import seng202.team2.io.CsvReader;
 import seng202.team2.gui.MainWindow;
 
+import java.io.FileNotFoundException;
+
 /**
  * Default entry point class
  * @author seng202 teaching team
@@ -25,7 +27,13 @@ public class App {
         log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, but is only an example!')");
         log.log(Level.INFO, "There are many ways to log!");
 
-        CsvReader.printCrashes();
+        try {
+            CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
+            csvReader.importAllToDatabase();
+        } catch (FileNotFoundException exception) {
+            log.error("File not found");
+        }
+
 
         MainWindow.main(args);
     }
