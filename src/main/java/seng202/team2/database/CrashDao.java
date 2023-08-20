@@ -80,7 +80,7 @@ public class CrashDao implements DaoInterface<Crash> {
 
         for (Vehicle vehicle : Vehicle.values()) {
             // TODO yeah Crash::vehicles should definitely be a map
-            int vehicleCount = resultSet.getInt(7 + vehicle.ordinal());
+            int vehicleCount = resultSet.getInt(12 + vehicle.ordinal());
             for (int i = 0; i < vehicleCount; i++) {
                 vehicles.add(vehicle);
             }
@@ -88,8 +88,13 @@ public class CrashDao implements DaoInterface<Crash> {
         return new Crash(
                 resultSet.getInt("year"),
                 resultSet.getInt("fatalities"),
+                resultSet.getInt("serious_injuries"),
+                resultSet.getInt("minor_injuries"),
                 resultSet.getDouble("latitude"),
                 resultSet.getDouble("longitude"),
+                resultSet.getString("road_name_1"),
+                resultSet.getString("road_name_2"),
+                resultSet.getString("region"),
                 vehicles.toArray(new Vehicle[0]),
                 Weather.fromString(resultSet.getString("weather")),
                 Lighting.fromString(resultSet.getString("lighting")),
@@ -110,16 +115,21 @@ public class CrashDao implements DaoInterface<Crash> {
             for (Vehicle vehicle : toAdd.vehicles()) {
                 // TODO maybe crash::vehicles should be a map
                 ResultSet resultSet =  preparedStatement.getGeneratedKeys();
-                preparedStatement.setInt(7 + vehicle.ordinal(), resultSet.getInt(vehicle.getCsvColumn()) + 1);
+                preparedStatement.setInt(12 + vehicle.ordinal(), resultSet.getInt(vehicle.getCsvColumn()) + 1);
             }
 
             preparedStatement.setInt(0, toAdd.year());
             preparedStatement.setInt(1, toAdd.fatalities());
-            preparedStatement.setDouble(2, toAdd.latitude());
-            preparedStatement.setDouble(3, toAdd.longitude());
-            preparedStatement.setString(4, toAdd.weather().toString());
-            preparedStatement.setString(5, toAdd.lighting().toString());
-            preparedStatement.setString(6, toAdd.severity().toString());
+            preparedStatement.setInt(2, toAdd.seriousInjuries());
+            preparedStatement.setInt(3, toAdd.minorInjuries());
+            preparedStatement.setDouble(4, toAdd.latitude());
+            preparedStatement.setDouble(5, toAdd.longitude());
+            preparedStatement.setString(6, toAdd.roadName1());
+            preparedStatement.setString(7, toAdd.roadName2());
+            preparedStatement.setString(8, toAdd.region());
+            preparedStatement.setString(9, toAdd.weather().toString());
+            preparedStatement.setString(10, toAdd.lighting().toString());
+            preparedStatement.setString(11, toAdd.severity().toString());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
