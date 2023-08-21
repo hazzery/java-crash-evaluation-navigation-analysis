@@ -31,8 +31,10 @@ public class TableViewController {
     private void buildTableScene() throws FileNotFoundException {
         ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
 
-        String[] columnKeys = {"Severity", "Fatalities", "NumberOfVehiclesInvolved", "Weather", "Lighting", "Year"};
-        String[] columnHeaders = {"Severity", "Fatalities", "Number of Vehicles Involved", "Weather", "Lighting", "Year"};
+        String[] columnKeys = {"Severity", "Fatalities", "NumberOfVehiclesInvolved", "RoadName1", "RoadName2",
+                "Region", "SeriousInjuries", "MinorInjuries", "Weather", "Lighting", "Year"};
+        String[] columnHeaders = {"Severity", "Fatalities", "Number of Vehicles Involved", "Road 1", "Road 2",
+                "Region", "Serious Injuries", "Minor Injuries", "Weather", "Lighting", "Year"};
         for (int i = 0; i < columnKeys.length; i++) {
             TableColumn<DataRow, String> column = new TableColumn<>(columnHeaders[i]);
             column.setCellValueFactory(new PropertyValueFactory<>(columnKeys[i]));
@@ -49,6 +51,11 @@ public class TableViewController {
                     toDisplayText(crash.severity().toString()),
                     crash.fatalities(),
                     crash.vehicles().length,
+                    toDisplayText(crash.roadName1()),
+                    toDisplayText(crash.roadName2()),
+                    crash.region(),
+                    crash.seriousInjuries(),
+                    crash.minorInjuries(),
                     toDisplayText(crash.weather().toString()),
                     toDisplayText(crash.lighting().toString()),
                     crash.year())

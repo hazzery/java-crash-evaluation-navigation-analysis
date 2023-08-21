@@ -46,14 +46,14 @@ public class MainController {
             FXMLLoader menuBarLoader = new FXMLLoader(getClass().getResource("/fxml/menu_bar.fxml"));
             Parent navigationBarParent = menuBarLoader.load();
             MenuBarController menuBarController = menuBarLoader.getController();
-            menuBarController.init();
+            menuBarController.init(this);
             mainWindow.setLeft(navigationBarParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void displayTableView() {
+    public void displayTableView() {
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
             Parent tableViewParent = tableViewLoader.load();
