@@ -57,17 +57,31 @@ public class CsvReader {
     }
 
     /**
+     * Some integer fields in the CSV, e.g. fatal_count, have empty cells
+     * This function simply returns 0 in this case.
+     * @param string The string to parse
+     * @return The integer value of the string, or 0 if the string is empty
+     */
+    private static int nullSafeParseInt(String string) {
+        try {
+            return Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
      * Creates a Crash object from a list containing crash's whole row from the CSV.
      * @param crashData A list containing the crash's whole row from the CSV.
      * @return A new {@link Crash} object for the given crash data
      */
     private Crash crashFromCsvData(String[] crashData) {
         try {
-            int crashId = Integer.parseInt(crashData[CsvAttributes.OBJECT_ID.ordinal()]);
-            int year = Integer.parseInt(crashData[CsvAttributes.CRASH_YEAR.ordinal()]);
-            int fatalities = Integer.parseInt(crashData[CsvAttributes.FATAL_COUNT.ordinal()]);
-            int seriousInjuries = Integer.parseInt(crashData[CsvAttributes.SERIOUS_INJURY_COUNT.ordinal()]);
-            int minorInjuries = Integer.parseInt(crashData[CsvAttributes.MINOR_INJURY_COUNT.ordinal()]);
+            int crashId = nullSafeParseInt(crashData[CsvAttributes.OBJECT_ID.ordinal()]);
+            int year = nullSafeParseInt(crashData[CsvAttributes.CRASH_YEAR.ordinal()]);
+            int fatalities = nullSafeParseInt(crashData[CsvAttributes.FATAL_COUNT.ordinal()]);
+            int seriousInjuries = nullSafeParseInt(crashData[CsvAttributes.SERIOUS_INJURY_COUNT.ordinal()]);
+            int minorInjuries = nullSafeParseInt(crashData[CsvAttributes.MINOR_INJURY_COUNT.ordinal()]);
 
             double latitude = Double.parseDouble(crashData[CsvAttributes.LAT.ordinal()]);
             double longitude = Double.parseDouble(crashData[CsvAttributes.LNG.ordinal()]);
