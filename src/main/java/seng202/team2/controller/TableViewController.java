@@ -20,16 +20,22 @@ public class TableViewController {
     @FXML
     private TableView<DataRow> tableView;
 
+    private String toDisplayText(String text) {
+        String lowered = text.toLowerCase().replace("_", " ");
+        return lowered.substring(0, 1).toUpperCase() + lowered.substring(1);
+    }
+
     /**
      * Constructs the elements of the table view
      */
     private void buildTableScene() throws FileNotFoundException {
-        ObservableList<DataRow> exampleData = FXCollections.observableArrayList();
+        ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
 
-        String[] columnItems = {"Severity", "Fatalities", "NumberOfVehiclesInvolved", "Weather", "Lighting", "Year"};
-        for (String columnHeader: columnItems) {
-            TableColumn<DataRow, String> column = new TableColumn<>(columnHeader);
-            column.setCellValueFactory(new PropertyValueFactory<>(columnHeader));
+        String[] columnKeys = {"Severity", "Fatalities", "NumberOfVehiclesInvolved", "Weather", "Lighting", "Year"};
+        String[] columnHeaders = {"Severity", "Fatalities", "Number of Vehicles Involved", "Weather", "Lighting", "Year"};
+        for (int i = 0; i < columnKeys.length; i++) {
+            TableColumn<DataRow, String> column = new TableColumn<>(columnHeaders[i]);
+            column.setCellValueFactory(new PropertyValueFactory<>(columnKeys[i]));
             tableView.getColumns().add(column);
         }
 
@@ -38,17 +44,17 @@ public class TableViewController {
         Crash[] crashes = csvReader.readLines(10000);
 
         for (Crash crash: crashes) {
-            exampleData.add(new DataRow(
-                    crash.getSeverity().toString(),
+            tableCrashData.add(new DataRow(
+                    toDisplayText(crash.getSeverity().toString()),
                     crash.getFatalities(),
                     crash.getVehicles().length,
-                    crash.getWeather().toString(),
-                    crash.getLighting().toString(),
+                    toDisplayText(crash.getWeather().toString()),
+                    toDisplayText(crash.getLighting().toString()),
                     crash.getYear())
             );
         }
 
-        tableView.setItems(exampleData);
+        tableView.setItems(tableCrashData);
     }
 
     /**
