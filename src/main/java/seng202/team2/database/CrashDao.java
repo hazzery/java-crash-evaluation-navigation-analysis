@@ -79,7 +79,7 @@ public class CrashDao implements DaoInterface<Crash> {
 
     /**
      * run query on database, only queries fatalities currently
-     * @param fatalities
+     * @param fatalities Number of fatalities to filter by
      * @return resultSet
      */
     public ResultSet getSelectionFatalities(int fatalities) {
@@ -101,22 +101,27 @@ public class CrashDao implements DaoInterface<Crash> {
      * @return resultSet
      */
     public ResultSet getSelection(List<String> queryFields, List<String> conditions) {
-        String sql = "SELECT * FROM crashes WHERE ";
-        if (queryFields.size() == conditions.size()) {
-            for (int i = 0; i < queryFields.size(); i++) {
-                sql += queryFields.get(i) + conditions.get(i);
-            }
-            sql += ";";
-            try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    return resultSet;
-                }
-            } catch (SQLException exception) {
-                log.error(exception);
-                return null;
-            }
+
+        if (queryFields.size() != conditions.size()) {
+            return null;
         }
-        return null;
+
+        StringBuilder sql = new StringBuilder("SELECT * FROM crashes WHERE ");
+
+        for (int i = 0; i < queryFields.size(); i++) {
+            sql.append(queryFields.get(i)).append(conditions.get(i));
+            sql.append(" AND ");
+        }
+        sql = new StringBuilder(sql.substring(0, sql.length() - 5));
+        sql.append(";");
+        try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql.toString())) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet;
+            }
+        } catch (SQLException exception) {
+            log.error(exception);
+            return null;
+        }
     }
 
     private Crash crashFromResultSet(ResultSet resultSet) throws SQLException {
