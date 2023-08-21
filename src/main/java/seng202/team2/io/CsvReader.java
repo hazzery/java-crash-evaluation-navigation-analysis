@@ -129,8 +129,8 @@ public class CsvReader {
      * Imports all crashes from the CSV file into the database.
      */
     public void importAllToDatabase() {
-//        List<Crash> crashes = generateAllCrashes();
-        List<Crash> crashes = Arrays.stream(readLines(10000)).toList();
+        List<Crash> crashes = generateAllCrashes();
+//        List<Crash> crashes = Arrays.stream(readLines(10000)).toList();
         crashDao.addBatch(crashes);
     }
 
