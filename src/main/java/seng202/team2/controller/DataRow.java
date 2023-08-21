@@ -5,26 +5,37 @@ import javafx.beans.property.SimpleStringProperty;
 
 /**
  * creates a data row
+ *
+ * @author Isaac Ure
+ * @author Findlay Royds
  */
 public class DataRow {
-    private final SimpleStringProperty vehicle;
     private final SimpleStringProperty severity;
-    private final SimpleIntegerProperty people;
+    private final SimpleIntegerProperty fatalities;
+    private final SimpleIntegerProperty numberOfVehiclesInvolved;
+    private final SimpleStringProperty weather;
+    private final SimpleStringProperty lighting;
+    private final SimpleIntegerProperty year;
 
-    DataRow(String vehicle, String severity, Integer people) {
-        this.vehicle = new SimpleStringProperty(vehicle);
+    DataRow(String severity, int fatalities, int numVehicles, String weather, String lighting, int year) {
         this.severity = new SimpleStringProperty(severity);
-        this.people = new SimpleIntegerProperty(people);
+        this.fatalities = new SimpleIntegerProperty(fatalities);
+        this.numberOfVehiclesInvolved = new SimpleIntegerProperty(numVehicles);
+        this.weather = new SimpleStringProperty(weather);
+        this.lighting = new SimpleStringProperty(lighting);
+        this.year = new SimpleIntegerProperty(year);
+
     }
 
-    public String getVehicle() {
-        return vehicle.get();
-    }
     public String getSeverity() {
         return severity.get();
     }
-    public Integer getPeople() {
-        return people.get();
+    public Integer getNumberOfVehiclesInvolved() {
+        return numberOfVehiclesInvolved.get();
     }
+    public Integer getFatalities() {return fatalities.get();}
+    public String getWeather() {return weather.get();}
+    public String getLighting() {return lighting.get();}
+    public Integer getYear() {return year.get();}
 
 }

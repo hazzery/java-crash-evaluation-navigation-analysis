@@ -1,85 +1,61 @@
 package seng202.team2.controller;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import seng202.team2.models.Crash;
+import seng202.team2.services.CSVReader;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 
 /**
  * Class to demo the table view for the application
+ *
+ * @author Isaac Ure
+ * @author Findlay Royds
  */
 public class TableViewController {
     @FXML
-    private TableView<DataRow> salesTableView;
-
-    private Stage stage;
-
-    /**
-     * builds a demo table without fxml
-     * @param primaryStage the current stage
-     * @throws IOException if there is an issue loading fxml file
-     */
-    /*@Override
-    public void start(Stage primaryStage) throws IOException {
-
-        StackPane root = new StackPane();
-        primaryStage.setTitle("JCENA table view");
-
-        //buildTableScene(root);
-        Scene scene = new Scene(root, 600, 400);
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-    }*/
+    private TableView<DataRow> tableView;
 
     /**
      * Constructs the elements of the table view
-     * //@param root the root node of the table scene being built
      */
-    private void buildTableScene() {//StackPane root) {
-        //TableView table = new TableView<>();
-        ObservableList<DataRow> exampleData = FXCollections.observableArrayList(new DataRow("Car", "High", 6));
+    private void buildTableScene() throws FileNotFoundException {
+        ObservableList<DataRow> exampleData = FXCollections.observableArrayList();
 
-        exampleData.add(new DataRow("Car", "High", 7));
-        TableColumn<DataRow, String> column_1 = new TableColumn<>("Vehicle");
-        column_1.setCellValueFactory(new PropertyValueFactory<>("vehicle"));
-        TableColumn<DataRow, String> column_2 = new TableColumn<>("Severity");
-        column_2.setCellValueFactory(new PropertyValueFactory<>("severity"));
-        TableColumn<DataRow, String> column_3 = new TableColumn<>("People");
-        column_3.setCellValueFactory(new PropertyValueFactory<>("people"));
+        String[] columnItems = {"Severity", "Fatalities", "NumberOfVehiclesInvolved", "Weather", "Lighting", "Year"};
+        for (String columnHeader: columnItems) {
+            TableColumn<DataRow, String> column = new TableColumn<>(columnHeader);
+            column.setCellValueFactory(new PropertyValueFactory<>(columnHeader));
+            tableView.getColumns().add(column);
+        }
 
-        salesTableView.getColumns().add(column_1);
-        salesTableView.getColumns().add(column_2);
-        salesTableView.getColumns().add(column_3);
-        salesTableView.setItems(exampleData);
-        //root.getChildren().add(table);
+        // Read CSV file and populate table rows.
+        CSVReader csvReader = new CSVReader("src/main/resources/crash_data.csv");
+        Crash[] crashes = csvReader.readLines(10000);
+
+        for (Crash crash: crashes) {
+            exampleData.add(new DataRow(
+                    crash.getSeverity().toString(),
+                    crash.getFatalities(),
+                    crash.getVehicles().length,
+                    crash.getWeather().toString(),
+                    crash.getLighting().toString(),
+                    crash.getYear())
+            );
+        }
+
+        tableView.setItems(exampleData);
     }
 
     /**
      * Inits the tableview
-     * @param stage
      */
-    void init(Stage stage) {
-        this.stage = stage;
-
+    void init() throws FileNotFoundException {
         buildTableScene();
     }
-
-
-    /**
-     * Arbitrary functionality to load FXML application
-     * @param args command line arguments
-     */
-    /*public static void main(String[] args) {
-        launch(args);
-    }*/
 }
 

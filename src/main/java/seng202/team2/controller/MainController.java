@@ -21,29 +21,20 @@ public class MainController {
     @FXML
     private BorderPane mainWindow;
 
-    private Stage stage;
+    public void init(Stage stage) {
 
-    public void init(Stage stage) throws IOException {
-        this.stage = stage;
-
-        displayTableView(stage);
+        displayTableView();
         stage.sizeToScene();
     }
 
-    private void displayTableView(Stage stage) throws IOException {
+    private void displayTableView() {
         System.out.println("got here");
         try {
-            // Load our sales_table.fxml file
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
-            // Get the root FXML element after loading
             Parent tableViewParent = tableViewLoader.load();
-            // Get access to the controller the FXML is using
             TableViewController tableViewController = tableViewLoader.getController();
-            // Initialise the controller
-            tableViewController.init(stage);
-            // Set the root of our new component to the center of the borderpane
+            tableViewController.init();
             mainWindow.setCenter(tableViewParent);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
