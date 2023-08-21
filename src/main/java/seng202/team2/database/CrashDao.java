@@ -104,7 +104,7 @@ public class CrashDao implements DaoInterface<Crash> {
         );
     }
 
-    public void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
+    private void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
         preparedStatement.setInt(1, crash.crashID());
         preparedStatement.setInt(2, crash.year());
         preparedStatement.setInt(3, crash.fatalities());
