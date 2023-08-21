@@ -1,9 +1,11 @@
 package seng202.team2.io;
 
+import com.opencsv.exceptions.CsvValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team2.database.CrashDao;
 import seng202.team2.models.*;
+import com.opencsv.CSVReader;
 
 import java.util.*;
 import java.io.*;
@@ -93,18 +95,18 @@ public class CsvReader {
     public List<Crash> generateAllCrashes() {
         List<Crash> crashes = new ArrayList<>();
 
-        try (FileReader fileReader = new FileReader(fileName);
-             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+        try (CSVReader reader = new CSVReader(new FileReader(this.fileName))) {
+            reader.skip(1); // skip the first line of headers
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                Crash crash = crashFromCsvData(line);
 
-            bufferedReader.readLine(); // skip the first line of headers
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] values = line.split(",");
-
-                crashes.add(crashFromCsvData(values));
+                if (crash != null) {
+                    crashes.add(crash);
+                }
             }
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+        } catch (IOException | CsvValidationException exception) {
+            log.error(exception);
         }
         return crashes;
     }
@@ -127,17 +129,16 @@ public class CsvReader {
     public Crash[] readLines(int numCrashes) {
         Crash[] crashes = new Crash[numCrashes];
 
-        try (FileReader fileReader = new FileReader(fileName);
-             BufferedReader reader = new BufferedReader(fileReader)) {
-            reader.readLine(); // skip the first line of headers
+        try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
+            reader.skip(1); // skip the first line of headers
 
             for (int crash = 0; crash < numCrashes; crash++) {
-                String[] values = reader.readLine().split(",");
+                String[] values = reader.readNext();
 
                 crashes[crash] = crashFromCsvData(values);
             }
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+        } catch (IOException | CsvValidationException exception) {
+            log.error(exception);
         }
         return crashes;
     }
