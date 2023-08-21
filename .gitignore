@@ -1,6 +1,9 @@
 #Full Data file
 src/main/resources/crash_data.csv
 
+#Database
+src/main/resources/database.db
+
 # Intellij
 .idea/
 *.iml
