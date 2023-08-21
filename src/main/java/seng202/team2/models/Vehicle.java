@@ -1,6 +1,8 @@
 package seng202.team2.models;
 
 
+import seng202.team2.database.DbAttributes;
+
 /**
  * Enum listing all possible vehicle types
  * and the zero based index that the vehicle count is located in the CSV file
@@ -38,5 +40,9 @@ public enum Vehicle {
      */
     public int getCsvColumn() {
         return csvDataColumn;
+    }
+
+    public int getDbColumn() {
+        return DbAttributes.values().length - Vehicle.values().length + ordinal();
     }
 }
