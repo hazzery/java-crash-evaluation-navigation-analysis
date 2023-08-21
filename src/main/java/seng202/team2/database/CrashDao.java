@@ -27,9 +27,9 @@ public class CrashDao implements DaoInterface<Crash> {
 
 
     /**
-     * Gets all sales in database
+     * Gets all crashes in database
      *
-     * @return a list of all sales
+     * @return a list of all crashes
      */
     @Override
     public List<Crash> getAll() {
