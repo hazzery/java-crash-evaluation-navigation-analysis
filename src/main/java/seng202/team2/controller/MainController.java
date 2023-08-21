@@ -23,12 +23,24 @@ public class MainController {
 
     public void init(Stage stage) {
 
+        displayTopBar();
         displayTableView();
         stage.sizeToScene();
     }
 
+    private void displayTopBar() {
+        try {
+            FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
+            Parent topBarParent = topBarLoader.load();
+            TopBarController topBarController = topBarLoader.getController();
+            topBarController.init();
+            mainWindow.setTop(topBarParent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void displayTableView() {
-        System.out.println("got here");
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
             Parent tableViewParent = tableViewLoader.load();
@@ -39,5 +51,4 @@ public class MainController {
             e.printStackTrace();
         }
     }
-
 }

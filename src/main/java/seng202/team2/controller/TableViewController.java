@@ -36,6 +36,7 @@ public class TableViewController {
         for (int i = 0; i < columnKeys.length; i++) {
             TableColumn<DataRow, String> column = new TableColumn<>(columnHeaders[i]);
             column.setCellValueFactory(new PropertyValueFactory<>(columnKeys[i]));
+            column.setReorderable(false);
             tableView.getColumns().add(column);
         }
 
