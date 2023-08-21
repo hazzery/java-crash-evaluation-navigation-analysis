@@ -4,9 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Level;
 
-import seng202.team2.services.CSVReader;
-import seng202.team2.gui.MainWindow;
-import seng202.team2.gui.TableWindow;
+import seng202.team2.controller.TableViewController;
 
 /**
  * Default entry point class
@@ -21,13 +19,9 @@ public class App {
      * @param args program arguments from command line
      */
     public static void main(String[] args) {
-        log.info("Hello World!");
-        log.warn("This is a warning message! Use this log type to 'warn' if something is not quite right");
-        log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, but is only an example!')");
-        log.log(Level.INFO, "There are many ways to log!");
-
 //        CSVReader.printCrashes();
 
-        TableWindow.main(args);
+        //TableViewController.main(args);
+        MainWindow.main(args);
     }
 }

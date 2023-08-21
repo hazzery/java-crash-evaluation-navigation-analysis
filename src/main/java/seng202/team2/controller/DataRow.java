@@ -1,4 +1,4 @@
-package seng202.team2.gui;
+package seng202.team2.controller;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
