@@ -24,6 +24,7 @@ public class MainController {
     public void init(Stage stage) {
 
         displayTopBar();
+        displayNavigationBar();
         displayTableView();
         stage.sizeToScene();
     }
@@ -35,6 +36,18 @@ public class MainController {
             TopBarController topBarController = topBarLoader.getController();
             topBarController.init();
             mainWindow.setTop(topBarParent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void displayNavigationBar() {
+        try {
+            FXMLLoader navigationBarLoader = new FXMLLoader(getClass().getResource("/fxml/navigation_bar.fxml"));
+            Parent navigationBarParent = navigationBarLoader.load();
+            NavigationBarController navigationBarController = navigationBarLoader.getController();
+            navigationBarController.init();
+            mainWindow.setLeft(navigationBarParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
