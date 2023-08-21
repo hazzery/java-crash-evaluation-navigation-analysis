@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.team2.models.Crash;
-import seng202.team2.services.CSVReader;
+import seng202.team2.services.CsvReader;
 
 import java.io.FileNotFoundException;
 
@@ -41,17 +41,17 @@ public class TableViewController {
         }
 
         // Read CSV file and populate table rows.
-        CSVReader csvReader = new CSVReader("src/main/resources/crash_data.csv");
+        CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
         Crash[] crashes = csvReader.readLines(10000);
 
         for (Crash crash: crashes) {
             tableCrashData.add(new DataRow(
-                    toDisplayText(crash.getSeverity().toString()),
-                    crash.getFatalities(),
-                    crash.getVehicles().length,
-                    toDisplayText(crash.getWeather().toString()),
-                    toDisplayText(crash.getLighting().toString()),
-                    crash.getYear())
+                    toDisplayText(crash.severity().toString()),
+                    crash.fatalities(),
+                    crash.vehicles().length,
+                    toDisplayText(crash.weather().toString()),
+                    toDisplayText(crash.lighting().toString()),
+                    crash.year())
             );
         }
 
