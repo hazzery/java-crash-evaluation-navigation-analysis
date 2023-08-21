@@ -61,6 +61,7 @@ public class CsvReader {
      */
     private Crash crashFromCsvData(String[] crashData) {
         try {
+            int crashId = Integer.parseInt(crashData[CsvAttributes.OBJECT_ID.ordinal()]);
             int year = Integer.parseInt(crashData[CsvAttributes.CRASH_YEAR.ordinal()]);
             int fatalities = Integer.parseInt(crashData[CsvAttributes.FATAL_COUNT.ordinal()]);
             int seriousInjuries = Integer.parseInt(crashData[CsvAttributes.SERIOUS_INJURY_COUNT.ordinal()]);
@@ -77,7 +78,7 @@ public class CsvReader {
             Lighting lighting = Lighting.fromString(crashData[CsvAttributes.LIGHT.ordinal()]);
             Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
 
-            return new Crash(year, fatalities, seriousInjuries, minorInjuries,
+            return new Crash(crashId, year, fatalities, seriousInjuries, minorInjuries,
                     latitude, longitude, roadName1, roadName2, region,
                     vehicles, weather, lighting, severity);
         } catch (NumberFormatException exception) {

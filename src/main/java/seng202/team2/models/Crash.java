@@ -9,7 +9,7 @@ import java.util.Arrays;
  *
  * @author Harrison Parkes
  */
-public record Crash(int year, int fatalities, int seriousInjuries, int minorInjuries,
+public record Crash(int crashID, int year, int fatalities, int seriousInjuries, int minorInjuries,
                     double latitude, double longitude, String roadName1, String roadName2, String region,
                     Vehicle[] vehicles, Weather weather, Lighting lighting, Severity severity) {
 
@@ -21,7 +21,8 @@ public record Crash(int year, int fatalities, int seriousInjuries, int minorInju
     @Override
     public String toString() {
         return "Crash{" +
-                "year=" + year +
+                "crashID=" + crashID +
+                ", year=" + year +
                 ", fatalities=" + fatalities +
                 ", seriousInjuries=" + seriousInjuries +
                 ", minorInjuries=" + minorInjuries +

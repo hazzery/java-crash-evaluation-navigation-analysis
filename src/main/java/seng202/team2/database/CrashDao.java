@@ -80,12 +80,14 @@ public class CrashDao implements DaoInterface<Crash> {
 
         for (Vehicle vehicle : Vehicle.values()) {
             // TODO yeah Crash::vehicles should definitely be a map
-            int vehicleCount = resultSet.getInt(13 + vehicle.ordinal());
+            int vehicleCount = resultSet.getInt(
+                    14 + vehicle.ordinal());
             for (int i = 0; i < vehicleCount; i++) {
                 vehicles.add(vehicle);
             }
         }
         return new Crash(
+                resultSet.getInt("crash_id"),
                 resultSet.getInt("year"),
                 resultSet.getInt("fatalities"),
                 resultSet.getInt("serious_injuries"),
@@ -103,23 +105,24 @@ public class CrashDao implements DaoInterface<Crash> {
     }
 
     public void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
-        preparedStatement.setInt(1, crash.year());
-        preparedStatement.setInt(2, crash.fatalities());
-        preparedStatement.setInt(3, crash.seriousInjuries());
-        preparedStatement.setInt(4, crash.minorInjuries());
-        preparedStatement.setDouble(5, crash.latitude());
-        preparedStatement.setDouble(6, crash.longitude());
-        preparedStatement.setString(7, crash.roadName1());
-        preparedStatement.setString(8, crash.roadName2());
-        preparedStatement.setString(9, crash.region());
-        preparedStatement.setString(10, crash.weather().toString());
-        preparedStatement.setString(11, crash.lighting().toString());
-        preparedStatement.setString(12, crash.severity().toString());
+        preparedStatement.setInt(1, crash.crashID());
+        preparedStatement.setInt(2, crash.year());
+        preparedStatement.setInt(3, crash.fatalities());
+        preparedStatement.setInt(4, crash.seriousInjuries());
+        preparedStatement.setInt(5, crash.minorInjuries());
+        preparedStatement.setDouble(6, crash.latitude());
+        preparedStatement.setDouble(7, crash.longitude());
+        preparedStatement.setString(8, crash.roadName1());
+        preparedStatement.setString(9, crash.roadName2());
+        preparedStatement.setString(10, crash.region());
+        preparedStatement.setString(11, crash.weather().toString());
+        preparedStatement.setString(12, crash.lighting().toString());
+        preparedStatement.setString(13, crash.severity().toString());
 
         // TODO maybe crash::vehicles should be a map
         ResultSet resultSet =  preparedStatement.getGeneratedKeys();
         for (Vehicle vehicle : crash.vehicles()) {
-            preparedStatement.setInt(13 + vehicle.ordinal(), resultSet.getInt(vehicle.getCsvColumn()) + 1);
+            preparedStatement.setInt(14 + vehicle.ordinal(), resultSet.getInt(vehicle.getCsvColumn()) + 1);
         }
     }
 
@@ -132,7 +135,7 @@ public class CrashDao implements DaoInterface<Crash> {
      */
     @Override
     public int add(Crash toAdd) {
-        String sql = "INSERT INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
             prepareStatementForCrash(preparedStatement, toAdd);
             preparedStatement.executeUpdate();
@@ -154,7 +157,7 @@ public class CrashDao implements DaoInterface<Crash> {
      * @param toAdd list of sales to add to the database
      */
     public void addBatch (List <Crash> toAdd) {
-        String sql = "INSERT OR IGNORE INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT OR IGNORE INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             connection.setAutoCommit(false);
