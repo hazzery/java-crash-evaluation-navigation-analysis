@@ -1,6 +1,6 @@
 package seng202.team2.models;
 
-import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 public record Crash(int crashID, int year, int fatalities, int seriousInjuries, int minorInjuries,
                     double latitude, double longitude, String roadName1, String roadName2, String region,
-                    Vehicle[] vehicles, Weather weather, Lighting lighting, Severity severity) {
+                    Map<Vehicle, Integer> vehicles, Weather weather, Lighting lighting, Severity severity) {
 
     /**
      * Creates a human-readable string representation of the crash's attributes
@@ -31,7 +31,7 @@ public record Crash(int crashID, int year, int fatalities, int seriousInjuries, 
                 ", roadName1='" + roadName1 +
                 ", roadName2='" + roadName2 +
                 ", region='" + region +
-                ", vehicles=" + Arrays.toString(vehicles) +
+                ", vehicles=" + vehicles +
                 ", weather=" + weather +
                 ", lighting=" + lighting +
                 ", severity=" + severity +

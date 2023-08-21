@@ -25,35 +25,10 @@ public class CsvReader {
     /**
      * Creates a new CSVReader object for the given file.
      * @param fileName The name of the file to read
-     * @throws FileNotFoundException If the given file does not exist
      */
-    public CsvReader(String fileName) throws FileNotFoundException {
+    public CsvReader(String fileName) {
         this.fileName = fileName;
         this.crashDao = new CrashDao();
-    }
-
-    /**
-     * Creates an array of vehicles from a list containing a crash's whole row from the CSV.
-     * @param crashData A list containing the crash's whole row from the CSV.
-     * @return An array of {@link Vehicle} objects for the given crash data
-     */
-    private Vehicle[] vehiclesFromCsvData(String[] crashData) {
-        List<Vehicle> vehicles = new ArrayList<>();
-
-        for (Vehicle vehicle : Vehicle.values()) {
-            int vehicleCount;
-            try {
-                vehicleCount = Integer.parseInt(crashData[vehicle.getCsvColumn()]);
-            } catch (NumberFormatException e) {
-                continue;
-            }
-
-            for (int i = 0; i < vehicleCount; i++) {
-                vehicles.add(vehicle);
-            }
-        }
-        System.out.println();
-        return vehicles.toArray(new Vehicle[0]);
     }
 
     /**
@@ -68,6 +43,22 @@ public class CsvReader {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+
+    /**
+     * Creates an array of vehicles from a list containing a crash's whole row from the CSV.
+     * @param crashData A list containing the crash's whole row from the CSV.
+     * @return An array of {@link Vehicle} objects for the given crash data
+     */
+    private Map<Vehicle, Integer> vehiclesFromCsvData(String[] crashData) {
+        Map<Vehicle, Integer> vehicles = new HashMap<>();
+
+        for (Vehicle vehicle : Vehicle.values()) {
+            int vehicleCount = nullSafeParseInt(crashData[vehicle.getCsvColumn()]);
+
+            vehicles.put(vehicle, vehicleCount);
+        }
+        return vehicles;
     }
 
     /**
@@ -89,7 +80,7 @@ public class CsvReader {
             String roadName2 = crashData[CsvAttributes.CRASH_LOCATION_2.ordinal()];
             String region = crashData[CsvAttributes.REGION.ordinal()];
 
-            Vehicle[] vehicles = vehiclesFromCsvData(crashData);
+            Map<Vehicle, Integer> vehicles = vehiclesFromCsvData(crashData);
             Weather weather = Weather.fromString(crashData[CsvAttributes.WEATHER_A.ordinal()]);
             Lighting lighting = Lighting.fromString(crashData[CsvAttributes.LIGHT.ordinal()]);
             Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
@@ -161,12 +152,7 @@ public class CsvReader {
      * Prints the first `numLines` crashes in the CSV file.
      */
     public static void printCrashes(int numLines) {
-        CsvReader csvReader;
-        try {
-            csvReader = new CsvReader("src/main/resources/crash_data.csv");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
         Crash[] crashes = csvReader.readLines(numLines);
 
         for (Crash crash : crashes) {

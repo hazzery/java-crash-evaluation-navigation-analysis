@@ -7,7 +7,9 @@ import seng202.team2.models.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Converts between SQLite Database and {@link Crash} objects
@@ -76,14 +78,12 @@ public class CrashDao implements DaoInterface<Crash> {
     }
 
     private Crash crashFromResultSet(ResultSet resultSet) throws SQLException {
-        List<Vehicle> vehicles = new ArrayList<>();
+        Map<Vehicle, Integer> vehicles = new HashMap<>();
 
         for (Vehicle vehicle : Vehicle.values()) {
-            // TODO yeah Crash::vehicles should definitely be a map
-            int vehicleCount = resultSet.getInt(
-                    14 + vehicle.ordinal());
+            int vehicleCount = resultSet.getInt(14 + vehicle.ordinal());
             for (int i = 0; i < vehicleCount; i++) {
-                vehicles.add(vehicle);
+                vehicles.put(vehicle, vehicleCount);
             }
         }
         return new Crash(
@@ -97,7 +97,7 @@ public class CrashDao implements DaoInterface<Crash> {
                 resultSet.getString("road_name_1"),
                 resultSet.getString("road_name_2"),
                 resultSet.getString("region"),
-                vehicles.toArray(new Vehicle[0]),
+                vehicles,
                 Weather.fromString(resultSet.getString("weather")),
                 Lighting.fromString(resultSet.getString("lighting")),
                 Severity.fromString(resultSet.getString("severity"))
@@ -119,10 +119,8 @@ public class CrashDao implements DaoInterface<Crash> {
         preparedStatement.setString(12, crash.lighting().toString());
         preparedStatement.setString(13, crash.severity().toString());
 
-        // TODO maybe crash::vehicles should be a map
-        ResultSet resultSet =  preparedStatement.getGeneratedKeys();
-        for (Vehicle vehicle : crash.vehicles()) {
-            preparedStatement.setInt(14 + vehicle.ordinal(), resultSet.getInt(vehicle.getCsvColumn()) + 1);
+        for (Vehicle vehicle : crash.vehicles().keySet()) {
+            preparedStatement.setInt(14 + vehicle.ordinal(), crash.vehicles().get(vehicle));
         }
     }
 
