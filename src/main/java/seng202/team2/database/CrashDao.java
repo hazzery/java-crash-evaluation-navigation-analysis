@@ -81,7 +81,7 @@ public class CrashDao implements DaoInterface<Crash> {
         Map<Vehicle, Integer> vehicles = new HashMap<>();
 
         for (Vehicle vehicle : Vehicle.values()) {
-            int vehicleCount = resultSet.getInt(14 + vehicle.ordinal());
+            int vehicleCount = resultSet.getInt(vehicle.getDbColumn());
             for (int i = 0; i < vehicleCount; i++) {
                 vehicles.put(vehicle, vehicleCount);
             }
@@ -120,7 +120,7 @@ public class CrashDao implements DaoInterface<Crash> {
         preparedStatement.setString(13, crash.severity().toString());
 
         for (Vehicle vehicle : crash.vehicles().keySet()) {
-            preparedStatement.setInt(14 + vehicle.ordinal(), crash.vehicles().get(vehicle));
+            preparedStatement.setInt(vehicle.getDbColumn(), crash.vehicles().get(vehicle));
         }
     }
 
