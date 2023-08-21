@@ -77,6 +77,48 @@ public class CrashDao implements DaoInterface<Crash> {
         }
     }
 
+    /**
+     * run query on database, only queries fatalities currently
+     * @param fatalities
+     * @return resultSet
+     */
+    public ResultSet getSelectionFatalities(int fatalities) {
+        String sql = "SELECT * FROM crashes WHERE fatalities = ?";
+        try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
+            preparedStatement.setInt(1, fatalities);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet;
+            }
+        } catch (SQLException exception) {
+            log.error(exception);
+            return null;
+        }
+    }
+
+    /**
+     * Class for query creation, conditions are of form "operator condition"
+     * @param queryFields, conditions
+     * @return resultSet
+     */
+    public ResultSet getSelection(List<String> queryFields, List<String> conditions) {
+        String sql = "SELECT * FROM crashes WHERE ";
+        if (queryFields.size() == conditions.size()) {
+            for (int i = 0; i < queryFields.size(); i++) {
+                sql += queryFields.get(i) + conditions.get(i);
+            }
+            sql += ";";
+            try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    return resultSet;
+                }
+            } catch (SQLException exception) {
+                log.error(exception);
+                return null;
+            }
+        }
+        return null;
+    }
+
     private Crash crashFromResultSet(ResultSet resultSet) throws SQLException {
         Map<Vehicle, Integer> vehicles = new HashMap<>();
 
@@ -103,6 +145,8 @@ public class CrashDao implements DaoInterface<Crash> {
                 Severity.fromString(resultSet.getString("severity"))
         );
     }
+
+
 
     private void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
         preparedStatement.setInt(1, crash.crashID());
