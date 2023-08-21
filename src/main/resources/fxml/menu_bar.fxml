@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="menuPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity"
+          prefHeight="400.0" prefWidth="100.0" xmlns="http://javafx.com/javafx/20.0.1"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team2.controller.MenuBarController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <Button fx:id="tableViewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Table View"/>
+    <Button fx:id="mapViewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Map View"
+            GridPane.rowIndex="1"/>
+    <Button fx:id="menuButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toggleMenuBar"
+            text="Menu" GridPane.rowIndex="4"/>
+    <Button fx:id="helpButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Help"
+            GridPane.rowIndex="3"/>
+</GridPane>

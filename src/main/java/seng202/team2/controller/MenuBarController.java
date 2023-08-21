@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
-public class NavigationBarController {
+public class MenuBarController {
     @FXML
     private Button menuButton;
 
@@ -20,7 +20,7 @@ public class NavigationBarController {
     @FXML
     private GridPane menuPane;
 
-    private boolean expanded = true;
+    private boolean expanded = false;
 
     void init() {
         toggleMenuBar();
