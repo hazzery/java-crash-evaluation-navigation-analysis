@@ -13,7 +13,6 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Text>
-    <Button mnemonicParsing="false" text="Button" />
   </items>
    <opaqueInsets>
       <Insets />
