@@ -100,7 +100,7 @@ public class CrashDao implements DaoInterface<Crash> {
      * @param queryFields, conditions
      * @return resultSet
      */
-    public ResultSet getSelection(List<String> queryFields, List<String> conditions) {
+    public List<Crash> getSelection(List<String> queryFields, List<String> conditions) {
 
         if (queryFields.size() != conditions.size()) {
             return null;
@@ -116,7 +116,7 @@ public class CrashDao implements DaoInterface<Crash> {
         sql.append(";");
         try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql.toString())) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return resultSet;
+                return crashListFromResults(resultSet);
             }
         } catch (SQLException exception) {
             log.error(exception);
