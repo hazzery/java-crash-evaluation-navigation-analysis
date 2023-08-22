@@ -151,6 +151,14 @@ public class CrashDao implements DaoInterface<Crash> {
         );
     }
 
+    private List<Crash> crashListFromResults(ResultSet resultSet) throws SQLException {
+        ArrayList<Crash> crashes = new ArrayList<Crash>();
+
+        while (resultSet.next()) {
+            crashes.add(crashFromResultSet(resultSet));
+        }
+        return crashes;
+    }
 
 
     private void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
