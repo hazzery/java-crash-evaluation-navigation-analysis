@@ -29,8 +29,9 @@ public class QueryBuilder {
      * @param val1 lower bound for year
      * @param val2 upper bound for year
      */
-    public void betweenVals(int val1, int val2, DbAttributes queryField) {
+    public QueryBuilder betweenVals(int val1, int val2, DbAttributes queryField) {
         sql.append("(" + queryField + " >= " + val1 + " AND " + queryField + " <= " + val2 + ") AND ");
+        return this;
     }
 
     /**
@@ -39,15 +40,17 @@ public class QueryBuilder {
      * @param val1 value for comparison
      * @param queryField field for comparison
      */
-    public void equalVal(int val1, DbAttributes queryField) {
+    public QueryBuilder equalVal(int val1, DbAttributes queryField) {
         sql.append("(" + queryField + " == " + val1 + ") AND ");
+        return this;
     }
 
     /**
      * Create query for string searching queryField
      */
-    public void likeString(String searchString, DbAttributes queryField) {
+    public QueryBuilder likeString(String searchString, DbAttributes queryField) {
         sql.append("(" + queryField + " LIKE " + searchString + ") AND ");
+        return this;
     }
 
     /**
@@ -56,13 +59,14 @@ public class QueryBuilder {
      * @param conditionList list of conditions for checking (String)
      * @param queryField field for querying
      */
-    public void andString(ArrayList<String> conditionList, DbAttributes queryField) {
+    public QueryBuilder andString(ArrayList<String> conditionList, DbAttributes queryField) {
         sql.append("(" + queryField + " == (");
         for (String condition : conditionList) {
             sql.append(condition + " AND ");
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 5));
         sql.append(")) AND ");
+        return this;
     }
 
     /**
@@ -71,13 +75,14 @@ public class QueryBuilder {
      * @param conditionList list of conditions for checking (String)
      * @param queryField field for querying
      */
-    public void orString(ArrayList<String> conditionList, DbAttributes queryField) {
+    public QueryBuilder orString(ArrayList<String> conditionList, DbAttributes queryField) {
         sql.append("(" + queryField + " == (");
         for (String condition : conditionList) {
             sql.append(condition + " OR ");
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));
         sql.append(")) AND ");
+        return this;
     }
 
     /**
