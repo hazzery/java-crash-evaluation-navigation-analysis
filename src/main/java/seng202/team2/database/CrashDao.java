@@ -107,6 +107,21 @@ public class CrashDao implements DaoInterface<Crash> {
         }
     }
 
+    public List<Crash> queryDatabase(String sql) {
+        List<Crash> crashes = new ArrayList<>();
+        try (Statement statement = databaseManager.getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                crashes.add(crashFromResultSet(resultSet));
+            }
+            return crashes;
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+            return new ArrayList<>();
+        }
+    }
+
     private Crash crashFromResultSet(ResultSet resultSet) throws SQLException {
         Map<Vehicle, Integer> vehicles = new HashMap<>();
 
