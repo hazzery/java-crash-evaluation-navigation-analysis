@@ -77,23 +77,6 @@ public class CrashDao implements DaoInterface<Crash> {
         }
     }
 
-    /**
-     * run query on database, only queries fatalities currently
-     * @param fatalities Number of fatalities to filter by
-     * @return resultSet
-     */
-    public ResultSet getSelectionFatalities(int fatalities) {
-        String sql = "SELECT * FROM crashes WHERE fatalities = ?";
-        try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
-            preparedStatement.setInt(1, fatalities);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return resultSet;
-            }
-        } catch (SQLException exception) {
-            log.error(exception);
-            return null;
-        }
-    }
 
     /**
      * Class for query creation, conditions are of form "operator condition"

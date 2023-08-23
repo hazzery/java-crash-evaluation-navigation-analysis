@@ -1,4 +1,11 @@
 package seng202.team2.database;
+
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team2.models.*;
+
+import javax.management.Query;
 import java.util.ArrayList;
 
 /**
@@ -7,12 +14,13 @@ import java.util.ArrayList;
  * @author James Lanigan
  */
 public class QueryBuilder {
+    private static final Logger log = LogManager.getLogger(QueryBuilder.class);
     private final DatabaseManager databaseManager;
 
     private StringBuilder sql = new StringBuilder("SELECT * FROM crashes WHERE ");
 
-    public QueryBuilder(DatabaseManager databaseManager) {
-        this.databaseManager = databaseManager;
+    public QueryBuilder() {
+        this.databaseManager = DatabaseManager.getInstance();
     }
 
     /**
@@ -45,25 +53,43 @@ public class QueryBuilder {
     /**
      * Create query for tuples satisfying all conditions in conditionList
      *
-     * @param conditionList list of conditions for checking
+     * @param conditionList list of conditions for checking (String)
      * @param queryField field for querying
      */
     public void andString(ArrayList<String> conditionList, DbAttributes queryField) {
         sql.append("(" + queryField + " == (");
         for (String condition : conditionList) {
-            sql.append(condition + " OR ");
+            sql.append(condition + " AND ");
         }
+        sql = new StringBuilder(sql.substring(0, sql.length() - 5));
+        sql.append(")) AND ");
     }
 
     /**
+     * Create query for tuples satisfying one condition in conditionList
+     *
+     * @param conditionList list of conditions for checking (String)
+     * @param queryField field for querying
+     */
+    public void orString(ArrayList<String> conditionList, DbAttributes queryField) {
+        sql.append("(" + queryField + " == (");
+        for (String condition : conditionList) {
+            sql.append(condition + " OR ");
+        }
+        sql = new StringBuilder(sql.substring(0, sql.length() - 4));
+        sql.append(")) AND ");
+    }
+
+    /**
+     * Return generated query
      *
      * @return final concatenated query
      */
     public String getQuery() {
         sql = new StringBuilder(sql.substring(0, sql.length() - 5));
         sql.append(";");
+        log.info(sql.toString());
         return sql.toString();
     }
-
 
 }
