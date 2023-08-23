@@ -12,7 +12,7 @@ Author: Isaac Ure
 }
 
 .tool-bar {
-    -fx-background-color: #487eb0;
+    -fx-background-color: linear-gradient(#40739e, #487eb0);
 }
 
 .table-view .corner {
@@ -35,7 +35,39 @@ Author: Isaac Ure
 .table-view .column-header {
     -fx-background-color: transparent;
     -fx-font-size: 20;
-    -fx-border-color: #2f3640;
-    -fx-border-weight: 1;
     -fx-margin: 100px 0 0 100px;
 }
+
+.table-row-cell:even {
+    -fx-background-color: #f5f6fa;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #ebebeb;
+}
+
+.table-row-cell:focused {
+    -fx-background-color: #aaaaaa;
+    -fx-table-cell-border-color: transparent;
+}
+
+#menuPane {
+    -fx-font-family: 'ABeeZee';
+    -fx-background-color: #487eb0;
+}
+
+#tableViewButton {
+    -fx-background-color: white;
+    -fx-width: 100%;
+    -fx-background-radius: 0;
+}
+
+#mapViewButton, #menuButton, #helpButton{
+    -fx-background-color: transparent;
+}
+
+#mapViewButton: hover, #menuButton: hover, #helpButton: hover {
+    -fx-background-radius: 0;
+    -fx-background-color: #40739e;
+}
+
