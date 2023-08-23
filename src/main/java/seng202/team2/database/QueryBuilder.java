@@ -46,6 +46,28 @@ public class QueryBuilder {
     }
 
     /**
+     * Query all tuples with queryField less than val1 exclusive
+     *
+     * @param val1
+     * @param queryField
+     */
+    public QueryBuilder lessThan(int val1, DbAttributes queryField) {
+        sql.append("(" + queryField + " < " + val1 + ") AND ");
+        return this;
+    }
+
+    /**
+     * Query all tuples with queryField greater than val1 exclusive
+     *
+     * @param val1
+     * @param queryField
+     */
+    public QueryBuilder greaterThan(int val1, DbAttributes queryField) {
+        sql.append("(" + queryField + " > " + val1 + ") AND ");
+        return this;
+    }
+
+    /**
      * Create query for string searching queryField
      */
     public QueryBuilder likeString(String searchString, DbAttributes queryField) {
