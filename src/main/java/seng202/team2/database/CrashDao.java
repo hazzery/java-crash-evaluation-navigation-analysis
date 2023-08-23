@@ -35,20 +35,8 @@ public class CrashDao implements DaoInterface<Crash> {
      */
     @Override
     public List<Crash> getAll() {
-        List<Crash> crashes = new ArrayList<>();
         String sql = "SELECT * FROM crashes";
-        try (Statement statement = databaseManager.getConnection().createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
-            while (resultSet.next()) {
-                crashes.add(crashFromResultSet(resultSet));
-            }
-
-            return crashes;
-        } catch (SQLException sqlException) {
-            log.error(sqlException);
-            return new ArrayList<>();
-        }
+        return queryDatabase(sql);
     }
 
     /**
