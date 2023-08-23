@@ -1,13 +1,41 @@
+/*
+Dictates the style for the javaFX table view
+Author: Isaac Ure
+*/
+
+@font-face {
+        font-family: ABeeZee;
+        src: url('/fonts/ABeeZee-Regular.ttf');
+}
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.tool-bar {
+    -fx-background-color: #487eb0;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
 .table-view {
     -fx-background-color: transparent;
+    -fx-font-family: 'ABeeZee';
+    -fx-font-size: 18;
 }
 
 .table-view .column-header-background {
     -fx-background-color: #487eb0;
     -fx-border-color: black;
-    -fx-padding: 10px;
+    -fx-border-weight: 5;
+    -fx-padding: 0px;
 }
 
 .table-view .column-header {
     -fx-background-color: transparent;
+    -fx-font-size: 20;
+    -fx-border-color: #2f3640;
+    -fx-border-weight: 1;
+    -fx-margin: 100px 0 0 100px;
 }
