@@ -109,8 +109,9 @@ public class CrashDao implements DaoInterface<Crash> {
 
     public List<Crash> queryDatabase(String sql) {
         List<Crash> crashes = new ArrayList<>();
-        try (Statement statement = databaseManager.getConnection().createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Statement statement = databaseManager.getConnection().createStatement()) {
+             ResultSet resultSet = statement.executeQuery(sql);
+            log.info("Queried " + sql);
 
             while (resultSet.next()) {
                 crashes.add(crashFromResultSet(resultSet));

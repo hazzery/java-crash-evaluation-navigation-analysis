@@ -84,16 +84,15 @@ public class DatabaseManager {
      * @return database connection
      */
     public Connection getConnection() throws SQLException {
-        if (connection == null) {
-            try {
-                connection = DriverManager.getConnection(this.url);
-            } catch (SQLException exception) {
-                log.error(exception);
-                throw exception;
-            }
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(this.url);
+        } catch (SQLException exception) {
+            log.error(exception);
+            throw exception;
         }
 
-        return connection;
+        return con;
     }
 
     /**
