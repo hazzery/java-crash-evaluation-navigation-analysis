@@ -40,10 +40,10 @@ public class CrashDao implements DaoInterface<Crash> {
     }
 
     /**
-     * Gets a single object of type T from the database by id
+     * Gets a single crash from the database by id
      *
      * @param id id of object to get
-     * @return Object of type T that has id given
+     * @return Crash that has id given
      */
     @Override
     public Crash getOne(int id) {
