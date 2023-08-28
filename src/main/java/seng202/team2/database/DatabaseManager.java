@@ -37,9 +37,12 @@ public class DatabaseManager implements AutoCloseable{
             createDatabaseFile(url);
             resetDB();
         }
+
         try {
             getConnection();
-        } catch (SQLException ignored) {}
+        } catch (SQLException exception) {
+            log.warn("Unable to get connection to database while constructing instance", exception);
+        }
     }
 
     /**
@@ -114,6 +117,7 @@ public class DatabaseManager implements AutoCloseable{
     private String getDatabasePath() {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
+        log.info(path);
         File jarDir = new File(path);
         return "jdbc:sqlite:"+jarDir.getParentFile()+"/database.db";
     }
