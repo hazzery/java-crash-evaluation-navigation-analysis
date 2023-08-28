@@ -16,11 +16,11 @@ import java.sql.*;
  * @see <a href="https://docs.google.com/document/d/1OzJJYrHxHRYVzx_MKjC2XPGS8_arDKSxYD4NhDN37_E/edit">
  *     SENG202 Advanced Applications with JavaFX</a>
  */
-public class DatabaseManager {
+public class DatabaseManager implements AutoCloseable{
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
     private final String url;
-    static Connection connection;
+    Connection connection;
 
     /**
      * Private constructor for singleton purposes
@@ -171,5 +171,14 @@ public class DatabaseManager {
         } catch (SQLException exception) {
             log.error("Error executing sql statements in database initialisation file", exception);
         }
+    }
+
+    /**
+     * Closes the database connection
+     * @throws SQLException if connection cannot be closed
+     */
+    @Override
+    public void close() throws SQLException {
+        this.connection.close();
     }
 }
