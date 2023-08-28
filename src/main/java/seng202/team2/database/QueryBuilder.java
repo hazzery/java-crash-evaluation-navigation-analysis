@@ -1,11 +1,8 @@
 package seng202.team2.database;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team2.models.*;
 
-import javax.management.Query;
 import java.util.ArrayList;
 
 /**
@@ -15,63 +12,64 @@ import java.util.ArrayList;
  */
 public class QueryBuilder {
     private static final Logger log = LogManager.getLogger(QueryBuilder.class);
-    private final DatabaseManager databaseManager;
 
     private StringBuilder sql = new StringBuilder("SELECT * FROM crashes WHERE ");
 
-    public QueryBuilder() {
-        this.databaseManager = DatabaseManager.getInstance();
-    }
+    public QueryBuilder() {}
 
     /**
-     * Creates query for tuples between val1 and val2 inclusive
+     * Creates query for tuples between lowerBound and upperBound inclusive
      *
-     * @param val1 lower bound for year
-     * @param val2 upper bound for year
+     * @param lowerBound lowest year value to include in query
+     * @param upperBound highest year value to include in query
      */
-    public QueryBuilder betweenVals(int val1, int val2, DbAttributes queryField) {
-        sql.append("(" + queryField + " >= " + val1 + " AND " + queryField + " <= " + val2 + ") AND ");
+    public QueryBuilder betweenValues(int lowerBound, int upperBound, DbAttributes queryField) {
+        sql.append("(").append(queryField)
+                .append(" BETWEEN ").append(lowerBound).append(" AND ").append(upperBound)
+                .append(") AND ");
         return this;
     }
 
     /**
      * Creates query for queryField == val1
      *
-     * @param val1 value for comparison
+     * @param value value for comparison
      * @param queryField field for comparison
      */
-    public QueryBuilder equalVal(int val1, DbAttributes queryField) {
-        sql.append("(" + queryField + " = " + val1 + ") AND ");
+    public QueryBuilder equalVal(int value, DbAttributes queryField) {
+        sql.append("(").append(queryField).append(" = ").append(value).append(") AND ");
         return this;
     }
 
     /**
-     * Query all tuples with queryField less than val1 exclusive
+     * Query all tuples with queryField less than upperBound
      *
-     * @param val1
-     * @param queryField
+     * @param upperBound The less than comparison operand
+     * @param queryField The particular crash attribute to filter by
      */
-    public QueryBuilder lessThan(int val1, DbAttributes queryField) {
-        sql.append("(" + queryField + " < " + val1 + ") AND ");
+    public QueryBuilder lessThan(int upperBound, DbAttributes queryField) {
+        sql.append("(").append(queryField).append(" < ").append(upperBound).append(") AND ");
         return this;
     }
 
     /**
      * Query all tuples with queryField greater than val1 exclusive
      *
-     * @param val1
-     * @param queryField
+     * @param lowerBound The greater than comparison operand
+     * @param queryField The particular crash attribute to filter by
      */
-    public QueryBuilder greaterThan(int val1, DbAttributes queryField) {
-        sql.append("(" + queryField + " > " + val1 + ") AND ");
+    public QueryBuilder greaterThan(int lowerBound, DbAttributes queryField) {
+        sql.append("(").append(queryField).append(" > ").append(lowerBound).append(") AND ");
         return this;
     }
 
     /**
      * Create query for string searching queryField
+     * @param searchString String input by user to search for
+     * @param queryField The particular crash attribute to filter by
      */
     public QueryBuilder likeString(String searchString, DbAttributes queryField) {
-        sql.append("(" + queryField + " LIKE " + searchString + ") AND ");
+        sql.append("(").append(queryField).append(" LIKE ").append(searchString).append(") AND ");
         return this;
     }
 
@@ -82,11 +80,11 @@ public class QueryBuilder {
      * @param queryField field for querying
      */
     public QueryBuilder andString(ArrayList<String> conditionList, DbAttributes queryField) {
-        sql.append("(" + queryField + " == (");
+        sql.append("(").append(queryField).append(" == (");
         for (String condition : conditionList) {
-            sql.append(condition + " AND ");
+            sql.append(condition).append(" AND ");
         }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 5));
+        sql = new StringBuilder(sql.substring(0, sql.length() - 5));  // Remove trailing " AND "
         sql.append(")) AND ");
         return this;
     }
@@ -98,11 +96,11 @@ public class QueryBuilder {
      * @param queryField field for querying
      */
     public QueryBuilder orString(ArrayList<String> conditionList, DbAttributes queryField) {
-        sql.append("(" + queryField + " == (");
+        sql.append("(").append(queryField).append(" == (");
         for (String condition : conditionList) {
-            sql.append(condition + " OR ");
+            sql.append(condition).append(" OR ");
         }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 4));
+        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing " OR "
         sql.append(")) AND ");
         return this;
     }
