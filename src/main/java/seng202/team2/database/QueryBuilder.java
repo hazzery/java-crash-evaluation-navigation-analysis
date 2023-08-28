@@ -41,7 +41,7 @@ public class QueryBuilder {
      * @param queryField field for comparison
      */
     public QueryBuilder equalVal(int val1, DbAttributes queryField) {
-        sql.append("(" + queryField + " == " + val1 + ") AND ");
+        sql.append("(" + queryField + " = " + val1 + ") AND ");
         return this;
     }
 
