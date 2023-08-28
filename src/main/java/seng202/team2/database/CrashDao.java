@@ -65,36 +65,6 @@ public class CrashDao implements DaoInterface<Crash> {
         }
     }
 
-
-    /**
-     * Class for query creation, conditions are of form "operator condition"
-     * @param queryFields, conditions
-     * @return resultSet
-     */
-    public List<Crash> getSelection(List<String> queryFields, List<String> conditions) {
-
-        if (queryFields.size() != conditions.size()) {
-            return null;
-        }
-
-        StringBuilder sql = new StringBuilder("SELECT * FROM crashes WHERE ");
-
-        for (int i = 0; i < queryFields.size(); i++) {
-            sql.append(queryFields.get(i)).append(conditions.get(i));
-            sql.append(" AND ");
-        }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 5));
-        sql.append(";");
-        try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql.toString())) {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return crashListFromResults(resultSet);
-            }
-        } catch (SQLException exception) {
-            log.error(exception);
-            return null;
-        }
-    }
-
     public List<Crash> queryDatabase(String sql) {
         List<Crash> crashes = new ArrayList<>();
         try (Statement statement = databaseManager.getConnection().createStatement()) {
