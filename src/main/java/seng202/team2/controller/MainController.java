@@ -25,7 +25,8 @@ public class MainController {
 
         displayTopBar();
         displayMenuBar();
-        displayTableView();
+        //displayTableView(); // temporary
+        displayMapView();
         stage.sizeToScene();
     }
 
@@ -58,8 +59,20 @@ public class MainController {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
             Parent tableViewParent = tableViewLoader.load();
             TableViewController tableViewController = tableViewLoader.getController();
-            tableViewController.init();
+            tableViewController.init(); // change this so it doesn't rebuild the entire table each time.
             mainWindow.setCenter(tableViewParent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
+    public void displayMapView() {
+        try {
+            FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map_view.fxml"));
+            Parent mapViewParent = mapViewLoader.load();
+            MapViewController mapViewController = mapViewLoader.getController();
+            mapViewController.init();
+            mainWindow.setCenter(mapViewParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
