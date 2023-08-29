@@ -58,6 +58,7 @@ public class MenuBarController {
     }
 
     public void mapViewButtonClicked(ActionEvent actionEvent) {
+    	mainController.displayMapView();
     }
 
     public void helpButtonClicked(ActionEvent actionEvent) {
