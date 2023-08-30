@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 public class TableViewController {
     @FXML
     private TableView<DataRow> tableView;
+    private boolean hasBeenBuilt = false; // no point building the table twice.
 
     private String toDisplayText(String text) {
         String lowered = text.toLowerCase().replace("_", " ");
@@ -63,13 +64,16 @@ public class TableViewController {
         }
 
         tableView.setItems(tableCrashData);
+        hasBeenBuilt = true;
     }
 
     /**
      * Inits the tableview
      */
     void init() throws FileNotFoundException {
-        buildTableScene();
+        if (!hasBeenBuilt) {
+            buildTableScene();
+        }
     }
 }
 

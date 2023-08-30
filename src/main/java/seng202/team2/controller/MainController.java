@@ -20,7 +20,7 @@ import java.io.IOException;
 public class MainController {
     @FXML
     private BorderPane mainWindow;
-
+	
     public void init(Stage stage) {
 
         displayTopBar();
