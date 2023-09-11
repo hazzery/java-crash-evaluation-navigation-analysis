@@ -87,7 +87,7 @@ public class DatabaseManager implements AutoCloseable{
      * @return database connection
      */
     public Connection getConnection() throws SQLException {
-        Connection con = null;
+        Connection con;
         try {
             con = DriverManager.getConnection(this.url);
         } catch (SQLException exception) {
