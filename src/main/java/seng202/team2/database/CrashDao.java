@@ -58,6 +58,9 @@ public class CrashDao implements DaoInterface<Crash> {
                 }
 
                 return crash;
+            } catch (SQLException exception) {
+                log.error(exception);
+                return null;
             }
         } catch (SQLException exception) {
             log.error(exception);
@@ -67,6 +70,7 @@ public class CrashDao implements DaoInterface<Crash> {
 
     public List<Crash> queryDatabase(String sql) {
         List<Crash> crashes = new ArrayList<>();
+
         try (Statement statement = databaseManager.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             log.info("Queried " + sql);
@@ -109,11 +113,12 @@ public class CrashDao implements DaoInterface<Crash> {
     }
 
     private List<Crash> crashListFromResults(ResultSet resultSet) throws SQLException {
-        ArrayList<Crash> crashes = new ArrayList<Crash>();
+        ArrayList<Crash> crashes = new ArrayList<>();
 
         while (resultSet.next()) {
             crashes.add(crashFromResultSet(resultSet));
         }
+
         return crashes;
     }
 
