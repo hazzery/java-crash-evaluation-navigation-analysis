@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS crashes (
     pedestrian INTEGER NOT NULL,
     taxi INTEGER NOT NULL,
     train INTEGER NOT NULL,
-    other INTEGER NOT NULL
+    other INTEGER
 );
