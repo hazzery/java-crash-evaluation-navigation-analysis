@@ -174,7 +174,7 @@ public class CrashDao implements DaoInterface<Crash> {
      * @param toAdd list of sales to add to the database
      */
     public void addBatch (List <Crash> toAdd) {
-        String sql = "INSERT OR IGNORE INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             connection.setAutoCommit(false);
