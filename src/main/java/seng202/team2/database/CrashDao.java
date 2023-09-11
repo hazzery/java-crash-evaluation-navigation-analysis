@@ -95,7 +95,7 @@ public class CrashDao implements DaoInterface<Crash> {
             }
         }
         return new Crash(
-                resultSet.getInt("crash_id"),
+                resultSet.getInt("id"),
                 resultSet.getInt("year"),
                 resultSet.getInt("fatalities"),
                 resultSet.getInt("serious_injuries"),
