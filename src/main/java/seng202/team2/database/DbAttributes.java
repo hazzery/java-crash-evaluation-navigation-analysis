@@ -1,7 +1,7 @@
 package seng202.team2.database;
 
 public enum DbAttributes {
-    CRASH_ID,
+    ID,
     YEAR,
     FATALITIES,
     SERIOUS_INJURIES,
