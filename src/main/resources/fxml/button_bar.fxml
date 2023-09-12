@@ -5,10 +5,10 @@
 
 <ButtonBar buttonMinWidth="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team2.controller.ButtonBarController">
     <buttons>
-        <Button mnemonicParsing="false" prefWidth="10.0" text="P" />
-        <Button mnemonicParsing="false" prefWidth="10.0" text="C" />
-        <Button mnemonicParsing="false" prefWidth="10.0" text="T" />
-        <Button mnemonicParsing="false" prefWidth="10.0" text="B" />
+        <ToggleButton fx:id="person" mnemonicParsing="false" prefWidth="10.0" />
+        <ToggleButton fx:id="cyclist" mnemonicParsing="false" prefWidth="10.0" />
+        <ToggleButton fx:id="car" mnemonicParsing="false" prefWidth="10.0" />
+        <ToggleButton fx:id="bus" mnemonicParsing="false" prefWidth="10.0" />
         <MenuButton mnemonicParsing="false" text="Severity">
             <items>
                 <RadioMenuItem mnemonicParsing="false" text="1" />

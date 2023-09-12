@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -48,6 +49,8 @@ public class MainController {
         try {
             FXMLLoader buttonBarLoader = new FXMLLoader(getClass().getResource("/fxml/button_bar.fxml"));
             Parent buttonBarParent = buttonBarLoader.load();
+            ButtonBarController buttonBarController = buttonBarLoader.getController();
+            buttonBarController.init();
             tableButtonsPane.setTop(buttonBarParent);
         } catch (IOException e) {
             e.printStackTrace();
