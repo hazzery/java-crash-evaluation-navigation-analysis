@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -36,6 +37,9 @@ public class MainController {
 
     private void displayTableButtonsPane() {
         tableButtonsPane = new BorderPane();
+        Region region = new Region();
+        region.setMinWidth(30);
+        tableButtonsPane.setLeft(region);
         mainWindow.setCenter(tableButtonsPane);
     }
 
