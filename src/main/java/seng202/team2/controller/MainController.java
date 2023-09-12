@@ -37,6 +37,7 @@ public class MainController {
 
     private void displayTableButtonsPane() {
         tableButtonsPane = new BorderPane();
+        tableButtonsPane.setId("tableButtonsPane");
         Region region = new Region();
         region.setMinWidth(30);
         tableButtonsPane.setLeft(region);
