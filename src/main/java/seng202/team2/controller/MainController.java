@@ -83,6 +83,7 @@ public class MainController {
             Parent tableViewParent = tableViewLoader.load();
             TableViewController tableViewController = tableViewLoader.getController();
             tableViewController.init();
+            mainWindow.getStylesheets().add(getClass().getResource("/stylesheets/table.css").toExternalForm());
             tableButtonsPane.setCenter(tableViewParent);
         } catch (IOException e) {
             e.printStackTrace();
