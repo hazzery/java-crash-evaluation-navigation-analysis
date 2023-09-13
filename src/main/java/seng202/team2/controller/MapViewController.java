@@ -78,7 +78,7 @@ public class MapViewController {
             throw new RuntimeException(e);
         }
         Crash[] crashes = csvReader.readLines(50000);
-        for (int i = 0; i < 50000; i++){
+        for (int i = 0; i < 50000; i++){ // only half of them because the full 800000 produces a weird error (not to do with the map)
             Crash crash = crashes[i];
             preMarker(crash, i);
         }
