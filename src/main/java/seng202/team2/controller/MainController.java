@@ -20,13 +20,17 @@ import java.io.IOException;
 public class MainController {
     @FXML
     private BorderPane mainWindow;
+    private Parent mapViewParent;
+    private Parent tableViewParent;
 	
     public void init(Stage stage) {
+        initialiseTableView();
+        initialiseMapView();
 
         displayTopBar();
         displayMenuBar();
-        //displayTableView(); // temporary
         displayMapView();
+
         stage.sizeToScene();
     }
 
@@ -54,27 +58,34 @@ public class MainController {
         }
     }
 
-    public void displayTableView() {
+    private void initialiseTableView() {
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
-            Parent tableViewParent = tableViewLoader.load();
+            tableViewParent = tableViewLoader.load();
             TableViewController tableViewController = tableViewLoader.getController();
-            tableViewController.init(); // change this so it doesn't rebuild the entire table each time.
+            tableViewController.init();
             mainWindow.setCenter(tableViewParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-	
-    public void displayMapView() {
+
+    private void initialiseMapView() {
         try {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map_view.fxml"));
-            Parent mapViewParent = mapViewLoader.load();
+            mapViewParent = mapViewLoader.load();
             MapViewController mapViewController = mapViewLoader.getController();
             mapViewController.init();
-            mainWindow.setCenter(mapViewParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void displayTableView() {
+        mainWindow.setCenter(tableViewParent);
+    }
+	
+    public void displayMapView() {
+        mainWindow.setCenter(mapViewParent);
     }
 }
