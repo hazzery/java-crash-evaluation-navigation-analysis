@@ -10,7 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
+import seng202.team2.models.Crash;
+import seng202.team2.services.CsvReader;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,9 +45,11 @@ public class MapViewController {
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.load(MapViewController.class.getResource("/map.html").toExternalForm());
+
+        //webEngine.setUserStyleSheetLocation(MapViewController.class.getResource("/MarkerCluster.css").toExternalForm());
         // Forwards console.log() output from any javascript to info log ### THIS IS BROKEN ###
         // WebConsoleListener.setDefaultListener((view, message, lineNumber, sourceId) ->
-        //         System.out.println(String.format("Map WebView console log line: %d, message : %s", lineNumber, message)));
+        //         System.out.println(String.format("Map WebView console log line: %d, message : %s", lineNumber, message)))
 
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
@@ -57,9 +62,35 @@ public class MapViewController {
                         javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
                         // call the javascript function to initialise the map
                         javaScriptConnector.call("initMap");
+
+                        addAllCrashMarkers();
                     }
                 });
+
+        //javaScriptConnector.toString();
+        //
     }
+
+    private void addAllCrashMarkers()  {
+        CsvReader csvReader = null;
+        try {
+            csvReader = new CsvReader("src/main/resources/crash_data.csv");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Crash[] crashes = csvReader.readLines(10000);
+        for (int i = 0; i < 100; i++){
+            Crash crash = crashes[i];
+            addCrashMarker(crash, i);
+        }
+    }
+
+    private void addCrashMarker (Crash crash, int i) {
+        webEngine.executeScript(
+                String.format("addMarker('%s', %f, %f);", "test", (float)crash.latitude(), (float)crash.longitude())
+        );
+    }
+
 
     /**
      * Init
