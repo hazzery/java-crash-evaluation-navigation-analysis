@@ -29,10 +29,10 @@ public class MainController {
     public void init(Stage stage) {
 
         displayTopBar();
-        displayMenuBar();
         displayTableButtonsPane();
         displayButtonBar();
         displayTableView();
+        displayMenuBar();
         stage.sizeToScene();
     }
 
@@ -76,6 +76,7 @@ public class MainController {
             MenuBarController menuBarController = menuBarLoader.getController();
             menuBarController.init(this);
             mainWindow.setLeft(navigationBarParent);
+            navigationBarParent.toFront();
         } catch (IOException e) {
             e.printStackTrace();
         }

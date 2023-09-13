@@ -1,10 +1,7 @@
 package seng202.team2.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import seng202.team2.models.Severity;
@@ -35,6 +32,8 @@ public class ButtonBarController {
     @FXML
     private Slider selectedYear;
 
+    @FXML
+    private MenuButton regionSelect;
 
     @FXML
     private RadioMenuItem sev1;
@@ -77,10 +76,10 @@ public class ButtonBarController {
         Image carIMG = null;
         Image busIMG = null;
         try {
-            personIMG = new Image(getClass().getResourceAsStream("/icons/person.png"));
-            cyclistIMG = new Image(getClass().getResourceAsStream("/icons/cyclist.png"));
-            carIMG = new Image(getClass().getResourceAsStream("/icons/car.png"));
-            busIMG = new Image(getClass().getResourceAsStream("/icons/bus.png"));
+            personIMG = new Image(getClass().getResourceAsStream("/icons/person.png"),20,20, true, false);
+            cyclistIMG = new Image(getClass().getResourceAsStream("/icons/cyclist.png"), 20 ,20, true, false);
+            carIMG = new Image(getClass().getResourceAsStream("/icons/car.png"), 20, 20, true, false);
+            busIMG = new Image(getClass().getResourceAsStream("/icons/bus.png"), 20, 20, true, false);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -91,18 +90,18 @@ public class ButtonBarController {
     }
 
     public void setSeverityValues() {
-        sev1.setText(Severity.toDisplayValue(Severity.values()[0]));
-        sev2.setText(Severity.toDisplayValue(Severity.values()[1]));
-        sev3.setText(Severity.toDisplayValue(Severity.values()[2]));
-        sev4.setText(Severity.toDisplayValue(Severity.values()[3]));
-        sev5.setText(Severity.toDisplayValue(Severity.values()[4]));
-
+        sev1.setText(Severity.toDisplayValue(0));
+        sev2.setText(Severity.toDisplayValue(1));
+        sev3.setText(Severity.toDisplayValue(2));
+        sev4.setText(Severity.toDisplayValue(3));
+        sev5.setText(Severity.toDisplayValue(4));
     }
 
 
     void init() {
         setIcons();
         setSeverityValues();
+        regionSelect.setDisable(true);
     }
 }
 
