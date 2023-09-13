@@ -11,11 +11,11 @@
         <ToggleButton fx:id="bus" mnemonicParsing="false" prefWidth="10.0" />
         <MenuButton mnemonicParsing="false" text="Severity">
             <items>
-                <RadioMenuItem mnemonicParsing="false" text="1" />
-                <RadioMenuItem mnemonicParsing="false" text="2" />
-                <RadioMenuItem mnemonicParsing="false" text="3" />
-                <RadioMenuItem mnemonicParsing="false" text="4" />
-                <RadioMenuItem mnemonicParsing="false" text="5" />
+                <RadioMenuItem fx:id="sev1" mnemonicParsing="false" text="1" />
+                <RadioMenuItem fx:id="sev2" mnemonicParsing="false" text="2" />
+                <RadioMenuItem fx:id="sev3" mnemonicParsing="false" text="3" />
+                <RadioMenuItem fx:id="sev4" mnemonicParsing="false" text="4" />
+                <RadioMenuItem fx:id="sev5" mnemonicParsing="false" text="5" />
             </items>
         </MenuButton>
         <MenuButton mnemonicParsing="false" text="Region">

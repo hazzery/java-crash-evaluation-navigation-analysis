@@ -2,10 +2,12 @@ package seng202.team2.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import seng202.team2.models.Severity;
 
 import java.io.IOException;
 
@@ -35,19 +37,19 @@ public class ButtonBarController {
 
 
     @FXML
-    private RadioButton sevOne;
+    private RadioMenuItem sev1;
 
     @FXML
-    private RadioButton sevTwo;
+    private RadioMenuItem sev2;
 
     @FXML
-    private RadioButton sevThree;
+    private RadioMenuItem sev3;
 
     @FXML
-    private RadioButton sevFour;
+    private RadioMenuItem sev4;
 
     @FXML
-    private RadioButton sevFive;
+    private RadioMenuItem sev5;
     //
     public void filterTable() {
         // Slider
@@ -56,20 +58,20 @@ public class ButtonBarController {
 
         // Radio buttons
         // Could be improved?
-        if (sevOne.isSelected()) {
+        if (sev1.isSelected()) {
             System.out.println(1);
-        } else if (sevTwo.isSelected()) {
+        } else if (sev2.isSelected()) {
             System.out.println(2);
-        } else if (sevThree.isSelected()) {
+        } else if (sev3.isSelected()) {
             System.out.println(3);
-        } else if (sevFour.isSelected()) {
+        } else if (sev4.isSelected()) {
             System.out.println(4);
-        } else if (sevFive.isSelected()) {
+        } else if (sev5.isSelected()) {
             System.out.println(5);
         }
     }
 
-    void init() {
+    public void setIcons() {
         Image personIMG = null;
         Image cyclistIMG = null;
         Image carIMG = null;
@@ -86,6 +88,21 @@ public class ButtonBarController {
         cyclist.setGraphic(new ImageView(cyclistIMG));
         car.setGraphic(new ImageView(carIMG));
         bus.setGraphic(new ImageView(busIMG));
+    }
+
+    public void setSeverityValues() {
+        sev1.setText(Severity.toDisplayValue(Severity.values()[0]));
+        sev2.setText(Severity.toDisplayValue(Severity.values()[1]));
+        sev3.setText(Severity.toDisplayValue(Severity.values()[2]));
+        sev4.setText(Severity.toDisplayValue(Severity.values()[3]));
+        sev5.setText(Severity.toDisplayValue(Severity.values()[4]));
+
+    }
+
+
+    void init() {
+        setIcons();
+        setSeverityValues();
     }
 }
 
