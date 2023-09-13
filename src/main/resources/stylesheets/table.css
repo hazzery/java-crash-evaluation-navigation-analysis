@@ -75,3 +75,7 @@ Author: Isaac Ure
     -fx-background-color: #40739e;
 }
 
+#buttonBar .toggle-button, .button, .menu-button {
+    -fx-background-radius: 15;
+}
+

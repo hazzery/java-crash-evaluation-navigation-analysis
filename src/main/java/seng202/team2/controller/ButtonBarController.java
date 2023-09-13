@@ -18,6 +18,9 @@ import java.io.IOException;
 public class ButtonBarController {
 
     @FXML
+    public ButtonBar buttonBar;
+
+    @FXML
     private ToggleButton person;
 
     @FXML
