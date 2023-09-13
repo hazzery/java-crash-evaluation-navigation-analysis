@@ -80,7 +80,7 @@ public class QueryBuilder {
      * @param queryField field for querying
      */
     public QueryBuilder andString(ArrayList<String> conditionList, DbAttributes queryField) {
-        sql.append("(").append(queryField).append(" == (");
+        sql.append("(").append(queryField).append(" = (");
         for (String condition : conditionList) {
             sql.append(condition).append(" AND ");
         }
@@ -96,7 +96,7 @@ public class QueryBuilder {
      * @param queryField field for querying
      */
     public QueryBuilder orString(ArrayList<String> conditionList, DbAttributes queryField) {
-        sql.append("(").append(queryField).append(" == (");
+        sql.append("(").append(queryField).append(" = (");
         for (String condition : conditionList) {
             sql.append(condition).append(" OR ");
         }
