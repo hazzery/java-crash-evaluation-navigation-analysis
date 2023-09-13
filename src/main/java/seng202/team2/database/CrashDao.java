@@ -95,20 +95,20 @@ public class CrashDao implements DaoInterface<Crash> {
             }
         }
         return new Crash(
-                resultSet.getInt("id"),
-                resultSet.getInt("year"),
-                resultSet.getInt("fatalities"),
-                resultSet.getInt("serious_injuries"),
-                resultSet.getInt("minor_injuries"),
-                resultSet.getDouble("latitude"),
-                resultSet.getDouble("longitude"),
-                resultSet.getString("road_name_1"),
-                resultSet.getString("road_name_2"),
-                resultSet.getString("region"),
-                vehicles,
-                Weather.fromString(resultSet.getString("weather")),
-                Lighting.fromString(resultSet.getString("lighting")),
-                Severity.fromString(resultSet.getString("severity"))
+                resultSet.getInt(DbAttributes.ID.dbColumn()),
+                resultSet.getInt(DbAttributes.YEAR.dbColumn()),
+                resultSet.getInt(DbAttributes.FATALITIES.dbColumn()),
+                resultSet.getInt(DbAttributes.SERIOUS_INJURIES.dbColumn()),
+                resultSet.getInt(DbAttributes.MINOR_INJURIES.dbColumn()),
+                resultSet.getDouble(DbAttributes.LATITUDE.dbColumn()),
+                resultSet.getDouble(DbAttributes.LONGITUDE.dbColumn()),
+                resultSet.getString(DbAttributes.ROAD_NAME_1.dbColumn()),
+                resultSet.getString(DbAttributes.ROAD_NAME_2.dbColumn()),
+                resultSet.getString(DbAttributes.REGION.dbColumn()),
+                Weather.fromString(resultSet.getString(DbAttributes.WEATHER.dbColumn())),
+                Lighting.fromString(resultSet.getString(DbAttributes.LIGHTING.dbColumn())),
+                Severity.fromString(resultSet.getString(DbAttributes.SEVERITY.dbColumn())),
+                vehicles
         );
     }
 
@@ -124,19 +124,19 @@ public class CrashDao implements DaoInterface<Crash> {
 
 
     private void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
-        preparedStatement.setInt(1, crash.crashID());
-        preparedStatement.setInt(2, crash.year());
-        preparedStatement.setInt(3, crash.fatalities());
-        preparedStatement.setInt(4, crash.seriousInjuries());
-        preparedStatement.setInt(5, crash.minorInjuries());
-        preparedStatement.setDouble(6, crash.latitude());
-        preparedStatement.setDouble(7, crash.longitude());
-        preparedStatement.setString(8, crash.roadName1());
-        preparedStatement.setString(9, crash.roadName2());
-        preparedStatement.setString(10, crash.region());
-        preparedStatement.setString(11, crash.weather().toString());
-        preparedStatement.setString(12, crash.lighting().toString());
-        preparedStatement.setString(13, crash.severity().toString());
+        preparedStatement.setInt(DbAttributes.ID.dbColumn(), crash.crashID());
+        preparedStatement.setInt(DbAttributes.YEAR.dbColumn(), crash.year());
+        preparedStatement.setInt(DbAttributes.FATALITIES.dbColumn(), crash.fatalities());
+        preparedStatement.setInt(DbAttributes.SERIOUS_INJURIES.dbColumn(), crash.seriousInjuries());
+        preparedStatement.setInt(DbAttributes.MINOR_INJURIES.dbColumn(), crash.minorInjuries());
+        preparedStatement.setDouble(DbAttributes.LATITUDE.dbColumn(), crash.latitude());
+        preparedStatement.setDouble(DbAttributes.LONGITUDE.dbColumn(), crash.longitude());
+        preparedStatement.setString(DbAttributes.ROAD_NAME_1.dbColumn(), crash.roadName1());
+        preparedStatement.setString(DbAttributes.ROAD_NAME_2.dbColumn(), crash.roadName2());
+        preparedStatement.setString(DbAttributes.REGION.dbColumn(), crash.region());
+        preparedStatement.setString(DbAttributes.WEATHER.dbColumn(), crash.weather().toString());
+        preparedStatement.setString(DbAttributes.LIGHTING.dbColumn(), crash.lighting().toString());
+        preparedStatement.setString(DbAttributes.SEVERITY.dbColumn(), crash.severity().toString());
 
         for (Vehicle vehicle : crash.vehicles().keySet()) {
             preparedStatement.setInt(vehicle.getDbColumn(), crash.vehicles().get(vehicle));

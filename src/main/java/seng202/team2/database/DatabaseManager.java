@@ -53,8 +53,8 @@ public class DatabaseManager implements AutoCloseable{
         if(instance == null)
             // todo find a way to actually get db within jar
             // The following line can be used to reach a db file within the jar, however this will not be modifiable
-            // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
-            instance = new DatabaseManager(null);
+             instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
+//            instance = new DatabaseManager(null);
 
         return instance;
     }

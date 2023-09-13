@@ -1,14 +1,15 @@
 package seng202.team2.io;
 
+import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team2.database.CrashDao;
 import seng202.team2.models.*;
-import com.opencsv.CSVReader;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
-import java.io.*;
 
 
 /**
@@ -86,8 +87,8 @@ public class CsvReader {
             Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
 
             return new Crash(crashId, year, fatalities, seriousInjuries, minorInjuries,
-                    latitude, longitude, roadName1, roadName2, region,
-                    vehicles, weather, lighting, severity);
+                             latitude, longitude, roadName1, roadName2, region,
+                             weather, lighting, severity, vehicles);
         } catch (NumberFormatException exception) {
             log.error("Error parsing crash data: " + Arrays.toString(crashData));
             exception.printStackTrace();

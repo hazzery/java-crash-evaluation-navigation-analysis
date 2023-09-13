@@ -26,5 +26,9 @@ public enum DbAttributes {
     PEDESTRIAN,
     TAXI,
     TRAIN,
-    OTHER
+    OTHER;
+
+    public int dbColumn() {
+        return ordinal() + 1;
+    }
 }

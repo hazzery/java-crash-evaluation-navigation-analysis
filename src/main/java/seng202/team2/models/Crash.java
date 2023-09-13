@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public record Crash(int crashID, int year, int fatalities, int seriousInjuries, int minorInjuries,
                     double latitude, double longitude, String roadName1, String roadName2, String region,
-                    Map<Vehicle, Integer> vehicles, Weather weather, Lighting lighting, Severity severity) {
+                    Weather weather, Lighting lighting, Severity severity, Map<Vehicle, Integer> vehicles) {
 
     /**
      * Creates a human-readable string representation of the crash's attributes
