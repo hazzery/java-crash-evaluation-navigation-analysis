@@ -4,6 +4,9 @@
     <title>Leaflet & OSM Map Demo</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="MarkerCluster.css" />
+    <link rel="stylesheet" href="MarkerCluster.Default.css" />
+    
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
@@ -22,6 +25,7 @@
 <button style="float:left;" onclick="ultimate()">Ulitmate Version</button> <!-- this along with the function are the only 2 extra things that have been added -->
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="leaflet.markercluster.js"></script>
 <script>
 	function ultimate() { // important function for making the program look epic.
 		document.getElementById("map").style.zIndex = 0;
@@ -34,8 +38,13 @@
 	}
     let map;
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
-    let markers = [];
+    let markers = []; // maybe not needed
+    let clusters = [];
+    let crashList = [];
     var route;
+    
+
+    
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside it
@@ -77,8 +86,33 @@
         var m = new L.Marker([lat, lng])
         m.bindPopup(title).openPopup()
         m.addTo(map)
-        markers.push(m)
+        markers.push(m);
     }
+    
+    /**
+     * Saves a crash location to a variable
+     * @param region
+     * @param lat latitude to place marker at
+     * @param lng longitude to place marker at
+     */
+    function preMarker(title, lat, lng) {
+        crashList.push([title, lat, lng]);
+    }
+    
+    /**
+     * Creates a bunch of clusters after they have all been added to crashList
+     */
+    function postMarkers() {
+        var cluster = new L.MarkerClusterGroup();
+        for (var i = 0; i < crashList.length; i++) {
+            var c = crashList[i];
+            var m = new L.Marker([c[1], c[2]]);
+            m.bindPopup(c[0]).openPopup();
+            cluster.addLayer(m);
+        }
+        map.addLayer(cluster);
+    }
+    
 
     /**
      * Displays a route with two or more waypoints for cars (e.g. roads and ferries) and displays it on the map

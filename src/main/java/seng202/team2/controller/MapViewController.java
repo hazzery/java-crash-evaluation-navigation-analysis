@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 /**
  * Map view controller class for the application.
  * Handles displaying the map and point markers.
@@ -46,11 +45,11 @@ public class MapViewController {
         webEngine.setJavaScriptEnabled(true);
         webEngine.load(MapViewController.class.getResource("/map.html").toExternalForm());
 
-        //webEngine.setUserStyleSheetLocation(MapViewController.class.getResource("/MarkerCluster.css").toExternalForm());
+        // webEngine.setUserStyleSheetLocation(MapViewController.class.getResource("/MarkerCluster.css").toExternalForm());
         // Forwards console.log() output from any javascript to info log ### THIS IS BROKEN ###
         // WebConsoleListener.setDefaultListener((view, message, lineNumber, sourceId) ->
         //         System.out.println(String.format("Map WebView console log line: %d, message : %s", lineNumber, message)))
-
+        
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
                     // if javascript loads successfully
@@ -78,11 +77,28 @@ public class MapViewController {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        Crash[] crashes = csvReader.readLines(10000);
-        for (int i = 0; i < 100; i++){
+        Crash[] crashes = csvReader.readLines(50000);
+        for (int i = 0; i < 50000; i++){
             Crash crash = crashes[i];
-            addCrashMarker(crash, i);
+            preMarker(crash, i);
         }
+        postMarkers();
+    }
+    
+    /**
+     * Parse in all the crashes into javascript
+     */
+    private void preMarker(Crash crash, int i) {
+        webEngine.executeScript(
+                String.format("preMarker('%s', %f, %f);", "crash " + i, (float)crash.latitude(), (float)crash.longitude())
+        );
+    }
+    
+    /**
+     * Tells javascript to sort through all the regions
+     */
+    private void postMarkers() {
+        webEngine.executeScript("postMarkers();");
     }
 
     private void addCrashMarker (Crash crash, int i) {
