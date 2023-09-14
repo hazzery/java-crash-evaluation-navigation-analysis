@@ -38,7 +38,7 @@ public class MainController {
         displayTableButtonsPane();
         displayButtonBar();
         displayMenuBar();
-        //displayMapView();
+        displayMapView();
 
         stage.sizeToScene();
     }
@@ -46,9 +46,9 @@ public class MainController {
     private void displayTableButtonsPane() {
         tableButtonsPane = new BorderPane();
         tableButtonsPane.setId("tableButtonsPane");
-        Region region = new Region();
-        region.setMinWidth(30);
-        tableButtonsPane.setLeft(region);
+        //Region region = new Region();
+        //region.setMinWidth(30);
+        //tableButtonsPane.setLeft(region);
         mainWindow.setCenter(tableButtonsPane);
     }
 
@@ -113,10 +113,10 @@ public class MainController {
     }
 
     public void displayTableView() {
-        mainWindow.setCenter(tableViewParent);
+        tableButtonsPane.setCenter(tableViewParent);
     }
 
     public void displayMapView() {
-        mainWindow.setCenter(mapViewParent);
+        tableButtonsPane.setCenter(mapViewParent);
     }
 }
