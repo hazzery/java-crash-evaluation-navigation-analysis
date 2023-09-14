@@ -19,6 +19,7 @@ import java.io.IOException;
  *
  * @author Findlay Royds
  * @author Isaac Ure
+ * @author Louis Hobson
  */
 
 public class MainController {
@@ -26,13 +27,19 @@ public class MainController {
     private BorderPane mainWindow;
     private BorderPane tableButtonsPane;
 
+    private Parent mapViewParent;
+    private Parent tableViewParent;
+
     public void init(Stage stage) {
+        initialiseTableView();
+        initialiseMapView();
 
         displayTopBar();
         displayTableButtonsPane();
         displayButtonBar();
-        displayTableView();
         displayMenuBar();
+        displayMapView();
+
         stage.sizeToScene();
     }
 
@@ -82,16 +89,34 @@ public class MainController {
         }
     }
 
-    public void displayTableView() {
+    private void initialiseTableView() {
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
-            Parent tableViewParent = tableViewLoader.load();
+            tableViewParent = tableViewLoader.load();
             TableViewController tableViewController = tableViewLoader.getController();
             tableViewController.init();
             mainWindow.getStylesheets().add(getClass().getResource("/stylesheets/table.css").toExternalForm());
-            tableButtonsPane.setCenter(tableViewParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initialiseMapView() {
+        try {
+            FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map_view.fxml"));
+            mapViewParent = mapViewLoader.load();
+            MapViewController mapViewController = mapViewLoader.getController();
+            mapViewController.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void displayTableView() {
+        mainWindow.setCenter(tableViewParent);
+    }
+
+    public void displayMapView() {
+        mainWindow.setCenter(mapViewParent);
     }
 }
