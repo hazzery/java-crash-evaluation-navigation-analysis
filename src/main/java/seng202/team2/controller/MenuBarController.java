@@ -27,6 +27,7 @@ public class MenuBarController {
 
     void init(MainController mainController) {
         this.mainController = mainController;
+        helpButton.setVisible(false);
         toggleMenuBar();
     }
 
@@ -54,11 +55,15 @@ public class MenuBarController {
     }
 
     public void tableViewButtonClicked(ActionEvent actionEvent) {
+        mapViewButton.setStyle("-fx-background-color: transparent;");
+        tableViewButton.setStyle("-fx-background-color: white;");
         mainController.displayTableView();
     }
 
     public void mapViewButtonClicked(ActionEvent actionEvent) {
-    	mainController.displayMapView();
+        tableViewButton.setStyle("-fx-background-color: transparent;");
+        mapViewButton.setStyle("-fx-background-color: white;");
+        mainController.displayMapView();
     }
 
     public void helpButtonClicked(ActionEvent actionEvent) {

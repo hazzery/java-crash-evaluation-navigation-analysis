@@ -60,14 +60,16 @@ Author: Isaac Ure
     -fx-background-color: #487eb0;
 }
 
-#tableViewButton {
+#mapViewButton {
     -fx-background-color: white;
     -fx-width: 100%;
     -fx-background-radius: 0;
 }
 
-#mapViewButton, #menuButton, #helpButton{
+#tableViewButton, #menuButton, #helpButton{
     -fx-background-color: transparent;
+    -fx-width: 100%;
+    -fx-background-radius: 0;
 }
 
 #mapViewButton: hover, #menuButton: hover, #helpButton: hover {
