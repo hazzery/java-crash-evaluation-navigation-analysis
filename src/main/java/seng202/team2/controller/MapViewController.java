@@ -77,10 +77,12 @@ public class MapViewController {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        Crash[] crashes = csvReader.readLines(50000);
-        for (int i = 0; i < 50000; i++){ // only half of them because the full 800000 produces a weird error (not to do with the map)
+        Crash[] crashes = csvReader.readLines(800000);
+        for (int i = 0; i < crashes.length; i++){ // only half of them because the full 800000 produces a weird error (not to do with the map)
             Crash crash = crashes[i];
-            preMarker(crash, i);
+            if (!(crash == null)) {
+                preMarker(crash, i);
+            }
         }
         postMarkers();
     }

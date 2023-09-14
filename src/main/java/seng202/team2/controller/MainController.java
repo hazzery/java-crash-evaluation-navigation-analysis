@@ -38,7 +38,7 @@ public class MainController {
         displayTableButtonsPane();
         displayButtonBar();
         displayMenuBar();
-        displayMapView();
+        //displayMapView();
 
         stage.sizeToScene();
     }

@@ -43,7 +43,6 @@ public class CsvReader {
                 vehicles.add(vehicle);
             }
         }
-        System.out.println();
         return vehicles.toArray(new Vehicle[0]);
     }
 
@@ -53,25 +52,29 @@ public class CsvReader {
      * @return A new {@link Crash} object for the given crash data
      */
     private Crash crashFromCSVData(String[] crashData) {
-        int year = Integer.parseInt(crashData[CsvAttributes.CRASH_YEAR.ordinal()]);
-        int fatalities = Integer.parseInt(crashData[CsvAttributes.FATAL_COUNT.ordinal()]);
-        int seriousInjuries = Integer.parseInt(crashData[CsvAttributes.SERIOUS_INJURY_COUNT.ordinal()]);
-        int minorInjuries = Integer.parseInt(crashData[CsvAttributes.MINOR_INJURY_COUNT.ordinal()]);
+        try {
+            int year = Integer.parseInt(crashData[CsvAttributes.CRASH_YEAR.ordinal()]);
+            int fatalities = Integer.parseInt(crashData[CsvAttributes.FATAL_COUNT.ordinal()]);
+            int seriousInjuries = Integer.parseInt(crashData[CsvAttributes.SERIOUS_INJURY_COUNT.ordinal()]);
+            int minorInjuries = Integer.parseInt(crashData[CsvAttributes.MINOR_INJURY_COUNT.ordinal()]);
 
-        double latitude = Double.parseDouble(crashData[CsvAttributes.LAT.ordinal()]);
-        double longitude = Double.parseDouble(crashData[CsvAttributes.LNG.ordinal()]);
-        String roadName1 = crashData[CsvAttributes.CRASH_LOCATION_1.ordinal()];
-        String roadName2 = crashData[CsvAttributes.CRASH_LOCATION_2.ordinal()];
-        String region = crashData[CsvAttributes.REGION.ordinal()];
+            double latitude = Double.parseDouble(crashData[CsvAttributes.LAT.ordinal()]);
+            double longitude = Double.parseDouble(crashData[CsvAttributes.LNG.ordinal()]);
+            String roadName1 = crashData[CsvAttributes.CRASH_LOCATION_1.ordinal()];
+            String roadName2 = crashData[CsvAttributes.CRASH_LOCATION_2.ordinal()];
+            String region = crashData[CsvAttributes.REGION.ordinal()];
 
-        Vehicle[] vehicles = vehiclesFromCSVData(crashData);
-        Weather weather = Weather.fromString(crashData[CsvAttributes.WEATHER_A.ordinal()]);
-        Lighting lighting = Lighting.fromString(crashData[CsvAttributes.LIGHT.ordinal()]);
-        Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
+            Vehicle[] vehicles = vehiclesFromCSVData(crashData);
+            Weather weather = Weather.fromString(crashData[CsvAttributes.WEATHER_A.ordinal()]);
+            Lighting lighting = Lighting.fromString(crashData[CsvAttributes.LIGHT.ordinal()]);
+            Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
 
-        return new Crash(year, fatalities, seriousInjuries, minorInjuries,
-                latitude, longitude, roadName1, roadName2, region,
-                vehicles, weather, lighting, severity);
+            return new Crash(year, fatalities, seriousInjuries, minorInjuries,
+                    latitude, longitude, roadName1, roadName2, region,
+                    vehicles, weather, lighting, severity);
+        } catch (NumberFormatException exception) {
+            return null;
+        }
     }
 
 
