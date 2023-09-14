@@ -26,6 +26,7 @@ public class MainController {
     @FXML
     private BorderPane mainWindow;
     private BorderPane tableButtonsPane;
+    private BorderPane topBarPane;
 
     private Parent mapViewParent;
     private Parent tableViewParent;
@@ -58,7 +59,7 @@ public class MainController {
             Parent buttonBarParent = buttonBarLoader.load();
             ButtonBarController buttonBarController = buttonBarLoader.getController();
             buttonBarController.init();
-            tableButtonsPane.setTop(buttonBarParent);
+            topBarPane.setCenter(buttonBarParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,11 +67,13 @@ public class MainController {
 
     private void displayTopBar() {
         try {
+            topBarPane = new BorderPane();
+            topBarPane.setId("topBarPane");
             FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
             Parent topBarParent = topBarLoader.load();
             TopBarController topBarController = topBarLoader.getController();
             topBarController.init();
-            mainWindow.setTop(topBarParent);
+            mainWindow.setTop(topBarPane);
         } catch (IOException e) {
             e.printStackTrace();
         }
