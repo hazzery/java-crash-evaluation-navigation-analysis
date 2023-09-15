@@ -1,6 +1,9 @@
 package seng202.team2.models;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * enum listing the possible crash severities
  *
@@ -13,6 +16,9 @@ public enum Severity {
     FATAL_CRASH,
     UNKNOWN;
 
+    private static final Logger log = LogManager.getLogger(Severity.class);
+
+
     /**
      * Converts a string to a severity enum value
      * @param name The string to convert
@@ -23,7 +29,7 @@ public enum Severity {
         try {
             return Severity.valueOf(name);
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid severity: " + name);
+            log.warn("Invalid severity: " + name);
             return Severity.UNKNOWN;
         }
     }

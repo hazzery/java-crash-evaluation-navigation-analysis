@@ -2,10 +2,14 @@ package seng202.team2;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Level;
 
-import seng202.team2.services.CsvReader;
-import seng202.team2.gui.MainWindow;
+import seng202.team2.database.DbAttributes;
+import seng202.team2.database.QueryBuilder;
+import seng202.team2.database.CrashDao;
+import seng202.team2.io.CsvReader;
+import seng202.team2.models.Crash;
+
+import java.util.List;
 
 /**
  * Default entry point class
@@ -20,13 +24,24 @@ public class App {
      * @param args program arguments from command line
      */
     public static void main(String[] args) {
-        log.info("Hello World!");
-        log.warn("This is a warning message! Use this log type to 'warn' if something is not quite right");
-        log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, but is only an example!')");
-        log.log(Level.INFO, "There are many ways to log!");
+        CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
+        csvReader.importAllToDatabase();
 
-        CsvReader.printCrashes();
+        QueryBuilder queryBuilder = new QueryBuilder();
 
-        MainWindow.main(args);
+        // Just playing around here, feel free to remove/change these filters.
+        queryBuilder.betweenValues(2000, 2023, DbAttributes.YEAR);
+
+        CrashDao crashDao = new CrashDao();
+
+        // This gives null!
+//        Crash result = crashDao.getOne(1);
+//        log.info(result);
+
+        // result is empty so nothing is logged
+        List<Crash> result = crashDao.queryDatabase(queryBuilder.getQuery());
+        for (Crash crash : result) {
+            log.info(crash);
+        }
     }
 }
