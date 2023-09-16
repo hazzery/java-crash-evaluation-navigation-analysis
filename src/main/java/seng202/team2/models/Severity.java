@@ -33,4 +33,15 @@ public enum Severity {
             return Severity.UNKNOWN;
         }
     }
+
+    /**
+     * Converts an int value to a formatted string:
+     * i.e: 1 to "Fatal crash"
+     * @param value the int location of an enum in values to be displayed nicely
+     * @return nicely formatted string of enum value
+     */
+    public static String toDisplayValue(int value) {
+        String display = values()[value].name().replaceAll("_", " ");
+        return display.substring(0,1).toUpperCase() + display.substring(1, display.length()).toLowerCase();
+    }
 }

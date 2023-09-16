@@ -2,14 +2,23 @@ package seng202.team2;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import org.apache.logging.log4j.Level;
+import seng202.team2.database.CrashDao;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
-import seng202.team2.database.CrashDao;
 import seng202.team2.io.CsvReader;
 import seng202.team2.models.Crash;
 
 import java.util.List;
+//import seng202.team2.gui.MainWindow;
+//import seng202.team2.controller.TableViewController;
+//import seng202.team2.database.DbAttributes;
+//import seng202.team2.database.QueryBuilder;
+//import seng202.team2.database.CrashDao;
+//import seng202.team2.io.CsvReader;
+//import seng202.team2.models.Crash;
+//
+//import java.util.List;
 
 /**
  * Default entry point class
@@ -24,7 +33,12 @@ public class App {
      * @param args program arguments from command line
      */
     public static void main(String[] args) {
-        CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
+//        CSVReader.printCrashes();
+        log.info("Hello World!");
+        log.warn("This is a warning message! Use this log type to 'warn' if something is not quite right");
+        log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, but is only an example!')");
+        log.log(Level.INFO, "There are many ways to log!");
+        seng202.team2.io.CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
         csvReader.importAllToDatabase();
 
         QueryBuilder queryBuilder = new QueryBuilder();
@@ -43,5 +57,9 @@ public class App {
         for (Crash crash : result) {
             log.info(crash);
         }
+//        CsvReader.printCrashes();
+
+        //TableViewController.main(args);
+        MainWindow.main(args);
     }
 }
