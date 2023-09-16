@@ -33,33 +33,11 @@ public class App {
      * @param args program arguments from command line
      */
     public static void main(String[] args) {
-//        CSVReader.printCrashes();
-        log.info("Hello World!");
-        log.warn("This is a warning message! Use this log type to 'warn' if something is not quite right");
-        log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, but is only an example!')");
-        log.log(Level.INFO, "There are many ways to log!");
         seng202.team2.io.CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
+
         csvReader.importAllToDatabase();
 
-        QueryBuilder queryBuilder = new QueryBuilder();
-
-        // Just playing around here, feel free to remove/change these filters.
-        queryBuilder.betweenValues(2000, 2023, DbAttributes.YEAR);
-
-        CrashDao crashDao = new CrashDao();
-
-        // This gives null!
-//        Crash result = crashDao.getOne(1);
-//        log.info(result);
-
-        // result is empty so nothing is logged
-        List<Crash> result = crashDao.queryDatabase(queryBuilder.getQuery());
-        for (Crash crash : result) {
-            log.info(crash);
-        }
-//        CsvReader.printCrashes();
-
-        //TableViewController.main(args);
+//        TableViewController.main(args);
         MainWindow.main(args);
     }
 }
