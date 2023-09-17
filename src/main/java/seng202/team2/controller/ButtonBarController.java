@@ -1,15 +1,21 @@
 package seng202.team2.controller;
 
-import javafx.event.ActionEvent;
+import seng202.team2.database.DbAttributes;
+import seng202.team2.database.QueryBuilder;
+import seng202.team2.models.Severity;
+
+import org.controlsfx.control.RangeSlider;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.controlsfx.control.RangeSlider;
 
-import seng202.team2.database.DbAttributes;
-import seng202.team2.database.QueryBuilder;
-import seng202.team2.models.Severity;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controls the filter button bar of the table
@@ -27,10 +33,16 @@ public class ButtonBarController {
     private RangeSlider yearSelect;
 
     @FXML
-    private ToggleButton person;
+    public MenuButton severities;
 
     @FXML
-    private ToggleButton cyclist;
+    public Button confirmSelection;
+
+    @FXML
+    private ToggleButton pedestrian;
+
+    @FXML
+    private ToggleButton bicycle;
 
     @FXML
     private ToggleButton car;
@@ -45,44 +57,36 @@ public class ButtonBarController {
     private MenuButton regionSelect;
 
     @FXML
-    private RadioMenuItem sev1;
+    private RadioMenuItem nonInjury;
 
     @FXML
-    private RadioMenuItem sev2;
+    private RadioMenuItem minorInjury;
 
     @FXML
-    private RadioMenuItem sev3;
+    private RadioMenuItem seriousInjury;
 
     @FXML
-    private RadioMenuItem sev4;
+    private RadioMenuItem fatal;
 
     @FXML
-    private RadioMenuItem sev5;
+    private RadioMenuItem unknownSeverity;
 
-    private final QueryBuilder queryBuilder = new QueryBuilder();
+    private static final Map<String, DbAttributes> buttonIdToVehicle = new HashMap<>() {{
+        put("pedestrian", DbAttributes.PEDESTRIAN);
+        put("bicycle", DbAttributes.BICYCLE);
+        put("car", DbAttributes.CAR_OR_STATION_WAGON);
+        put("bus", DbAttributes.BUS);
+    }};
 
-    //
-    public void filterTable() {
-        // Slider
-        double year = selectedYear.getValue();
-        System.out.println(year);
+    private static final Map<String, String> buttonIdToSeverity = new HashMap<>() {{
+        put("nonInjury", "NON_INJURY_CRASH");
+        put("minorInjury", "MINOR_CRASH");
+        put("seriousInjury", "SERIOUS_CRASH");
+        put("fatal", "FATAL_CRASH");
+        put("unknownSeverity", "UNKNOWN");
+    }};
 
-        if (sev1.isSelected()) {
-            System.out.println(1);
-        }
-        if (sev2.isSelected()) {
-            System.out.println(2);
-        }
-        if (sev3.isSelected()) {
-            System.out.println(3);
-        }
-        if (sev4.isSelected()) {
-            System.out.println(4);
-        }
-        if (sev5.isSelected()) {
-            System.out.println(5);
-        }
-    }
+    private static final Logger log = LogManager.getLogger(ButtonBarController.class);
 
     public void setIcons() {
         Image personIMG = null;
@@ -97,18 +101,18 @@ public class ButtonBarController {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        person.setGraphic(new ImageView(personIMG));
-        cyclist.setGraphic(new ImageView(cyclistIMG));
+        pedestrian.setGraphic(new ImageView(personIMG));
+        bicycle.setGraphic(new ImageView(cyclistIMG));
         car.setGraphic(new ImageView(carIMG));
         bus.setGraphic(new ImageView(busIMG));
     }
 
     public void setSeverityValues() {
-        sev1.setText(Severity.toDisplayValue(0));
-        sev2.setText(Severity.toDisplayValue(1));
-        sev3.setText(Severity.toDisplayValue(2));
-        sev4.setText(Severity.toDisplayValue(3));
-        sev5.setText(Severity.toDisplayValue(4));
+        nonInjury.setText(Severity.toDisplayValue(0));
+        minorInjury.setText(Severity.toDisplayValue(1));
+        seriousInjury.setText(Severity.toDisplayValue(2));
+        fatal.setText(Severity.toDisplayValue(3));
+        unknownSeverity.setText(Severity.toDisplayValue(4));
     }
 
 
@@ -118,13 +122,26 @@ public class ButtonBarController {
         regionSelect.setDisable(true);
     }
 
-    public void addVehicle(ActionEvent actionEvent) {
-        RadioMenuItem caller = (RadioMenuItem) actionEvent.getSource();
-        DbAttributes vehicle = DbAttributes.valueOf(caller.getText());
-        queryBuilder.greaterThan(1, vehicle);
-    }
+    public void filterTable() {
+        QueryBuilder queryBuilder = new QueryBuilder();
 
-    public void addSeverity(ActionEvent actionEvent) {
+        for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
+            if (button.isSelected()) {
+                DbAttributes vehicle = buttonIdToVehicle.get(button.getId());
+                queryBuilder.greaterThan(0, vehicle);
+            }
+        }
+
+        List<String> selectedSeverities = severities.getItems().stream()
+                .filter(item -> ((RadioMenuItem) item).isSelected())
+                .map(MenuItem::getId)
+                .map(buttonIdToSeverity::get)
+                .toList();
+
+        queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY)
+                    .betweenValues((int) yearSelect.getLowValue(), (int) yearSelect.getHighValue(), DbAttributes.YEAR);
+
+        log.info(queryBuilder.getQuery());
     }
 }
 
