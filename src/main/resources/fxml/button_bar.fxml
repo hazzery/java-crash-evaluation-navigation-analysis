@@ -5,17 +5,17 @@
 
 <ButtonBar fx:id="buttonBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team2.controller.ButtonBarController">
     <buttons>
-        <ToggleButton fx:id="person" mnemonicParsing="false" maxWidth="5"/>
-        <ToggleButton fx:id="cyclist" mnemonicParsing="false" maxWidth="5.0" />
-        <ToggleButton fx:id="car" mnemonicParsing="false" maxWidth="5.0" />
-        <ToggleButton fx:id="bus" mnemonicParsing="false" maxWidth="5.0" />
+        <ToggleButton fx:id="person" mnemonicParsing="false" maxWidth="5" onAction="#addVehicle"/>
+        <ToggleButton fx:id="cyclist" mnemonicParsing="false" maxWidth="5.0" onAction="#addVehicle"/>
+        <ToggleButton fx:id="car" mnemonicParsing="false" maxWidth="5.0" onAction="#addVehicle"/>
+        <ToggleButton fx:id="bus" mnemonicParsing="false" maxWidth="5.0" onAction="#addVehicle"/>
         <MenuButton mnemonicParsing="false" text="Severity" prefHeight="28" >
             <items>
-                <RadioMenuItem fx:id="sev1" mnemonicParsing="false" text="1"  />
-                <RadioMenuItem fx:id="sev2" mnemonicParsing="false" text="2" />
-                <RadioMenuItem fx:id="sev3" mnemonicParsing="false" text="3" />
-                <RadioMenuItem fx:id="sev4" mnemonicParsing="false" text="4" />
-                <RadioMenuItem fx:id="sev5" mnemonicParsing="false" text="5" />
+                <RadioMenuItem fx:id="sev1" mnemonicParsing="false" text="1" onAction="#addSeverity"/>
+                <RadioMenuItem fx:id="sev2" mnemonicParsing="false" text="2" onAction="#addSeverity"/>
+                <RadioMenuItem fx:id="sev3" mnemonicParsing="false" text="3" onAction="#addSeverity"/>
+                <RadioMenuItem fx:id="sev4" mnemonicParsing="false" text="4" onAction="#addSeverity"/>
+                <RadioMenuItem fx:id="sev5" mnemonicParsing="false" text="5" onAction="#addSeverity"/>
             </items>
         </MenuButton>
         <MenuButton fx:id="regionSelect" mnemonicParsing="false" text="Region" prefHeight="28" maxWidth="20">

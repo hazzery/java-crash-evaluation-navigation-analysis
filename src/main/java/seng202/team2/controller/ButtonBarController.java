@@ -1,12 +1,14 @@
 package seng202.team2.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import seng202.team2.models.Severity;
 
-import java.io.IOException;
+import seng202.team2.database.DbAttributes;
+import seng202.team2.database.QueryBuilder;
+import seng202.team2.models.Severity;
 
 /**
  * Controls the filter button bar of the table
@@ -52,23 +54,28 @@ public class ButtonBarController {
 
     @FXML
     private RadioMenuItem sev5;
+
+    QueryBuilder queryBuilder = new QueryBuilder();
+
     //
     public void filterTable() {
         // Slider
         double year = selectedYear.getValue();
         System.out.println(year);
 
-        // Radio buttons
-        // Could be improved?
         if (sev1.isSelected()) {
             System.out.println(1);
-        } else if (sev2.isSelected()) {
+        }
+        if (sev2.isSelected()) {
             System.out.println(2);
-        } else if (sev3.isSelected()) {
+        }
+        if (sev3.isSelected()) {
             System.out.println(3);
-        } else if (sev4.isSelected()) {
+        }
+        if (sev4.isSelected()) {
             System.out.println(4);
-        } else if (sev5.isSelected()) {
+        }
+        if (sev5.isSelected()) {
             System.out.println(5);
         }
     }
@@ -106,5 +113,15 @@ public class ButtonBarController {
         setSeverityValues();
         regionSelect.setDisable(true);
     }
+
+    public void addVehicle(ActionEvent actionEvent) {
+        RadioMenuItem caller = (RadioMenuItem) actionEvent.getSource();
+        DbAttributes vehicle = DbAttributes.valueOf(caller.getText());
+        queryBuilder.greaterThan(1, vehicle);
+    }
+
+    public void addSeverity(ActionEvent actionEvent) {
+    }
 }
+
 
