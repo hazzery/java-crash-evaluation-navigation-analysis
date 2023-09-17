@@ -93,7 +93,7 @@ public class MapViewController {
      */
     private void preMarker(Crash crash, int i) {
         webEngine.executeScript(
-                String.format("preMarker('%s', %f, %f);", "crash " + i, (float)crash.latitude(), (float)crash.longitude())
+                String.format("preMarker(%f, %f);", (float)crash.latitude(), (float)crash.longitude())
         );
     }
     
