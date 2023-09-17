@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -44,10 +43,10 @@ public class QueryBuilderTest {
 
     @Test
     void orStringTest() {
-        ArrayList<String> testStrings = new ArrayList<String>();
+        ArrayList<String> testStrings = new ArrayList<>();
         testStrings.add("Auckland");
         testStrings.add("Tasman");
         queryBuilderTester.orString(testStrings, DbAttributes.REGION);
-        assertEquals("SELECT * FROM crashes WHERE (REGION = (Auckland OR Tasman));", queryBuilderTester.getQuery());
+        assertEquals("SELECT * FROM crashes WHERE (REGION = (\"Auckland\" OR \"Tasman\"));", queryBuilderTester.getQuery());
     }
 }
