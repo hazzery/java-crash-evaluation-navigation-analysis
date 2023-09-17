@@ -74,22 +74,6 @@ public class QueryBuilder {
     }
 
     /**
-     * Create query for tuples satisfying all conditions in conditionList
-     *
-     * @param conditionList list of conditions for checking (String)
-     * @param queryField field for querying
-     */
-    public QueryBuilder andString(List<String> conditionList, DbAttributes queryField) {
-        sql.append("(").append(queryField).append(" = (");
-        for (String condition : conditionList) {
-            sql.append(condition).append(" AND ");
-        }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 5));  // Remove trailing " AND "
-        sql.append(")) AND ");
-        return this;
-    }
-
-    /**
      * Create query for tuples satisfying one condition in conditionList
      *
      * @param conditionList list of conditions for checking (String)
