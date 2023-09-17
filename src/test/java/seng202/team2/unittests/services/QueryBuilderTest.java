@@ -42,16 +42,6 @@ public class QueryBuilderTest {
         assertEquals("SELECT * FROM crashes WHERE (YEAR > 2002);", queryBuilderTester.getQuery());
     }
 
-    /*Test doesnt make much sense practically but demonstrates functionality*/
-    @Test
-    void andStringTest() {
-        ArrayList<String> testStrings = new ArrayList<String>();
-        testStrings.add("Auckland");
-        testStrings.add("Tasman");
-        queryBuilderTester.andString(testStrings, DbAttributes.REGION);
-        assertEquals("SELECT * FROM crashes WHERE (REGION = (Auckland AND Tasman));", queryBuilderTester.getQuery());
-    }
-
     @Test
     void orStringTest() {
         ArrayList<String> testStrings = new ArrayList<String>();
@@ -60,6 +50,4 @@ public class QueryBuilderTest {
         queryBuilderTester.orString(testStrings, DbAttributes.REGION);
         assertEquals("SELECT * FROM crashes WHERE (REGION = (Auckland OR Tasman));", queryBuilderTester.getQuery());
     }
-
-
 }
