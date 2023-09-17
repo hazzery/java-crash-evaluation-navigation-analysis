@@ -95,8 +95,8 @@
      * @param lat latitude to place marker at
      * @param lng longitude to place marker at
      */
-    function preMarker(title, lat, lng) {
-        crashList.push([title, lat, lng]);
+    function preMarker(lat, lng) {
+        crashList.push([lat, lng]);
     }
     
     /**
@@ -106,8 +106,7 @@
         var cluster = new L.MarkerClusterGroup();
         for (var i = 0; i < crashList.length; i++) {
             var c = crashList[i];
-            var m = new L.Marker([c[1], c[2]]);
-            m.bindPopup(c[0]).openPopup();
+            var m = new L.Marker([c[0], c[1]]);
             cluster.addLayer(m);
         }
         map.addLayer(cluster);
