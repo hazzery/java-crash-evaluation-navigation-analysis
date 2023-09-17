@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 
+<?import org.controlsfx.control.RangeSlider?>
 <ButtonBar fx:id="buttonBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team2.controller.ButtonBarController">
     <buttons>
         <ToggleButton fx:id="person" mnemonicParsing="false" maxWidth="5" onAction="#addVehicle"/>
@@ -24,11 +25,11 @@
                 <MenuItem mnemonicParsing="false" text="Action 2" />
             </items>
         </MenuButton>
-        <Slider fx:id="selectedYear" blockIncrement="1.0" majorTickUnit="10.0" max="2020.0" min="2000.0" minorTickCount="9" prefHeight="38.0" minWidth="700.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="2010.0">
+        <RangeSlider fx:id="yearSelect" blockIncrement="1.0" majorTickUnit="10.0" max="2020.0" min="2000.0" minorTickCount="9" prefHeight="38.0" minWidth="700.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" lowValue="2000" highValue="2020">
             <padding>
                 <Insets left="10.0" right="10.0" />
             </padding>
-        </Slider>
+        </RangeSlider>
         <Button fx:id="confirmSelection" minWidth="20.0" mnemonicParsing="false" onAction="#filterTable" prefHeight="28.0" text="Apply" maxWidth="20" />
     </buttons>
     <opaqueInsets>
