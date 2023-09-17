@@ -107,6 +107,7 @@
         if (map.hasLayer(cluster)) {
             map.removeLayer(cluster);
         }
+        cluster = undefined; // to avoid memory errors
     }
     
     /**
