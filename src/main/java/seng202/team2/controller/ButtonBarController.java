@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.controlsfx.control.RangeSlider;
 
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
@@ -21,6 +22,9 @@ public class ButtonBarController {
 
     @FXML
     public ButtonBar buttonBar;
+
+    @FXML
+    private RangeSlider yearSelect;
 
     @FXML
     private ToggleButton person;
@@ -55,7 +59,7 @@ public class ButtonBarController {
     @FXML
     private RadioMenuItem sev5;
 
-    QueryBuilder queryBuilder = new QueryBuilder();
+    private final QueryBuilder queryBuilder = new QueryBuilder();
 
     //
     public void filterTable() {
