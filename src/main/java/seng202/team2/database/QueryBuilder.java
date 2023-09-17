@@ -80,6 +80,10 @@ public class QueryBuilder {
      * @param queryField field for querying
      */
     public QueryBuilder orString(List<String> conditionList, DbAttributes queryField) {
+        if (conditionList.isEmpty()) {
+            return this;
+        }
+
         sql.append("(").append(queryField).append(" = (");
         for (String condition : conditionList) {
             sql.append(condition).append(" OR ");
