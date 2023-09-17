@@ -108,11 +108,11 @@ public class ButtonBarController {
     }
 
     public void setSeverityValues() {
-        nonInjury.setText(Severity.toDisplayValue(0));
-        minorInjury.setText(Severity.toDisplayValue(1));
-        seriousInjury.setText(Severity.toDisplayValue(2));
-        fatal.setText(Severity.toDisplayValue(3));
-        unknownSeverity.setText(Severity.toDisplayValue(4));
+        nonInjury.setText(Severity.NON_INJURY_CRASH.displayValue());
+        minorInjury.setText(Severity.MINOR_CRASH.displayValue());
+        seriousInjury.setText(Severity.SERIOUS_CRASH.displayValue());
+        fatal.setText(Severity.FATAL_CRASH.displayValue());
+        unknownSeverity.setText(Severity.UNKNOWN.displayValue());
     }
 
 

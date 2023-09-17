@@ -1,6 +1,7 @@
 package seng202.team2.models;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,13 +36,12 @@ public enum Severity {
     }
 
     /**
-     * Converts an int value to a formatted string:
-     * i.e: 1 to "Fatal crash"
-     * @param value the int location of an enum in values to be displayed nicely
-     * @return nicely formatted string of enum value
+     * Gets a displayable string representation of the enum value
+     * e.g: FATAL_CRASH -> "Fatal crash"
+     * @return Nicely formatted string of enum value
      */
-    public static String toDisplayValue(int value) {
-        String display = values()[value].name().replaceAll("_", " ");
-        return display.substring(0,1).toUpperCase() + display.substring(1, display.length()).toLowerCase();
+    public String displayValue() {
+        String display = name().toLowerCase().replaceAll("_", " ");
+        return StringUtils.capitalize(display);
     }
 }

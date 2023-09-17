@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.commons.lang3.StringUtils;
 import seng202.team2.models.Crash;
 import seng202.team2.io.CsvReader;
 
@@ -21,9 +22,14 @@ public class TableViewController {
     private TableView<DataRow> tableView;
     private boolean hasBeenBuilt = false; // no point building the table twice.
 
+    /**
+     * Gets a displayable string representation of the enum value
+     * e.g: FATAL_CRASH -> "Fatal crash"
+     * @return Nicely formatted string of enum value
+     */
     private String toDisplayText(String text) {
         String lowered = text.toLowerCase().replace("_", " ");
-        return lowered.substring(0, 1).toUpperCase() + lowered.substring(1);
+        return StringUtils.capitalize(lowered);
     }
 
     /**
@@ -49,7 +55,7 @@ public class TableViewController {
 
         for (Crash crash: crashes) {
             tableCrashData.add(new DataRow(
-                    toDisplayText(crash.severity().toString()),
+                    crash.severity().displayValue(),
                     crash.fatalities(),
                     crash.vehicles().values().toArray().length,
                     toDisplayText(crash.roadName1()),
@@ -57,8 +63,8 @@ public class TableViewController {
                     crash.region(),
                     crash.seriousInjuries(),
                     crash.minorInjuries(),
-                    toDisplayText(crash.weather().toString()),
-                    toDisplayText(crash.lighting().toString()),
+                    crash.weather().displayValue(),
+                    crash.lighting().displayValue(),
                     crash.year())
             );
         }
