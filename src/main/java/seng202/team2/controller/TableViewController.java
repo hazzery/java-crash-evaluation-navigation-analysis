@@ -9,8 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import seng202.team2.models.Crash;
 import seng202.team2.models.Crashes;
 
-import java.io.FileNotFoundException;
-
 /**
  * Class to demo the table view for the application
  *
@@ -20,6 +18,7 @@ import java.io.FileNotFoundException;
 public class TableViewController {
     @FXML
     private TableView<DataRow> tableView;
+    ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
     private boolean hasBeenBuilt = false; // no point building the table twice.
 
     /**
@@ -36,18 +35,34 @@ public class TableViewController {
      * Constructs the elements of the table view
      */
     private void buildTableScene() {
-        ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
 
         String[] columnKeys = {"Severity", "Fatalities", "NumberOfVehiclesInvolved", "RoadName1", "RoadName2",
                 "Region", "SeriousInjuries", "MinorInjuries", "Weather", "Lighting", "Year"};
         String[] columnHeaders = {"Severity", "Fatalities", "Number of Vehicles Involved", "Road 1", "Road 2",
                 "Region", "Serious Injuries", "Minor Injuries", "Weather", "Lighting", "Year"};
+
         for (int i = 0; i < columnKeys.length; i++) {
             TableColumn<DataRow, String> column = new TableColumn<>(columnHeaders[i]);
             column.setCellValueFactory(new PropertyValueFactory<>(columnKeys[i]));
             column.setReorderable(false);
             tableView.getColumns().add(column);
         }
+
+        updateCrashes();
+        hasBeenBuilt = true;
+    }
+
+    /**
+     * Inits the tableview
+     */
+    void init() {
+        if (!hasBeenBuilt) {
+            buildTableScene();
+        }
+    }
+
+    public void updateCrashes() {
+        tableView.getItems().clear();
 
         for (Crash crash: Crashes.getCrashes()) {
             tableCrashData.add(new DataRow(
@@ -66,16 +81,6 @@ public class TableViewController {
         }
 
         tableView.setItems(tableCrashData);
-        hasBeenBuilt = true;
-    }
-
-    /**
-     * Inits the tableview
-     */
-    void init() throws FileNotFoundException {
-        if (!hasBeenBuilt) {
-            buildTableScene();
-        }
     }
 }
 

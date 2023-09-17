@@ -1,6 +1,7 @@
 package seng202.team2.models;
 
 import seng202.team2.database.CrashDao;
+import seng202.team2.database.QueryBuilder;
 import seng202.team2.io.CsvReader;
 
 import java.util.List;
@@ -17,5 +18,9 @@ public class Crashes {
 
     public static List<Crash> getCrashes() {
         return crashes;
+    }
+
+    public static void setQuery(QueryBuilder query) {
+        crashes = crashDao.queryDatabase(query.getQuery());
     }
 }

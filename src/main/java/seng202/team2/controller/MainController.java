@@ -3,12 +3,9 @@ package seng202.team2.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -30,6 +27,9 @@ public class MainController {
 
     private Parent mapViewParent;
     private Parent tableViewParent;
+
+    TableViewController tableViewController;
+    MapViewController mapViewController;
 
     public void init(Stage stage) {
         initialiseTableView();
@@ -59,6 +59,7 @@ public class MainController {
             Parent buttonBarParent = buttonBarLoader.load();
             ButtonBarController buttonBarController = buttonBarLoader.getController();
             buttonBarController.init();
+            buttonBarController.giveMainControl(this);
             topBarPane.setCenter(buttonBarParent);
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +97,7 @@ public class MainController {
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
             tableViewParent = tableViewLoader.load();
-            TableViewController tableViewController = tableViewLoader.getController();
+            tableViewController = tableViewLoader.getController();
             tableViewController.init();
             mainWindow.getStylesheets().add(getClass().getResource("/stylesheets/table.css").toExternalForm());
         } catch (IOException e) {
@@ -108,7 +109,7 @@ public class MainController {
         try {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map_view.fxml"));
             mapViewParent = mapViewLoader.load();
-            MapViewController mapViewController = mapViewLoader.getController();
+            mapViewController = mapViewLoader.getController();
             mapViewController.init();
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,5 +122,10 @@ public class MainController {
 
     public void displayMapView() {
         tableButtonsPane.setCenter(mapViewParent);
+    }
+
+    public void updateViews() {
+        mapViewController.addAllCrashMarkers();
+        tableViewController.updateCrashes();
     }
 }

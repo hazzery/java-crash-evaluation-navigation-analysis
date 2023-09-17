@@ -2,6 +2,7 @@ package seng202.team2.controller;
 
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
+import seng202.team2.models.Crashes;
 import seng202.team2.models.Severity;
 
 import org.controlsfx.control.RangeSlider;
@@ -84,6 +85,7 @@ public class ButtonBarController {
     }};
 
     private static final Logger log = LogManager.getLogger(ButtonBarController.class);
+    private MainController mainController;
 
     public void setIcons() {
         Image personIMG = null;
@@ -135,10 +137,20 @@ public class ButtonBarController {
                 .map(buttonIdToSeverity::get)
                 .toList();
 
-        queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY)
-                    .betweenValues((int) yearSelect.getLowValue(), (int) yearSelect.getHighValue(), DbAttributes.YEAR);
+        queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY);
 
-        log.info(queryBuilder.getQuery());
+        int minYear = (int) yearSelect.getLowValue();
+        int maxYear = (int) yearSelect.getHighValue();
+        if (minYear != yearSelect.getMin() || maxYear != yearSelect.getMax()) {
+            queryBuilder.betweenValues(minYear, maxYear, DbAttributes.YEAR);
+        }
+
+        Crashes.setQuery(queryBuilder);
+        mainController.updateViews();
+    }
+
+    public void giveMainControl(MainController mainController) {
+        this.mainController = mainController;
     }
 }
 

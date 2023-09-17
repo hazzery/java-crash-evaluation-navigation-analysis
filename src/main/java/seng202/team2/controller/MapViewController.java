@@ -63,7 +63,8 @@ public class MapViewController {
         //
     }
 
-    private void addAllCrashMarkers()  {
+    public void addAllCrashMarkers()  {
+        clearMarkers();
         for (Crash crash : Crashes.getCrashes()) {
             if (crash != null) {
                 preMarker(crash);
@@ -79,6 +80,13 @@ public class MapViewController {
         webEngine.executeScript(
                 String.format("preMarker(%f, %f);", (float)crash.latitude(), (float)crash.longitude())
         );
+    }
+
+    /**
+     * Clear all the crashes into javascript
+     */
+    private void clearMarkers() {
+        webEngine.executeScript("clearMarkers();");
     }
     
     /**
