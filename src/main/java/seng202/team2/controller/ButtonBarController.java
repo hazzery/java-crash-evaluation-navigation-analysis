@@ -51,9 +51,6 @@ public class ButtonBarController {
     private ToggleButton bus;
 
     @FXML
-    private Slider selectedYear;
-
-    @FXML
     private MenuButton regionSelect;
 
     @FXML
