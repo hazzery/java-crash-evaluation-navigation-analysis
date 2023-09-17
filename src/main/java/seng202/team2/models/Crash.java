@@ -37,4 +37,12 @@ public record Crash(int crashID, int year, int fatalities, int seriousInjuries, 
                 ", severity=" + severity +
                 '}';
     }
+
+    public int vehiclesInvolved() {
+        int total = 0;
+        for (int value : vehicles.values()) {
+            total += value;
+        }
+        return total;
+    }
 }
