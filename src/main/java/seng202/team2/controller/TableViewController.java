@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.lang3.StringUtils;
 import seng202.team2.models.Crash;
-import seng202.team2.io.CsvReader;
+import seng202.team2.models.Crashes;
 
 import java.io.FileNotFoundException;
 
@@ -35,7 +35,7 @@ public class TableViewController {
     /**
      * Constructs the elements of the table view
      */
-    private void buildTableScene() throws FileNotFoundException {
+    private void buildTableScene() {
         ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
 
         String[] columnKeys = {"Severity", "Fatalities", "NumberOfVehiclesInvolved", "RoadName1", "RoadName2",
@@ -49,15 +49,11 @@ public class TableViewController {
             tableView.getColumns().add(column);
         }
 
-        // Read CSV file and populate table rows.
-        CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
-        Crash[] crashes = csvReader.readLines(10000);
-
-        for (Crash crash: crashes) {
+        for (Crash crash: Crashes.getCrashes()) {
             tableCrashData.add(new DataRow(
                     crash.severity().displayValue(),
                     crash.fatalities(),
-                    crash.vehicles().values().toArray().length,
+                    crash.vehiclesInvolved(),
                     toDisplayText(crash.roadName1()),
                     toDisplayText(crash.roadName2()),
                     crash.region(),

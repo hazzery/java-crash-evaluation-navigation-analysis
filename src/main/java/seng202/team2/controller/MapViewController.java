@@ -1,27 +1,20 @@
 package seng202.team2.controller;
 
 
-
-import com.sun.javafx.webkit.WebConsoleListener;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import netscape.javascript.JSObject;
-import seng202.team2.models.Crash;
-import seng202.team2.io.CsvReader;
 
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import netscape.javascript.JSObject;
+
+import seng202.team2.models.Crash;
+import seng202.team2.models.Crashes;
 
 /**
  * Map view controller class for the application.
  * Handles displaying the map and point markers.
- *
- * adapted from Special Lab: Working with Interactive Map APIs
+ * Adapted from Special Lab: Working with Interactive Map APIs
  *
  * @author Louis Hobson
  */
@@ -71,18 +64,9 @@ public class MapViewController {
     }
 
     private void addAllCrashMarkers()  {
-        CsvReader csvReader = null;
-        // Try Catch being annoying...
-//        try {
-        csvReader = new CsvReader("src/main/resources/crash_data.csv");
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-        Crash[] crashes = csvReader.readLines(800000);
-        for (int i = 0; i < crashes.length; i++){ // only half of them because the full 800000 produces a weird error (not to do with the map)
-            Crash crash = crashes[i];
-            if (!(crash == null)) {
-                preMarker(crash, i);
+        for (Crash crash : Crashes.getCrashes()) {
+            if (crash != null) {
+                preMarker(crash);
             }
         }
         postMarkers();
@@ -91,7 +75,7 @@ public class MapViewController {
     /**
      * Parse in all the crashes into javascript
      */
-    private void preMarker(Crash crash, int i) {
+    private void preMarker(Crash crash) {
         webEngine.executeScript(
                 String.format("preMarker(%f, %f);", (float)crash.latitude(), (float)crash.longitude())
         );
@@ -103,13 +87,6 @@ public class MapViewController {
     private void postMarkers() {
         webEngine.executeScript("postMarkers();");
     }
-
-    private void addCrashMarker (Crash crash, int i) {
-        webEngine.executeScript(
-                String.format("addMarker('%s', %f, %f);", "test", (float)crash.latitude(), (float)crash.longitude())
-        );
-    }
-
 
     /**
      * Init
