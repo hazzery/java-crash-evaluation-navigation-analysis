@@ -14,7 +14,8 @@ public class QueryBuilder {
     private static final Logger log = LogManager.getLogger(QueryBuilder.class);
 
     private StringBuilder sql = new StringBuilder("SELECT * FROM crashes WHERE ");
-
+    private boolean noConditions = true; // remove the WHERE
+    
     public QueryBuilder() {}
 
     /**
@@ -27,6 +28,7 @@ public class QueryBuilder {
         sql.append("(").append(queryField)
                 .append(" BETWEEN ").append(lowerBound).append(" AND ").append(upperBound)
                 .append(") AND ");
+        noConditions = false;
         return this;
     }
 
@@ -38,6 +40,7 @@ public class QueryBuilder {
      */
     public QueryBuilder equalVal(int value, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" = ").append(value).append(") AND ");
+        noConditions = false;
         return this;
     }
 
@@ -49,6 +52,7 @@ public class QueryBuilder {
      */
     public QueryBuilder lessThan(int upperBound, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" < ").append(upperBound).append(") AND ");
+        noConditions = false;
         return this;
     }
 
@@ -60,6 +64,7 @@ public class QueryBuilder {
      */
     public QueryBuilder greaterThan(int lowerBound, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" > ").append(lowerBound).append(") AND ");
+        noConditions = false;
         return this;
     }
 
@@ -70,6 +75,7 @@ public class QueryBuilder {
      */
     public QueryBuilder likeString(String searchString, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" LIKE ").append(searchString).append(") AND ");
+        noConditions = false;
         return this;
     }
 
@@ -91,6 +97,7 @@ public class QueryBuilder {
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
         sql.append(") AND ");
+        noConditions = false;
         return this;
     }
 
@@ -100,7 +107,11 @@ public class QueryBuilder {
      * @return final concatenated query
      */
     public String getQuery() {
-        sql = new StringBuilder(sql.substring(0, sql.length() - 5));
+        int amountToRemove = 5; // Remove trailing " AND "
+        if (noConditions) {
+            amountToRemove = 7; // Remove trailing " WHERE "
+        }
+        sql = new StringBuilder(sql.substring(0, sql.length() - amountToRemove));
         sql.append(";");
         log.info(sql.toString());
         return sql.toString();
