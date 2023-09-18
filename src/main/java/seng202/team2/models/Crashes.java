@@ -11,7 +11,7 @@ public class Crashes {
     private static final CrashDao crashDao = new CrashDao();
 
     public static void importCrashes() {
-        CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
+        CsvReader csvReader = new CsvReader("crash_data.csv");
         crashes = csvReader.generateAllCrashes();
         crashDao.addBatch(crashes);
     }
@@ -21,6 +21,7 @@ public class Crashes {
     }
 
     public static void setQuery(QueryBuilder query) {
+        crashes.clear();
         crashes = crashDao.queryDatabase(query.getQuery());
     }
 }
