@@ -79,7 +79,7 @@ public class ButtonBarController {
         put("unknownSeverity", "UNKNOWN");
     }};
 
-    //private static final Logger log = LogManager.getLogger(ButtonBarController.class);
+    private static final Logger log = LogManager.getLogger(ButtonBarController.class);
     private MainController mainController;
 
     public void setIcons() {
