@@ -18,6 +18,11 @@ public class QueryBuilderTest {
     }
 
     @Test
+    void noConditionsTest() {
+        assertEquals("SELECT * FROM crashes;", queryBuilderTester.getQuery());
+    }
+
+    @Test
     void equalTest() {
         queryBuilderTester.equalVal(2, DbAttributes.ID);
         assertEquals("SELECT * FROM crashes WHERE (ID = 2);", queryBuilderTester.getQuery());
