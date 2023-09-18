@@ -2,28 +2,37 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
 
-<?import org.controlsfx.control.RangeSlider?>
 <ButtonBar fx:id="buttonBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team2.controller.ButtonBarController">
     <buttons>
-        <ToggleButton fx:id="pedestrian" mnemonicParsing="false" maxWidth="5"/>
-        <ToggleButton fx:id="bicycle" mnemonicParsing="false" maxWidth="5.0"/>
-        <ToggleButton fx:id="car" mnemonicParsing="false" maxWidth="5.0"/>
-        <ToggleButton fx:id="bus" mnemonicParsing="false" maxWidth="5.0"/>
+        <ToggleButton fx:id="pedestrian" maxWidth="5" mnemonicParsing="false" />
+        <ToggleButton fx:id="bicycle" maxWidth="5.0" mnemonicParsing="false" />
+        <ToggleButton fx:id="car" maxWidth="5.0" mnemonicParsing="false" />
+        <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false" />
         <MenuButton fx:id="severities" mnemonicParsing="false" text="Severity">
             <items>
-                <RadioMenuItem fx:id="nonInjury" mnemonicParsing="false" text="1"/>
-                <RadioMenuItem fx:id="minorInjury" mnemonicParsing="false" text="2"/>
-                <RadioMenuItem fx:id="seriousInjury" mnemonicParsing="false" text="3"/>
-                <RadioMenuItem fx:id="fatal" mnemonicParsing="false" text="4"/>
+                <RadioMenuItem fx:id="nonInjury" mnemonicParsing="false" text="1" />
+                <RadioMenuItem fx:id="minorInjury" mnemonicParsing="false" text="2" />
+                <RadioMenuItem fx:id="seriousInjury" mnemonicParsing="false" text="3" />
+                <RadioMenuItem fx:id="fatal" mnemonicParsing="false" text="4" />
             </items>
         </MenuButton>
-        <RangeSlider fx:id="yearSelect" blockIncrement="1.0" majorTickUnit="10.0" max="2020.0" min="2000.0" minorTickCount="9" prefHeight="38.0" minWidth="700.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" lowValue="2000" highValue="2020">
-            <padding>
-                <Insets left="10.0" right="10.0" />
-            </padding>
-        </RangeSlider>
-        <Button fx:id="confirmSelection" minWidth="20.0" mnemonicParsing="false" onAction="#filterTable" prefHeight="28.0" text="Apply" maxWidth="20" />
+      <Text layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2001">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Text>
+        <RangeSlider fx:id="yearSelect" blockIncrement="1.0" highValue="2020.0" lowValue="2001.0" majorTickUnit="10.0" max="2020.0" min="2000.0" minWidth="700.0" minorTickCount="9" prefHeight="38.0" showTickMarks="true" snapToTicks="true" translateY="5.0">
+         <padding>
+            <Insets left="-2.0" right="-2.0" />
+         </padding></RangeSlider>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2020">
+         <font>
+            <Font size="11.0" />
+         </font></Text>
+        <Button fx:id="confirmSelection" maxWidth="20" minWidth="20.0" mnemonicParsing="false" onAction="#filterTable" prefHeight="28.0" text="Apply" />
     </buttons>
     <opaqueInsets>
         <Insets />

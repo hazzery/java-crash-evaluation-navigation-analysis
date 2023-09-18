@@ -79,7 +79,7 @@ public class ButtonBarController {
         put("unknownSeverity", "UNKNOWN");
     }};
 
-    private static final Logger log = LogManager.getLogger(ButtonBarController.class);
+    //private static final Logger log = LogManager.getLogger(ButtonBarController.class);
     private MainController mainController;
 
     public void setIcons() {
@@ -108,10 +108,19 @@ public class ButtonBarController {
         fatal.setText(Severity.FATAL_CRASH.displayValue());
     }
 
+    /**
+     * default behavior of rangeSlider is not working correctly,
+     * this method sets the default values
+     */
+    private void setRangeSliderValues() {
+        yearSelect.setLowValue(2001);
+        yearSelect.setHighValue(2020);
+    }
 
     void init() {
         setIcons();
         setSeverityValues();
+        setRangeSliderValues();
     }
 
     public void filterTable() {
