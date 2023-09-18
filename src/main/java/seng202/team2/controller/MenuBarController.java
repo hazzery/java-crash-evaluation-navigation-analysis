@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
+import java.util.ResourceBundle;
+
 public class MenuBarController {
     @FXML
     private Button menuButton;
@@ -25,9 +27,11 @@ public class MenuBarController {
 
     private MainController mainController;
 
+
     void init(MainController mainController) {
         this.mainController = mainController;
         helpButton.setVisible(false);
+        mapViewButton.setStyle("-fx-background-color: white;");
         toggleMenuBar();
     }
 
@@ -55,14 +59,14 @@ public class MenuBarController {
     }
 
     public void tableViewButtonClicked(ActionEvent actionEvent) {
-        mapViewButton.setStyle("-fx-background-color: transparent;");
-        tableViewButton.setStyle("-fx-background-color: white;");
+        tableViewButton.setStyle("-fx-background-color: white");
+        mapViewButton.setStyle("-fx-background-color: transparent");
         mainController.displayTableView();
     }
 
     public void mapViewButtonClicked(ActionEvent actionEvent) {
-        tableViewButton.setStyle("-fx-background-color: transparent;");
-        mapViewButton.setStyle("-fx-background-color: white;");
+        tableViewButton.setStyle("-fx-background-color: transparent");
+        mapViewButton.setStyle("-fx-background-color: white");
         mainController.displayMapView();
     }
 

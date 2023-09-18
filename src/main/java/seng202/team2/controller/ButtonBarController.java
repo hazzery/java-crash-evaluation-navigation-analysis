@@ -52,9 +52,6 @@ public class ButtonBarController {
     private ToggleButton bus;
 
     @FXML
-    private MenuButton regionSelect;
-
-    @FXML
     private RadioMenuItem nonInjury;
 
     @FXML
@@ -66,8 +63,6 @@ public class ButtonBarController {
     @FXML
     private RadioMenuItem fatal;
 
-    @FXML
-    private RadioMenuItem unknownSeverity;
 
     private static final Map<String, DbAttributes> buttonIdToVehicle = new HashMap<>() {{
         put("pedestrian", DbAttributes.PEDESTRIAN);
@@ -111,14 +106,12 @@ public class ButtonBarController {
         minorInjury.setText(Severity.MINOR_CRASH.displayValue());
         seriousInjury.setText(Severity.SERIOUS_CRASH.displayValue());
         fatal.setText(Severity.FATAL_CRASH.displayValue());
-        unknownSeverity.setText(Severity.UNKNOWN.displayValue());
     }
 
 
     void init() {
         setIcons();
         setSeverityValues();
-        regionSelect.setDisable(true);
     }
 
     public void filterTable() {
