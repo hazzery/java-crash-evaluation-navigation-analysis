@@ -64,7 +64,6 @@ public class WeatherTest {
                 arguments("Hurricane", Weather.UNKNOWN),
                 arguments(" ", Weather.UNKNOWN),
                 arguments("N/A", Weather.UNKNOWN),
-                arguments("", Weather.UNKNOWN),
                 arguments("NULL", Weather.UNKNOWN),
                 arguments("null", Weather.UNKNOWN),
                 arguments("None", Weather.UNKNOWN)

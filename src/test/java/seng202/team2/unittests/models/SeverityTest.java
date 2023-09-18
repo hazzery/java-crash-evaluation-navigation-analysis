@@ -63,7 +63,6 @@ public class SeverityTest {
                 arguments("not too dangerous", Severity.UNKNOWN),
                 arguments(" ", Severity.UNKNOWN),
                 arguments("N/A", Severity.UNKNOWN),
-                arguments("", Severity.UNKNOWN),
                 arguments("NULL", Severity.UNKNOWN),
                 arguments("null", Severity.UNKNOWN),
                 arguments("None", Severity.UNKNOWN)

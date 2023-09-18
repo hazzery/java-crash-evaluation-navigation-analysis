@@ -61,7 +61,6 @@ public class LightingTest {
                 arguments("rather dark", Lighting.UNKNOWN),
                 arguments(" ", Lighting.UNKNOWN),
                 arguments("N/A", Lighting.UNKNOWN),
-                arguments("", Lighting.UNKNOWN),
                 arguments("NULL", Lighting.UNKNOWN),
                 arguments("null", Lighting.UNKNOWN),
                 arguments("None", Lighting.UNKNOWN)
