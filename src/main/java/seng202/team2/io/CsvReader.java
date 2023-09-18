@@ -6,8 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team2.models.*;
 
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.FileReader;
 import java.util.*;
 
 
@@ -102,7 +104,8 @@ public class CsvReader {
     public List<Crash> generateAllCrashes() {
         List<Crash> crashes = new ArrayList<>();
 
-        try (CSVReader reader = new CSVReader(new FileReader(this.fileName))) {
+        try (CSVReader reader = new CSVReader(new BufferedReader(new InputStreamReader(Objects.requireNonNull(
+                Thread.currentThread().getContextClassLoader().getResourceAsStream(this.fileName)))))) {
             reader.skip(1); // skip the first line of headers
             String[] line;
             while ((line = reader.readNext()) != null) {

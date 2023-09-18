@@ -47,6 +47,17 @@ public class QueryBuilderTest {
         testStrings.add("Auckland");
         testStrings.add("Tasman");
         queryBuilderTester.orString(testStrings, DbAttributes.REGION);
-        assertEquals("SELECT * FROM crashes WHERE (REGION = (\"Auckland\" OR \"Tasman\"));", queryBuilderTester.getQuery());
+        assertEquals("SELECT * FROM crashes WHERE (REGION = \"Auckland\" OR REGION = \"Tasman\");", queryBuilderTester.getQuery());
+    }
+    
+    @Test
+    void combinationTest() {
+        ArrayList<String> testStrings = new ArrayList<>();
+        testStrings.add("Auckland");
+        testStrings.add("Tasman");
+        testStrings.add("Nelson");
+        queryBuilderTester.orString(testStrings, DbAttributes.REGION);
+        queryBuilderTester.greaterThan(2002, DbAttributes.YEAR);
+        assertEquals("SELECT * FROM crashes WHERE (REGION = \"Auckland\" OR REGION = \"Tasman\" OR REGION = \"Nelson\") AND (YEAR > 2002);", queryBuilderTester.getQuery());
     }
 }
