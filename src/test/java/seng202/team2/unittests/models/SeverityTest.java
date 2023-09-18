@@ -1,9 +1,14 @@
 package seng202.team2.unittests.models;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import seng202.team2.models.Severity;
 
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 /**
  * Unit test for Severity enum.
@@ -13,56 +18,55 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class SeverityTest {
     /**
-     * Test getting the enum value FATAL_CRASH from string "Fatal crash"
+     * A parameterised JUnit test to test generating a severity enum from a string found in the crash data CSV file
+     *
+     * @param severityString A string that may be encountered when importing severity enums from the crash data CSV file
+     * @param severityEnum The expected resulting severity enum
      */
-    @Test
-    public void fatalCrashFromStringTest() {
-        String initialString = "Fatal crash";
-        assertEquals(Severity.FATAL_CRASH, Severity.fromString(initialString));
+    @ParameterizedTest
+    @MethodSource("severityStringToEnum")
+    void fromStringTest(String severityString, Severity severityEnum) {
+        assertEquals(severityEnum, Severity.fromString(severityString));
     }
 
     /**
-     * Test getting the enum value MINOR_CRASH from string "Minor Crash"
+     * A method source for the parametrised severity string to enum test case
+     *
+     * @return a Stream of Arguments that map different severities represented as Strings
+     * to their corresponding Severity enum values.
      */
-    @Test
-    public void minorCrashFromStringTest() {
-        String initialString = "Minor Crash";
-        assertEquals(Severity.MINOR_CRASH, Severity.fromString(initialString));
-    }
+    private static Stream<Arguments> severityStringToEnum() {
+        return Stream.of(
+                // Expected case
+                arguments("Fatal crash", Severity.FATAL_CRASH),
+                arguments("Minor crash", Severity.MINOR_CRASH),
+                arguments("Non-injury crash", Severity.NON_INJURY_CRASH),
+                arguments("Serious crash", Severity.SERIOUS_CRASH),
 
-    /**
-     * Test getting the enum value NON_INJURY_CRASH from string "Non-injury crash"
-     */
-    @Test
-    public void nonInjuryCrashFromStringTest() {
-        String initialString = "Non-injury crash";
-        assertEquals(Severity.NON_INJURY_CRASH, Severity.fromString(initialString));
-    }
+                // Alternative cases
+                arguments("Fatal Crash", Severity.FATAL_CRASH),
+                arguments("fatal crash", Severity.FATAL_CRASH),
+                arguments("FATAL_CRASH", Severity.FATAL_CRASH),
+                arguments("Minor Crash", Severity.MINOR_CRASH),
+                arguments("minor crash", Severity.MINOR_CRASH),
+                arguments("MINOR_CRASH", Severity.MINOR_CRASH),
+                arguments("Non-Injury Crash", Severity.NON_INJURY_CRASH),
+                arguments("non-injury crash", Severity.NON_INJURY_CRASH),
+                arguments("Non-Injury_Crash", Severity.NON_INJURY_CRASH),
+                arguments("NON_INJURY_CRASH", Severity.NON_INJURY_CRASH),
+                arguments("Serious Crash", Severity.SERIOUS_CRASH),
+                arguments("serious crash", Severity.SERIOUS_CRASH),
+                arguments("SERIOUS_CRASH", Severity.SERIOUS_CRASH),
 
-    /**
-     * Test getting the enum value SERIOUS_CRASH from string "Serious crash"
-     */
-    @Test
-    public void seriousCrashFromStringTest() {
-        String initialString = "Serious crash";
-        assertEquals(Severity.SERIOUS_CRASH, Severity.fromString(initialString));
-    }
-
-    /**
-     * Test getting the enum value UNKNOWN from an empty string
-     */
-    @Test
-    public void unknownFromEmptyStringTest() {
-        String initialString = "";
-        assertEquals(Severity.UNKNOWN, Severity.fromString(initialString));
-    }
-
-    /**
-     * Test getting the enum value UNKNOWN from an invalid crash severity
-     */
-    @Test
-    public void unknownFromInvalidStringTest() {
-        String initialString = "Pretty bad crash";
-        assertEquals(Severity.UNKNOWN, Severity.fromString(initialString));
+                // Unknown enums
+                arguments("", Severity.UNKNOWN),
+                arguments("not too dangerous", Severity.UNKNOWN),
+                arguments(" ", Severity.UNKNOWN),
+                arguments("N/A", Severity.UNKNOWN),
+                arguments("", Severity.UNKNOWN),
+                arguments("NULL", Severity.UNKNOWN),
+                arguments("null", Severity.UNKNOWN),
+                arguments("None", Severity.UNKNOWN)
+        );
     }
 }
