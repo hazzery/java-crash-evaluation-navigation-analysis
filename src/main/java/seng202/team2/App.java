@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Level;
 
-import seng202.team2.services.CSVReader;
+import seng202.team2.services.CsvReader;
 import seng202.team2.gui.MainWindow;
 
 /**
@@ -25,7 +25,7 @@ public class App {
         log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, but is only an example!')");
         log.log(Level.INFO, "There are many ways to log!");
 
-        CSVReader.printCrashes();
+        CsvReader.printCrashes();
 
         MainWindow.main(args);
     }
