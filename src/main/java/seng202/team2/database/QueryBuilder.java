@@ -84,12 +84,13 @@ public class QueryBuilder {
             return this;
         }
 
-        sql.append("(").append(queryField).append(" = (\"");
+        sql.append("(");
         for (String condition : conditionList) {
-            sql.append(condition).append("\" OR \"");
+            sql.append(queryField).append(" = ");
+            sql.append("\"" + condition).append("\" OR ");
         }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 5));  // Remove trailing ` OR "`
-        sql.append(")) AND ");
+        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
+        sql.append(") AND ");
         return this;
     }
 
