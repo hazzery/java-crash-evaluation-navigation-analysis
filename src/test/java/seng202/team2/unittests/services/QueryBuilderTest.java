@@ -47,6 +47,6 @@ public class QueryBuilderTest {
         testStrings.add("Auckland");
         testStrings.add("Tasman");
         queryBuilderTester.orString(testStrings, DbAttributes.REGION);
-        assertEquals("SELECT * FROM crashes WHERE (REGION = (\"Auckland\" OR \"Tasman\"));", queryBuilderTester.getQuery());
+        assertEquals("SELECT * FROM crashes WHERE (REGION = \"Auckland\" OR REGION = \"Tasman\");", queryBuilderTester.getQuery());
     }
 }
