@@ -3,7 +3,7 @@ package seng202.team2.database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Query builder class
@@ -74,33 +74,21 @@ public class QueryBuilder {
     }
 
     /**
-     * Create query for tuples satisfying all conditions in conditionList
-     *
-     * @param conditionList list of conditions for checking (String)
-     * @param queryField field for querying
-     */
-    public QueryBuilder andString(ArrayList<String> conditionList, DbAttributes queryField) {
-        sql.append("(").append(queryField).append(" = (");
-        for (String condition : conditionList) {
-            sql.append(condition).append(" AND ");
-        }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 5));  // Remove trailing " AND "
-        sql.append(")) AND ");
-        return this;
-    }
-
-    /**
      * Create query for tuples satisfying one condition in conditionList
      *
      * @param conditionList list of conditions for checking (String)
      * @param queryField field for querying
      */
-    public QueryBuilder orString(ArrayList<String> conditionList, DbAttributes queryField) {
-        sql.append("(").append(queryField).append(" = (");
-        for (String condition : conditionList) {
-            sql.append(condition).append(" OR ");
+    public QueryBuilder orString(List<String> conditionList, DbAttributes queryField) {
+        if (conditionList.isEmpty()) {
+            return this;
         }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing " OR "
+
+        sql.append("(").append(queryField).append(" = (\"");
+        for (String condition : conditionList) {
+            sql.append(condition).append("\" OR \"");
+        }
+        sql = new StringBuilder(sql.substring(0, sql.length() - 5));  // Remove trailing ` OR "`
         sql.append(")) AND ");
         return this;
     }

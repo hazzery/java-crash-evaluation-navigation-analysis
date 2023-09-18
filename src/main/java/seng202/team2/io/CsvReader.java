@@ -4,7 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team2.database.CrashDao;
 import seng202.team2.models.*;
 
 import java.io.FileReader;
@@ -20,7 +19,6 @@ import java.util.*;
 public class CsvReader {
     private static final Logger log = LogManager.getLogger(CsvReader.class);
 
-    private final CrashDao crashDao;
     private final String fileName;
 
     /**
@@ -29,7 +27,6 @@ public class CsvReader {
      */
     public CsvReader(String fileName) {
         this.fileName = fileName;
-        this.crashDao = new CrashDao();
     }
 
     /**
@@ -98,6 +95,10 @@ public class CsvReader {
         return null;
     }
 
+    /**
+     * Reads the CSV file and creates a new {@link Crash} object for each row.
+     * @return A list of Crash objects describing each row in the CSV file
+     */
     public List<Crash> generateAllCrashes() {
         List<Crash> crashes = new ArrayList<>();
 
@@ -118,20 +119,12 @@ public class CsvReader {
     }
 
     /**
-     * Imports all crashes from the CSV file into the database.
-     */
-    public void importAllToDatabase() {
-        List<Crash> crashes = generateAllCrashes();
-//        List<Crash> crashes = Arrays.stream(readLines(10000)).toList();
-        crashDao.addBatch(crashes);
-    }
-
-
-    /**
      * Reads the CSV file and creates a new {@link Crash} object for each row.
      *
      * @param numCrashes The number of crashes to read from the CSV file
+     * @deprecated Use {@link #generateAllCrashes()} instead
      */
+    @Deprecated
     public Crash[] readLines(int numCrashes) {
         Crash[] crashes = new Crash[numCrashes];
 
@@ -147,17 +140,5 @@ public class CsvReader {
             log.error(exception);
         }
         return crashes;
-    }
-
-    /**
-     * Prints the first `numLines` crashes in the CSV file.
-     */
-    public static void printCrashes(int numLines) {
-        CsvReader csvReader = new CsvReader("src/main/resources/crash_data.csv");
-        Crash[] crashes = csvReader.readLines(numLines);
-
-        for (Crash crash : crashes) {
-            System.out.println(crash);
-        }
     }
 }

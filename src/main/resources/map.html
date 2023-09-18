@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet & OSM Map Demo</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="MarkerCluster.css" />
+    <link rel="stylesheet" href="MarkerCluster.Default.css" />
+    
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<button style="float:left;" onclick="ultimate()">Ulitmate Version</button> <!-- this along with the function are the only 2 extra things that have been added -->
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="leaflet.markercluster.js"></script>
+<script>
+	function ultimate() { // important function for making the program look epic.
+		document.getElementById("map").style.zIndex = 0;
+		document.getElementById("map").focus();
+		var overlay=document.createElement("canvas");overlay.width=window.innerWidth,overlay.height=window.innerHeight,overlay.style.position="fixed",overlay.style.pointerEvents="none",overlay.style.userSelect="none",overlay.style.top=0,overlay.style.float="left",overlay.style.left=0,overlay.zIndex=9999,document.body.prepend(overlay);var ctx=overlay.getContext("2d"),underlay=document.createElement("canvas");underlay.width=window.innerWidth,underlay.height=window.innerHeight,underlay.style.position="fixed",underlay.style.pointerEvents="none",underlay.style.userSelect="none",underlay.style.top=0,underlay.style.float="left",underlay.style.left=0,underlay.zIndex=9999,document.body.prepend(underlay);var bgx=underlay.getContext("2d");const FLAKE_SIZE=200,FLAKE_SPIN=20,FLAKE_SPEED=40,TRAIL_LENGTH=100;function rand(e,a){return e+(a-e)*Math.random()}var mouse={x:void 0,y:void 0,xv:void 0,yv:void 0},mouseTrail=[];document.onmousemove=function(e){mouse.xv=e.clientX-mouse.x,mouse.yv=e.clientY-mouse.y,mouse.x=e.clientX,mouse.y=e.clientY},document.onmousedown=function(e){nyanCats.push({x:-150,y:mouse.y}),flakes.push(new Flake)};var nyanCats=[],ctx=overlay.getContext("2d");ctx.imageSmoothingEnabled=!1;var bgx=underlay.getContext("2d");bgx.imageSmoothingEnabled=!1;var snowflakeImage=new Image;snowflakeImage.src="https://lhobson.com/img/snowflake.png";var trailEffect=new Image;trailEffect.src="https://lhobson.com/img/trail.png";var nyanCat=new Image;
+		nyanCat.src="https://lhobson.com/img/nyancat.gif";class Flake{constructor(){this.size=2*rand(15,50),this.x=rand(0,overlay.width),this.y=-this.size}}var flakes=[];function updateOverlay(){overlay.width=window.innerWidth,overlay.height=window.innerHeight,underlay.width=window.innerWidth,underlay.height=window.innerHeight,frame%20==1&&flakes.push(new Flake);for(var e=0;e<flakes.length;e++){var a=flakes[e];if(a.y+=Number(a.size/40),a.y>window.innerHeight){flakes.splice(e,1),e--;continue}var n=Math.sin((frame+a.size)/20);a.size>50?ctx.drawImage(snowflakeImage,0,0,200,200,a.x-a.size/2*n,a.y,a.size*n,a.size):bgx.drawImage(snowflakeImage,0,0,200,200,a.x-a.size/2*n,a.y,a.size*n,a.size)}mouseTrail.push({...mouse,life:0}),mouseTrail.length>=100&&mouseTrail.shift();for(var e=0;e<mouseTrail.length;e++)mouseTrail[e].life+=.01,mouseTrail[e].x+=mouseTrail[e].xv/10,mouseTrail[e].y+=mouseTrail[e].yv/10+mouseTrail[e].life,ctx.globalAlpha=1-mouseTrail[e].life,ctx.drawImage(trailEffect,mouseTrail[e].x,Math.floor(mouseTrail[e].y)),ctx.globalAlpha=1;
+		for(var e=0;e<nyanCats.length;e++){var t=nyanCats[e];if(t.x+=3,t.x>window.innerWidth){nyanCats.splice(e,1),e--;continue}bgx.drawImage(nyanCat,300*(Math.floor(frame/5)%5),0,300,138,t.x,t.y-34,150,69)}}var frame=0;function update(){frame++,updateOverlay();for(var e=document.getElementsByClassName("rainbow"),a=0;a<e.length;a++)e[a].innerHTML=rainbowText(rainbowHeaders[a]);mouse.xv=0,mouse.yv=0}function rainbowText(e){for(var a,n="",t=0;t<e.length;t++){n+=`<a style="color:hsl(${String((t*Math.floor(360/e.length)-frame)%360)},100%,50%);position:relative;top:${Math.min(5,Math.abs((frame-t)%80-40))-5}px">${e[t]}</a>`}return n}var rainbowHeaders=[];function getHeaders(){for(var e=document.getElementsByClassName("rainbow"),a=0;a<e.length;a++)rainbowHeaders.push(e[a].innerHTML)}function setColors(){for(var e=document.getElementsByTagName("p"),a=["#ff0","#0ff","#0f0"],n=["#f00","#00f","#00f","#f0f"],t=0;t<e.length;t++)e[t].style.color=a[t%a.length],e[t].style.textShadow="2px 2px "+n[t%n.length]}getHeaders(),setColors(),setInterval(update,40);
+		overlay.style.zIndex = 1;
+		underlay.style.zIndex = 1;
+	}
+    let map;
+    var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
+    let markers = []; // maybe not needed
+    let crashList = [];
+    var route;
+    var cluster;
+
+    
+
+    /**
+     * This object can be returned to our java code, where we can call the functions we define inside it
+     */
+    let jsConnector = {
+        addMarker: addMarker,
+        displayRoute: displayRoute,
+        removeRoute: removeRoute,
+        initMap: initMap
+    };
+
+    /**
+     * creates and initialises the map, also defines on click event that calls java code
+     */
+    function initMap() {
+        var mapOptions = {
+            center: [-44.0, 171.0],
+            zoom: 10
+        }
+        map = new L.map('map', mapOptions);
+        new L.TileLayer('https://tile.csse.canterbury.ac.nz/hot/{z}/{x}/{y}.png', { // UCs tilemap server
+            attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
+        }).addTo(map)
+
+        map.on("click", (map_event) => {
+            var latlng = map.mouseEventToLatLng(map_event.originalEvent)
+            javaScriptBridge.addMarkerFromClick(`{"lat": ${latlng.lat}, "lng": ${latlng.lng}}`)
+        })
+    }
+
+
+    /**
+     * Adds a marker to the map and stores it in the markers array for later use (e.g. removal)
+     * @param title tooltip to display on hover
+     * @param lat latitude to place marker at
+     * @param lng longitude to place marker at
+     */
+    function addMarker(title, lat, lng) {
+        var m = new L.Marker([lat, lng])
+        m.bindPopup(title).openPopup()
+        m.addTo(map)
+        markers.push(m);
+    }
+    
+    /**
+     * Saves a crash location to a variable
+     * @param region
+     * @param lat latitude to place marker at
+     * @param lng longitude to place marker at
+     */
+    function preMarker(lat, lng) {
+        crashList.push([lat, lng]);
+    }
+    
+    /**
+     * Clear markers
+     */
+    function clearMarkers() {
+        crashList = [];
+        // remove cluster from the map
+        if (map.hasLayer(cluster)) {
+            map.removeLayer(cluster);
+        }
+        cluster = undefined; // to avoid memory errors
+    }
+    
+    /**
+     * Creates a bunch of clusters after they have all been added to crashList
+     */
+    function postMarkers() {
+        cluster = new L.MarkerClusterGroup();
+        for (var i = 0; i < crashList.length; i++) {
+            var c = crashList[i];
+            var m = new L.Marker([c[0], c[1]]);
+            cluster.addLayer(m);
+        }
+        map.addLayer(cluster);
+    }
+    
+
+    /**
+     * Displays a route with two or more waypoints for cars (e.g. roads and ferries) and displays it on the map
+     * @param waypointsIn a string representation of an array of lat lng json objects [("lat": -42.0, "lng": 173.0), ...]
+     */
+    function displayRoute(waypointsIn) {
+        var waypointsArray = JSON.parse(waypointsIn);
+        removeRoute()
+        console.log(waypointsArray)
+        var waypoints = []
+        waypointsArray.forEach(element => waypoints.push(new L.latLng(element.lat, element.lng)))
+        console.log(waypoints)
+        route = L.Routing.control({
+            // serviceUrl: "",
+            waypoints: waypoints,
+            routeWhileDragging: true
+        }).addTo(map);
+
+    }
+
+    /**
+     * Removes the current route being displayed (will not do anything if there is no route currently displayed)
+     */
+    function removeRoute() {
+        if(route){
+            route.remove()
+        }
+    }
+
+</script>
+</body>
+</html>
