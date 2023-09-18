@@ -1,4 +1,4 @@
-package seng202.team2.services;
+package seng202.team2.models;
 
 
 /**

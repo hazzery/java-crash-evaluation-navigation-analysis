@@ -48,6 +48,12 @@ dependencies {
     // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
+    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.1.2'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
     // Some vulnerabilities present
     // https://mvnrepository.com/artifact/io.rest-assured/rest-assured
     testImplementation 'io.rest-assured:rest-assured:5.3.1'

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+
+<?import org.controlsfx.control.RangeSlider?>
+<ButtonBar fx:id="buttonBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team2.controller.ButtonBarController">
+    <buttons>
+        <ToggleButton fx:id="pedestrian" mnemonicParsing="false" maxWidth="5"/>
+        <ToggleButton fx:id="bicycle" mnemonicParsing="false" maxWidth="5.0"/>
+        <ToggleButton fx:id="car" mnemonicParsing="false" maxWidth="5.0"/>
+        <ToggleButton fx:id="bus" mnemonicParsing="false" maxWidth="5.0"/>
+        <MenuButton fx:id="severities" mnemonicParsing="false" text="Severity">
+            <items>
+                <RadioMenuItem fx:id="nonInjury" mnemonicParsing="false" text="1"/>
+                <RadioMenuItem fx:id="minorInjury" mnemonicParsing="false" text="2"/>
+                <RadioMenuItem fx:id="seriousInjury" mnemonicParsing="false" text="3"/>
+                <RadioMenuItem fx:id="fatal" mnemonicParsing="false" text="4"/>
+                <RadioMenuItem fx:id="unknownSeverity" mnemonicParsing="false" text="5"/>
+            </items>
+        </MenuButton>
+        <MenuButton fx:id="regionSelect" mnemonicParsing="false" text="Region" prefHeight="28" maxWidth="20">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+            </items>
+        </MenuButton>
+        <RangeSlider fx:id="yearSelect" blockIncrement="1.0" majorTickUnit="10.0" max="2020.0" min="2000.0" minorTickCount="9" prefHeight="38.0" minWidth="700.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" lowValue="2000" highValue="2020">
+            <padding>
+                <Insets left="10.0" right="10.0" />
+            </padding>
+        </RangeSlider>
+        <Button fx:id="confirmSelection" minWidth="20.0" mnemonicParsing="false" onAction="#filterTable" prefHeight="28.0" text="Apply" maxWidth="20" />
+    </buttons>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+</ButtonBar>
