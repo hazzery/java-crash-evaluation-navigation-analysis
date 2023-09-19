@@ -34,7 +34,9 @@
     var route;
     var cluster;
 
-    
+    document.oncontextmenu = function(event) {
+        event.preventDefault();
+    } 
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside it
