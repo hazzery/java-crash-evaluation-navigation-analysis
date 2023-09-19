@@ -30,6 +30,7 @@
     let map;
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let markers = []; // maybe not needed
+    let crashList = [];
     var route;
     var cluster;
     
@@ -88,19 +89,31 @@
      * @param lng longitude to place marker at
      */
     function preMarker(lat, lng) {
-        cluster.addLayer(new L.Marker([lat, lng]));
+        crashList.push([lat, lng]);
     }
     
     /**
      * Clear markers
      */
     function clearMarkers() {
+        crashList = [];
         // remove cluster from the map
         if (map.hasLayer(cluster)) {
             map.removeLayer(cluster);
         }
-        cluster = undefined;
+        cluster = undefined; // to avoid memory errors
+    }
+    
+    /**
+     * Creates a bunch of clusters after they have all been added to crashList
+     */
+    function postMarkers() {
         cluster = new L.MarkerClusterGroup();
+        for (var i = 0; i < crashList.length; i++) {
+            var c = crashList[i];
+            var m = new L.Marker([c[0], c[1]]);
+            cluster.addLayer(m);
+        }
         map.addLayer(cluster);
     }
     
