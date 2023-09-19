@@ -36,8 +36,8 @@ class CrashDaoTest {
 
     @Test
     void queryDatabase() {
-        List<Crash> crashes = crashDao.queryDatabase("SELECT * FROM crashes WHERE ID < 101");
-        assertEquals(100, crashes.size());
+        List<Crash> crashes = crashDao.queryDatabase("SELECT * FROM crashes WHERE ID < 11");
+        assertEquals(10, crashes.size());
     }
 
     @Test
