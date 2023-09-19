@@ -101,6 +101,7 @@ public class MapViewController {
      */
     void init() {
         initMap();
+
     }
 }
 

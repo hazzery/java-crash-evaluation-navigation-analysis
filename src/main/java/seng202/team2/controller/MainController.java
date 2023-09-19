@@ -3,9 +3,11 @@ package seng202.team2.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -28,10 +30,14 @@ public class MainController {
     private Parent mapViewParent;
     private Parent tableViewParent;
 
-    TableViewController tableViewController;
-    MapViewController mapViewController;
+    private TableViewController tableViewController;
+    private MapViewController mapViewController;
+
+    private Label loadingLabel;
+    int currentView;
 
     public void init(Stage stage) {
+        initialiseLoadingView();
         initialiseTableView();
         initialiseMapView();
 
@@ -39,9 +45,15 @@ public class MainController {
         displayTableButtonsPane();
         displayButtonBar();
         displayMenuBar();
-        displayMapView();
+        displayLoadingView();
 
         stage.sizeToScene();
+    }
+
+    private void initialiseLoadingView() {
+        loadingLabel = new Label();
+        loadingLabel.setText("Loading Data...");
+        currentView = 1;
     }
 
     private void displayTableButtonsPane() {
@@ -116,16 +128,31 @@ public class MainController {
         }
     }
 
+    public void displayLoadingView() {tableButtonsPane.setCenter(loadingLabel);}
+
+    public void hideLoadingView() {
+        if (currentView == 1) {
+            displayMapView();
+        } else {
+            displayMapView();
+        }
+    }
+
+
     public void displayTableView() {
         tableButtonsPane.setCenter(tableViewParent);
+        currentView = 0;
     }
 
     public void displayMapView() {
         tableButtonsPane.setCenter(mapViewParent);
+        currentView = 1;
     }
 
     public void updateViews() {
+        displayLoadingView();
         mapViewController.addAllCrashMarkers();
         tableViewController.updateCrashes();
+        hideLoadingView();
     }
 }
