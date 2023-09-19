@@ -3,7 +3,6 @@ package seng202.team2.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -29,15 +28,10 @@ public class MainController {
     private Parent mapViewParent;
     private Parent tableViewParent;
 
-    private TableViewController tableViewController;
-    private MapViewController mapViewController;
-
-    private Label loadingLabel;
-    int currentView;
+    TableViewController tableViewController;
+    MapViewController mapViewController;
 
     public void init(Stage stage) {
-        initialiseLoadingView();
-
         initialiseTableView();
         initialiseMapView();
 
@@ -45,20 +39,17 @@ public class MainController {
         displayTableButtonsPane();
         displayButtonBar();
         displayMenuBar();
-
-        displayLoadingView("Loading crash data onto the map...");
+        displayMapView();
 
         stage.sizeToScene();
-    }
-
-    private void initialiseLoadingView() {
-        loadingLabel = new Label();
-        currentView = 1;
     }
 
     private void displayTableButtonsPane() {
         tableButtonsPane = new BorderPane();
         tableButtonsPane.setId("tableButtonsPane");
+        //Region region = new Region();
+        //region.setMinWidth(30);
+        //tableButtonsPane.setLeft(region);
         mainWindow.setCenter(tableButtonsPane);
     }
 
@@ -76,12 +67,17 @@ public class MainController {
     }
 
     private void displayTopBar() {
-        topBarPane = new BorderPane();
-        topBarPane.setId("topBarPane");
-        FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
-        TopBarController topBarController = topBarLoader.getController();
-        topBarController.init();
-        mainWindow.setTop(topBarPane);
+        try {
+            topBarPane = new BorderPane();
+            topBarPane.setId("topBarPane");
+            FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
+            Parent topBarParent = topBarLoader.load();
+            TopBarController topBarController = topBarLoader.getController();
+            topBarController.init();
+            mainWindow.setTop(topBarPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayMenuBar() {
@@ -114,34 +110,18 @@ public class MainController {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map_view.fxml"));
             mapViewParent = mapViewLoader.load();
             mapViewController = mapViewLoader.getController();
-            mapViewController.init(this);
+            mapViewController.init();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void displayLoadingView(String text) {
-        loadingLabel.setText(text);
-        tableButtonsPane.setCenter(loadingLabel);
-    }
-
-    public void hideLoadingView() {
-        if (currentView == 1) {
-            displayMapView();
-        } else {
-            displayTableView();
-        }
-    }
-
-
     public void displayTableView() {
         tableButtonsPane.setCenter(tableViewParent);
-        currentView = 0;
     }
 
     public void displayMapView() {
         tableButtonsPane.setCenter(mapViewParent);
-        currentView = 1;
     }
 
     public void updateViews() {
