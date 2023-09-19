@@ -25,7 +25,7 @@ class CrashDaoTest {
     @Test
     void getAll() {
         List<Crash> all = crashDao.getAll();
-        assertEquals(1, all.size());
+        assertEquals(10, all.size());
     }
 
     @Test
@@ -43,6 +43,5 @@ class CrashDaoTest {
     @Test
     void addBatch() {
 
-//        assertEquals(crash1, crash1FromDatabase);
     }
 }
