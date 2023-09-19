@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -38,6 +37,7 @@ public class MainController {
 
     public void init(Stage stage) {
         initialiseLoadingView();
+
         initialiseTableView();
         initialiseMapView();
 
@@ -45,23 +45,20 @@ public class MainController {
         displayTableButtonsPane();
         displayButtonBar();
         displayMenuBar();
-        displayLoadingView();
+
+        displayLoadingView("Loading crash data onto the map...");
 
         stage.sizeToScene();
     }
 
     private void initialiseLoadingView() {
         loadingLabel = new Label();
-        loadingLabel.setText("Loading Data...");
         currentView = 1;
     }
 
     private void displayTableButtonsPane() {
         tableButtonsPane = new BorderPane();
         tableButtonsPane.setId("tableButtonsPane");
-        //Region region = new Region();
-        //region.setMinWidth(30);
-        //tableButtonsPane.setLeft(region);
         mainWindow.setCenter(tableButtonsPane);
     }
 
@@ -79,17 +76,12 @@ public class MainController {
     }
 
     private void displayTopBar() {
-        try {
-            topBarPane = new BorderPane();
-            topBarPane.setId("topBarPane");
-            FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
-            Parent topBarParent = topBarLoader.load();
-            TopBarController topBarController = topBarLoader.getController();
-            topBarController.init();
-            mainWindow.setTop(topBarPane);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        topBarPane = new BorderPane();
+        topBarPane.setId("topBarPane");
+        FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
+        TopBarController topBarController = topBarLoader.getController();
+        topBarController.init();
+        mainWindow.setTop(topBarPane);
     }
 
     private void displayMenuBar() {
@@ -122,19 +114,22 @@ public class MainController {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map_view.fxml"));
             mapViewParent = mapViewLoader.load();
             mapViewController = mapViewLoader.getController();
-            mapViewController.init();
+            mapViewController.init(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void displayLoadingView() {tableButtonsPane.setCenter(loadingLabel);}
+    public void displayLoadingView(String text) {
+        loadingLabel.setText(text);
+        tableButtonsPane.setCenter(loadingLabel);
+    }
 
     public void hideLoadingView() {
         if (currentView == 1) {
             displayMapView();
         } else {
-            displayMapView();
+            displayTableView();
         }
     }
 
@@ -150,9 +145,7 @@ public class MainController {
     }
 
     public void updateViews() {
-        displayLoadingView();
         mapViewController.addAllCrashMarkers();
         tableViewController.updateCrashes();
-        hideLoadingView();
     }
 }
