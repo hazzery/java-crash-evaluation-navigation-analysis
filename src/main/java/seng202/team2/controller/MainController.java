@@ -76,12 +76,18 @@ public class MainController {
     }
 
     private void displayTopBar() {
-        topBarPane = new BorderPane();
-        topBarPane.setId("topBarPane");
-        FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
-        TopBarController topBarController = topBarLoader.getController();
-        topBarController.init();
-        mainWindow.setTop(topBarPane);
+        try {
+            topBarPane = new BorderPane();
+            topBarPane.setId("topBarPane");
+            FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
+            Parent topBarParent = topBarLoader.load();
+            TopBarController topBarController = topBarLoader.getController();
+            topBarController.init();
+            mainWindow.setTop(topBarPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void displayMenuBar() {
