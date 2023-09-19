@@ -70,7 +70,6 @@ public class MapViewController {
                 preMarker(crash);
             }
         }
-        postMarkers();
     }
     
     /**
@@ -87,13 +86,6 @@ public class MapViewController {
      */
     private void clearMarkers() {
         webEngine.executeScript("clearMarkers();");
-    }
-    
-    /**
-     * Tells javascript to sort through all the regions
-     */
-    private void postMarkers() {
-        webEngine.executeScript("postMarkers();");
     }
 
     /**
