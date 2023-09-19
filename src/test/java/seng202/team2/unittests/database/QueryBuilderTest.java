@@ -1,13 +1,14 @@
 package seng202.team2.unittests.database;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
 
 
 public class QueryBuilderTest {
