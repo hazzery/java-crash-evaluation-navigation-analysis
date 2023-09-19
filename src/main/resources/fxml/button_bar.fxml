@@ -19,7 +19,7 @@
                 <RadioMenuItem fx:id="fatal" mnemonicParsing="false" text="4" />
             </items>
         </MenuButton>
-      <Text layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2001">
+      <Text layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2000">
          <font>
             <Font size="11.0" />
          </font>
