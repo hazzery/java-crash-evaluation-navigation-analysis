@@ -33,8 +33,11 @@
     let crashList = [];
     var route;
     var cluster;
-
     
+    // don't open context menu on right click
+    document.oncontextmenu = function(event) {
+        event.preventDefault();
+    } 
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside it
