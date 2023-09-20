@@ -87,7 +87,6 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void displayMenuBar() {
