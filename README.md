@@ -50,9 +50,9 @@ IntelliJ has built-in support for Gradle. To import your project:
 You can run the bundled .jar file by opening a terminal window in the project directory and executing `java -jar seng202_2023_team2_2.jar`
 
 ## Build Project 
-1. Open a command line interface inside the project directory and run `./gradlew jar` to build a .jar file. The file is located at `build/libs/seng202_team2-1.0-SNAPSHOT.jar
+1. Open a command line interface inside the project directory and run `./gradlew jar` to build a .jar file. The file is located at `build/libs/seng202_team2-1.0-SNAPSHOT.jar`
 
 ## Run App
 - If you haven't already, Build the project.
 - Open a command line interface inside the project directory and run `cd target` to change into the target directory.
-- Run the command `java -jar trust-1.0-SNAPSHOT.jar` to open the application.
+- Run the command `java -jar seng202_team2-1.0-SNAPSHOT.jar` to open the application.
