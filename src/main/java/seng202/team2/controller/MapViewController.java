@@ -1,6 +1,8 @@
 package seng202.team2.controller;
 
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
@@ -17,6 +19,7 @@ import seng202.team2.models.Crashes;
  * Adapted from Special Lab: Working with Interactive Map APIs
  *
  * @author Louis Hobson
+ * @author Findlay Royds
  */
 
 
@@ -27,7 +30,8 @@ public class MapViewController {
     
     private WebEngine webEngine;
     private JSObject javaScriptConnector;
-    
+
+    private MainController mainController;
     
     /**
      * Initialises the WebView loading in the appropriate html and initialising important communicator
@@ -37,11 +41,6 @@ public class MapViewController {
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.load(MapViewController.class.getResource("/map.html").toExternalForm());
-
-        // webEngine.setUserStyleSheetLocation(MapViewController.class.getResource("/MarkerCluster.css").toExternalForm());
-        // Forwards console.log() output from any javascript to info log ### THIS IS BROKEN ###
-        // WebConsoleListener.setDefaultListener((view, message, lineNumber, sourceId) ->
-        //         System.out.println(String.format("Map WebView console log line: %d, message : %s", lineNumber, message)))
         
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
@@ -58,19 +57,26 @@ public class MapViewController {
                         addAllCrashMarkers();
                     }
                 });
-
-        //javaScriptConnector.toString();
-        //
     }
 
+    /**
+     * Adds all the crashes as markers on the map and pre-calculates the clustering
+     * Uses threading to display loading updates on the application
+     */
     public void addAllCrashMarkers()  {
+        // Clear markers being displayed on the screen and show the loading screen
+        mainController.displayLoadingView("Loading crash data onto the map...");
         clearMarkers();
+
+        // load the crashes onto the map
         for (Crash crash : Crashes.getCrashes()) {
             if (crash != null) {
                 preMarker(crash);
             }
         }
+
         postMarkers();
+        mainController.hideLoadingView();
     }
     
     /**
@@ -83,7 +89,7 @@ public class MapViewController {
     }
 
     /**
-     * Clear all the crashes into javascript
+     * Tells the WebEngine to clear all the markers
      */
     private void clearMarkers() {
         webEngine.executeScript("clearMarkers();");
@@ -99,8 +105,9 @@ public class MapViewController {
     /**
      * Init
      */
-    void init() {
+    void init(MainController mainController) {
         initMap();
+        this.mainController = mainController;
     }
 }
 
