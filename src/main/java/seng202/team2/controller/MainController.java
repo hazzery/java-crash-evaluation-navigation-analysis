@@ -119,7 +119,7 @@ public class MainController {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map_view.fxml"));
             mapViewParent = mapViewLoader.load();
             mapViewController = mapViewLoader.getController();
-            mapViewController.init(this);
+            mapViewController.init();
         } catch (IOException e) {
             e.printStackTrace();
         }
