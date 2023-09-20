@@ -63,7 +63,8 @@ public class LightingTest {
                 arguments("N/A", Lighting.UNKNOWN),
                 arguments("NULL", Lighting.UNKNOWN),
                 arguments("null", Lighting.UNKNOWN),
-                arguments("None", Lighting.UNKNOWN)
+                arguments("None", Lighting.UNKNOWN),
+                arguments("Lighting.OVERCAST", Lighting.UNKNOWN)
         );
     }
 }
