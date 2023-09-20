@@ -15,12 +15,12 @@ class CsvReaderTest {
 
     @BeforeEach
     void setUp() {
-        csvReader = new CsvReader("crash_data.csv");
+        csvReader = new CsvReader("test_data.csv");
     }
 
     @Test
     void generateAllCrashes() {
         List<Crash> crashes = csvReader.generateAllCrashes();
-        assertTrue(crashes.size() > 820000);
+        assertEquals(10, crashes.size());
     }
 }
