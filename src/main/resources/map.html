@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="MarkerCluster.css" />
     <link rel="stylesheet" href="MarkerCluster.Default.css" />
-    
+
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
@@ -26,18 +26,18 @@
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script src="leaflet.markercluster.js"></script>
 <script>
-	
+
     let map;
     var javaScriptBridge; // must be declared as var (will not be correctly assigned in java with let keyword)
     let markers = []; // maybe not needed
     let crashList = [];
     var route;
     var cluster;
-    
+
     // don't open context menu on right click
     document.oncontextmenu = function(event) {
         event.preventDefault();
-    } 
+    }
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside it
@@ -81,7 +81,7 @@
         m.addTo(map)
         markers.push(m);
     }
-    
+
     /**
      * Saves a crash location to a variable
      * @param region
@@ -91,7 +91,7 @@
     function preMarker(lat, lng) {
         crashList.push([lat, lng]);
     }
-    
+
     /**
      * Clear markers
      */
@@ -103,7 +103,7 @@
         }
         cluster = undefined; // to avoid memory errors
     }
-    
+
     /**
      * Creates a bunch of clusters after they have all been added to crashList
      */
@@ -116,7 +116,7 @@
         }
         map.addLayer(cluster);
     }
-    
+
 
     /**
      * Displays a route with two or more waypoints for cars (e.g. roads and ferries) and displays it on the map
