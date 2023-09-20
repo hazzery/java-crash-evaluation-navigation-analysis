@@ -189,7 +189,7 @@ public class CrashDao implements DaoInterface<Crash> {
             }
             connection.commit();
         } catch (SQLException sqlException) {
-            log.error(sqlException);
+            log.info(sqlException);
         }
     }
 
