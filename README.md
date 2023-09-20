@@ -3,8 +3,18 @@ Welcome to the template project for SENG202-2022 which you will transform into y
 This README file includes some useful information to help you get started.
 However, we expect that this README becomes your own
 
+##Overview
+- This application is created for users to view traffic incident data provided by Waka Kotahi. It is made for users such as learner drivers and other stakeholders to navigate and query in order to identify areas of interest (such as places with low crashes).
+
 ## Authors
 - SENG202 Teaching team
+- Ben Moore
+- Findlay Royds
+- Harrison Parkes
+- Isaac Ure
+- James Lanigan
+- Louis Hobson
+- Matthew Lang
 
 ## Prerequisites
 - JDK >= 17 [click here to get the latest stable OpenJDK release (as of writing this README)](https://jdk.java.net/18/)
@@ -36,8 +46,8 @@ IntelliJ has built-in support for Gradle. To import your project:
 
 **Note:** *If you run into dependency issues when running the app or the Gradle pop up doesn't appear then open the Gradle sidebar and click the Refresh icon.*
 
-## Running the project
-You can run the project through your IDE from the main class (App.java) or use the `./gradlew run` command from your terminal
+## Running bundled Jar
+You can run the bundled .jar file by opening a terminal window in the project directory and executing `java -jar seng202_2023_team2_2.jar`
 
 ## Build Project 
 1. Open a command line interface inside the project directory and run `./gradlew jar` to build a .jar file. The file is located at `build/libs/seng202_team2-1.0-SNAPSHOT.jar
