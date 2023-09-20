@@ -21,6 +21,7 @@ class CsvReaderTest {
     @Test
     void generateAllCrashes() {
         List<Crash> crashes = csvReader.generateAllCrashes();
+        // test_data.csv has 10 rows
         assertEquals(10, crashes.size());
     }
 }
