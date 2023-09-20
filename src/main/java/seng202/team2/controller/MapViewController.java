@@ -68,33 +68,15 @@ public class MapViewController {
         mainController.displayLoadingView("Loading crash data onto the map...");
         clearMarkers();
 
-        // Create a new thread to run loading crash data on. This is a bit strange, but it allows the JavaFX window to
-        // update, meaning that the loading screen can be displayed
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() {
-                // WebEngine can only be interacted with on the JavaFX thread, so schedule adding a marker
-                for (Crash crash : Crashes.getCrashes()) {
-                    if (crash != null) {
-                        Platform.runLater(() -> preMarker(crash));
-                    }
-                }
-
-                // Schedule calculating the clustering on the JavaFX thread, and hide the loading view once this is
-                // complete. Hiding the loading view must be scheduled in order to happen after loading is complete.
-                Platform.runLater(() -> {
-                    postMarkers();
-                    mainController.hideLoadingView();
-                });
-
-                return null;
+        // load the crashes onto the map
+        for (Crash crash : Crashes.getCrashes()) {
+            if (crash != null) {
+                preMarker(crash);
             }
-        };
+        }
 
-        // Initialise thread to run calculations on.
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
+        postMarkers();
+        mainController.hideLoadingView();
     }
     
     /**
