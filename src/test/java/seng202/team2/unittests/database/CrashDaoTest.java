@@ -18,6 +18,9 @@ class CrashDaoTest {
 
     @BeforeEach
     void setup() throws InstanceAlreadyExistsException {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        databaseManager.resetDB();
+
         CsvReader csvReader = new CsvReader("test_data.csv");
         List<Crash> crashes  = csvReader.generateAllCrashes();
         crashDao = new CrashDao();
@@ -44,12 +47,11 @@ class CrashDaoTest {
 
     @Test
     void addBatch() {
-        // I don't know how to test this
-//        CsvReader csvReader = new CsvReader("additional_data.csv");
-//        List<Crash> crashes  = csvReader.generateAllCrashes();
-//        crashDao.addBatch(crashes);
-//
-//        List<Crash> all = crashDao.getAll();
-//        assertEquals(20, all.size());
+        CsvReader csvReader = new CsvReader("additional_data.csv");
+        List<Crash> crashes  = csvReader.generateAllCrashes();
+        crashDao.addBatch(crashes);
+
+        List<Crash> all = crashDao.getAll();
+        assertEquals(20, all.size());
     }
 }
