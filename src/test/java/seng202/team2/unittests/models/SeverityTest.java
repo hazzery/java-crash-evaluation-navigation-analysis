@@ -38,25 +38,25 @@ public class SeverityTest {
     private static Stream<Arguments> severityStringToEnum() {
         return Stream.of(
                 // Expected case
-                arguments("Fatal crash", Severity.FATAL_CRASH),
-                arguments("Minor crash", Severity.MINOR_CRASH),
-                arguments("Non-injury crash", Severity.NON_INJURY_CRASH),
-                arguments("Serious crash", Severity.SERIOUS_CRASH),
+                arguments("Fatal crash", Severity.FATAL),
+                arguments("Minor crash", Severity.MINOR),
+                arguments("Non-injury crash", Severity.NON_INJURY),
+                arguments("Serious crash", Severity.SERIOUS),
 
                 // Alternative cases
-                arguments("Fatal Crash", Severity.FATAL_CRASH),
-                arguments("fatal crash", Severity.FATAL_CRASH),
-                arguments("FATAL_CRASH", Severity.FATAL_CRASH),
-                arguments("Minor Crash", Severity.MINOR_CRASH),
-                arguments("minor crash", Severity.MINOR_CRASH),
-                arguments("MINOR_CRASH", Severity.MINOR_CRASH),
-                arguments("Non-Injury Crash", Severity.NON_INJURY_CRASH),
-                arguments("non-injury crash", Severity.NON_INJURY_CRASH),
-                arguments("Non-Injury_Crash", Severity.NON_INJURY_CRASH),
-                arguments("NON_INJURY_CRASH", Severity.NON_INJURY_CRASH),
-                arguments("Serious Crash", Severity.SERIOUS_CRASH),
-                arguments("serious crash", Severity.SERIOUS_CRASH),
-                arguments("SERIOUS_CRASH", Severity.SERIOUS_CRASH),
+                arguments("Fatal Crash", Severity.FATAL),
+                arguments("fatal crash", Severity.FATAL),
+                arguments("FATAL_CRASH", Severity.FATAL),
+                arguments("Minor Crash", Severity.MINOR),
+                arguments("minor crash", Severity.MINOR),
+                arguments("MINOR_CRASH", Severity.MINOR),
+                arguments("Non-Injury Crash", Severity.NON_INJURY),
+                arguments("non-injury crash", Severity.NON_INJURY),
+                arguments("Non-Injury_Crash", Severity.NON_INJURY),
+                arguments("NON_INJURY_CRASH", Severity.NON_INJURY),
+                arguments("Serious Crash", Severity.SERIOUS),
+                arguments("serious crash", Severity.SERIOUS),
+                arguments("SERIOUS_CRASH", Severity.SERIOUS),
 
                 // Unknown enums
                 arguments("", Severity.UNKNOWN),

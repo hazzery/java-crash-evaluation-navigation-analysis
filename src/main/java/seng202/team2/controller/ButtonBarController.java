@@ -55,32 +55,11 @@ public class ButtonBarController {
     @FXML
     private ToggleButton bus;
 
-    @FXML
-    private RadioMenuItem nonInjury;
-
-    @FXML
-    private RadioMenuItem minorInjury;
-
-    @FXML
-    private RadioMenuItem seriousInjury;
-
-    @FXML
-    private RadioMenuItem fatal;
-
-
     private static final Map<String, DbAttributes> buttonIdToVehicle = new HashMap<>() {{
         put("pedestrian", DbAttributes.PEDESTRIAN);
         put("bicycle", DbAttributes.BICYCLE);
         put("car", DbAttributes.CAR_OR_STATION_WAGON);
         put("bus", DbAttributes.BUS);
-    }};
-
-    private static final Map<String, String> buttonIdToSeverity = new HashMap<>() {{
-        put("nonInjury", "NON_INJURY_CRASH");
-        put("minorInjury", "MINOR_CRASH");
-        put("seriousInjury", "SERIOUS_CRASH");
-        put("fatal", "FATAL_CRASH");
-        put("unknownSeverity", "UNKNOWN");
     }};
 
     private static final Logger log = LogManager.getLogger(ButtonBarController.class);
@@ -105,22 +84,25 @@ public class ButtonBarController {
         bus.setGraphic(new ImageView(busIMG));
     }
 
+    /**
+     * Sets the severity values in the severities drop-down
+     */
     public void setSeverityValues() {
-        nonInjury.setText(Severity.NON_INJURY_CRASH.displayValue());
-        minorInjury.setText(Severity.MINOR_CRASH.displayValue());
-        seriousInjury.setText(Severity.SERIOUS_CRASH.displayValue());
-        fatal.setText(Severity.FATAL_CRASH.displayValue());
+        for (Severity severity : Severity.values()) {
+            CheckMenuItem severityItem = new CheckMenuItem(severity.displayValue());
+            severityItem.setId(severity.name());
+            severities.getItems().add(severityItem);
+        }
     }
 
     /**
-     * Sets the regions in the regions menu
+     * Sets the regions in the regions drop-down
      */
     private void setRegions() {
         for (Region region : Region.values()) {
             CheckMenuItem regionItem = new CheckMenuItem(region.displayValue());
             regionItem.setId(region.name());
             Regions.getItems().add(regionItem);
-            regionItem.setVisible(true);
         }
     }
 
@@ -151,9 +133,8 @@ public class ButtonBarController {
         }
 
         List<String> selectedSeverities = severities.getItems().stream()
-                .filter(item -> ((RadioMenuItem) item).isSelected())
+                .filter(item -> ((CheckMenuItem) item).isSelected())
                 .map(MenuItem::getId)
-                .map(buttonIdToSeverity::get)
                 .toList();
 
         queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY);
