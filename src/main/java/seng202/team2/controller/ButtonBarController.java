@@ -164,6 +164,13 @@ public class ButtonBarController {
             queryBuilder.betweenValues(minYear, maxYear, DbAttributes.YEAR);
         }
 
+        List<String> selectedRegions = Regions.getItems().stream()
+                .filter(item -> ((CheckMenuItem) item).isSelected())
+                .map(MenuItem::getId)
+                .toList();
+
+        queryBuilder.orString(selectedRegions, DbAttributes.REGION);
+
         Crashes.setQuery(queryBuilder);
         mainController.updateViews();
     }
