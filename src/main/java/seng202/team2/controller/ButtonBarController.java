@@ -113,6 +113,18 @@ public class ButtonBarController {
     }
 
     /**
+     * Sets the regions in the regions menu
+     */
+    private void setRegions() {
+        for (Region region : Region.values()) {
+            CheckMenuItem regionItem = new CheckMenuItem(region.displayValue());
+            regionItem.setId(region.name());
+            Regions.getItems().add(regionItem);
+            regionItem.setVisible(true);
+        }
+    }
+
+    /**
      * default behavior of rangeSlider is not working correctly,
      * this method sets the default values
      */
@@ -124,6 +136,7 @@ public class ButtonBarController {
     void init() {
         setIcons();
         setSeverityValues();
+        setRegions();
         setRangeSliderValues();
     }
 
