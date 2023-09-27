@@ -3,6 +3,7 @@ package seng202.team2.controller;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.models.Crashes;
+import seng202.team2.models.Region;
 import seng202.team2.models.Severity;
 
 import org.controlsfx.control.RangeSlider;
@@ -29,6 +30,9 @@ public class ButtonBarController {
 
     @FXML
     public ButtonBar buttonBar;
+
+    @FXML
+    public MenuButton Regions;
 
     @FXML
     private RangeSlider yearSelect;
