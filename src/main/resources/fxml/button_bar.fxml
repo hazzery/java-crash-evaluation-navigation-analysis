@@ -19,6 +19,7 @@
                 <RadioMenuItem fx:id="fatal" mnemonicParsing="false" text="4" />
             </items>
         </MenuButton>
+        <MenuButton fx:id="Regions" mnemonicParsing="false" text="Region"/>
       <Text layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2000">
          <font>
             <Font size="11.0" />

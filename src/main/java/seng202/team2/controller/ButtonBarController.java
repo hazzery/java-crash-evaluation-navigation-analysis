@@ -3,6 +3,7 @@ package seng202.team2.controller;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.models.Crashes;
+import seng202.team2.models.Region;
 import seng202.team2.models.Severity;
 
 import org.controlsfx.control.RangeSlider;
@@ -29,6 +30,9 @@ public class ButtonBarController {
 
     @FXML
     public ButtonBar buttonBar;
+
+    @FXML
+    public MenuButton Regions;
 
     @FXML
     private RangeSlider yearSelect;
@@ -109,6 +113,18 @@ public class ButtonBarController {
     }
 
     /**
+     * Sets the regions in the regions menu
+     */
+    private void setRegions() {
+        for (Region region : Region.values()) {
+            CheckMenuItem regionItem = new CheckMenuItem(region.displayValue());
+            regionItem.setId(region.name());
+            Regions.getItems().add(regionItem);
+            regionItem.setVisible(true);
+        }
+    }
+
+    /**
      * default behavior of rangeSlider is not working correctly,
      * this method sets the default values
      */
@@ -120,6 +136,7 @@ public class ButtonBarController {
     void init() {
         setIcons();
         setSeverityValues();
+        setRegions();
         setRangeSliderValues();
     }
 
@@ -146,6 +163,13 @@ public class ButtonBarController {
         if (minYear != yearSelect.getMin() || maxYear != yearSelect.getMax()) {
             queryBuilder.betweenValues(minYear, maxYear, DbAttributes.YEAR);
         }
+
+        List<String> selectedRegions = Regions.getItems().stream()
+                .filter(item -> ((CheckMenuItem) item).isSelected())
+                .map(MenuItem::getId)
+                .toList();
+
+        queryBuilder.orString(selectedRegions, DbAttributes.REGION);
 
         Crashes.setQuery(queryBuilder);
         mainController.updateViews();

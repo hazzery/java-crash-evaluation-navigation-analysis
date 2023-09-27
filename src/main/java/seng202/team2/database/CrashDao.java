@@ -104,7 +104,7 @@ public class CrashDao implements DaoInterface<Crash> {
                 resultSet.getDouble(DbAttributes.LONGITUDE.dbColumn()),
                 resultSet.getString(DbAttributes.ROAD_NAME_1.dbColumn()),
                 resultSet.getString(DbAttributes.ROAD_NAME_2.dbColumn()),
-                resultSet.getString(DbAttributes.REGION.dbColumn()),
+                Region.fromString(resultSet.getString(DbAttributes.REGION.dbColumn())),
                 Weather.fromString(resultSet.getString(DbAttributes.WEATHER.dbColumn())),
                 Lighting.fromString(resultSet.getString(DbAttributes.LIGHTING.dbColumn())),
                 Severity.fromString(resultSet.getString(DbAttributes.SEVERITY.dbColumn())),
@@ -133,7 +133,7 @@ public class CrashDao implements DaoInterface<Crash> {
         preparedStatement.setDouble(DbAttributes.LONGITUDE.dbColumn(), crash.longitude());
         preparedStatement.setString(DbAttributes.ROAD_NAME_1.dbColumn(), crash.roadName1());
         preparedStatement.setString(DbAttributes.ROAD_NAME_2.dbColumn(), crash.roadName2());
-        preparedStatement.setString(DbAttributes.REGION.dbColumn(), crash.region());
+        preparedStatement.setString(DbAttributes.REGION.dbColumn(), crash.region().toString());
         preparedStatement.setString(DbAttributes.WEATHER.dbColumn(), crash.weather().toString());
         preparedStatement.setString(DbAttributes.LIGHTING.dbColumn(), crash.lighting().toString());
         preparedStatement.setString(DbAttributes.SEVERITY.dbColumn(), crash.severity().toString());
