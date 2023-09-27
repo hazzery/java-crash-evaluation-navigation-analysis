@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Harrison Parkes
  */
 public record Crash(int crashID, int year, int fatalities, int seriousInjuries, int minorInjuries,
-                    double latitude, double longitude, String roadName1, String roadName2, String region,
+                    double latitude, double longitude, String roadName1, String roadName2, Region region,
                     Weather weather, Lighting lighting, Severity severity, Map<Vehicle, Integer> vehicles) {
 
     /**

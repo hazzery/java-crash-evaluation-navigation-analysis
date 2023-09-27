@@ -71,7 +71,7 @@ public class TableViewController {
                     crash.vehiclesInvolved(),
                     toDisplayText(crash.roadName1()),
                     toDisplayText(crash.roadName2()),
-                    crash.region(),
+                    crash.region().displayValue(),
                     crash.seriousInjuries(),
                     crash.minorInjuries(),
                     crash.weather().displayValue(),
