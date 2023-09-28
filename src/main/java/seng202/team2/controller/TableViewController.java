@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.Node;
+import javafx.util.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.lang3.StringUtils;
 import seng202.team2.models.Crash;
@@ -53,6 +55,20 @@ public class TableViewController {
 
         updateCrashes();
         hasBeenBuilt = true;
+        
+        pagination.setStyle("-fx-border-color:red;");
+        pagination.setPageFactory(
+        new Callback<Integer, Node>() {
+            
+            @Override
+            public Node call(Integer pageIndex) {
+                pagination.setCurrentPageIndex(pageIndex);
+                updateCrashes();
+                return null;
+            }
+
+        }
+        );
     }
 
 
@@ -68,7 +84,9 @@ public class TableViewController {
     public void updateCrashes() {
         tableView.getItems().clear();
 
-        for (Crash crash: Crashes.getCrashes().subList(pagination.getCurrentPageIndex() * rowsPerPage,pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage)) {
+//        for (Crash crash: Crashes.getCrashes().subList(pagination.getCurrentPageIndex() * rowsPerPage,pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage)) {
+        for (int i = pagination.getCurrentPageIndex() * rowsPerPage; i < pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage && i < Crashes.getCrashes().size(); i++) {
+            Crash crash = Crashes.getCrashes().get(i);
             tableCrashData.add(new DataRow(
                     crash.severity().displayValue(),
                     crash.fatalities(),
