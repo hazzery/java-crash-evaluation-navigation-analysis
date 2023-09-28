@@ -9,7 +9,7 @@
     <TableView fx:id="tableView" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
   </center>
    <bottom>
-      <Pagination id="pagination" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Pagination id="pagination" pageCount="1000" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </bottom>
 
 </BorderPane>
