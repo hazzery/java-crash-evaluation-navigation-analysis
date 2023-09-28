@@ -20,6 +20,7 @@ public class TableViewController {
     private TableView<DataRow> tableView;
     @FXML
     private Pagination pagination;
+    private Integer rowsPerPage = 100;
     ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
     private boolean hasBeenBuilt = false; // no point building the table twice.
 
@@ -54,6 +55,7 @@ public class TableViewController {
         hasBeenBuilt = true;
     }
 
+
     /**
      * Inits the tableview
      */
@@ -66,7 +68,7 @@ public class TableViewController {
     public void updateCrashes() {
         tableView.getItems().clear();
 
-        for (Crash crash: Crashes.getCrashes()) {
+        for (Crash crash: Crashes.getCrashes().subList(pagination.getCurrentPageIndex() * rowsPerPage,pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage)) {
             tableCrashData.add(new DataRow(
                     crash.severity().displayValue(),
                     crash.fatalities(),
