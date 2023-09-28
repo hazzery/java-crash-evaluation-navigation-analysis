@@ -18,6 +18,8 @@ import seng202.team2.models.Crashes;
 public class TableViewController {
     @FXML
     private TableView<DataRow> tableView;
+    @FXML
+    private Pagination pagination;
     ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
     private boolean hasBeenBuilt = false; // no point building the table twice.
 
