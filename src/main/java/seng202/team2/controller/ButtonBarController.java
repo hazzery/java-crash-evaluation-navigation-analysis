@@ -77,8 +77,8 @@ public class ButtonBarController {
         Image carIMG = null;
         Image busIMG = null;
         try {
-            personIMG = new Image(getClass().getResourceAsStream("/icons/person.png"),20,20, true, false);
-            cyclistIMG = new Image(getClass().getResourceAsStream("/icons/cyclist.png"), 20 ,20, true, false);
+            personIMG = new Image(getClass().getResourceAsStream("/icons/person.png"), 20, 20, true, false);
+            cyclistIMG = new Image(getClass().getResourceAsStream("/icons/cyclist.png"), 20, 20, true, false);
             carIMG = new Image(getClass().getResourceAsStream("/icons/car.png"), 20, 20, true, false);
             busIMG = new Image(getClass().getResourceAsStream("/icons/bus.png"), 20, 20, true, false);
         } catch (NullPointerException e) {

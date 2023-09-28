@@ -6,37 +6,45 @@
 <?import org.controlsfx.control.*?>
 <?import java.lang.Integer?>
 
-<ButtonBar fx:id="buttonBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team2.controller.ButtonBarController">
+<ButtonBar fx:id="buttonBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1000.0"
+           xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="seng202.team2.controller.ButtonBarController">
     <fx:define>
-        <Integer fx:id="MIN_YEAR" fx:value="2000" />
-        <Integer fx:id="MAX_YEAR" fx:value="2023" />
+        <Integer fx:id="MIN_YEAR" fx:value="2000"/>
+        <Integer fx:id="MAX_YEAR" fx:value="2023"/>
     </fx:define>
     <buttons>
-        <ToggleButton fx:id="pedestrian" maxWidth="5" mnemonicParsing="false" />
-        <ToggleButton fx:id="bicycle" maxWidth="5.0" mnemonicParsing="false" />
-        <ToggleButton fx:id="car" maxWidth="5.0" mnemonicParsing="false" />
-        <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false" />
+        <ToggleButton fx:id="pedestrian" maxWidth="5" mnemonicParsing="false"/>
+        <ToggleButton fx:id="bicycle" maxWidth="5.0" mnemonicParsing="false"/>
+        <ToggleButton fx:id="car" maxWidth="5.0" mnemonicParsing="false"/>
+        <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false"/>
         <MenuButton fx:id="severities" mnemonicParsing="false" text="Severity"/>
         <MenuButton fx:id="Regions" mnemonicParsing="false" text="Region"/>
-      <Text layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="$MIN_YEAR">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Text>
-        <RangeSlider fx:id="yearSelect" blockIncrement="1.0" highValue="$MAX_YEAR" lowValue="$MIN_YEAR" majorTickUnit="10.0" max="$MAX_YEAR" min="$MIN_YEAR" minWidth="700.0" minorTickCount="9" prefHeight="38.0" showTickMarks="true" snapToTicks="true" translateY="5.0">
-         <padding>
-            <Insets left="-2.0" right="-2.0" />
-         </padding></RangeSlider>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="$MAX_YEAR">
-         <font>
-            <Font size="11.0" />
-         </font></Text>
-        <Button fx:id="confirmSelection" maxWidth="20" minWidth="20.0" mnemonicParsing="false" onAction="#filterTable" prefHeight="28.0" text="Apply" />
+        <Text layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="$MIN_YEAR">
+            <font>
+                <Font size="11.0"/>
+            </font>
+        </Text>
+        <RangeSlider fx:id="yearSelect" blockIncrement="1.0" highValue="$MAX_YEAR" lowValue="$MIN_YEAR"
+                     majorTickUnit="10.0" max="$MAX_YEAR" min="$MIN_YEAR" minWidth="700.0" minorTickCount="9"
+                     prefHeight="38.0" showTickMarks="true" snapToTicks="true" translateY="5.0">
+            <padding>
+                <Insets left="-2.0" right="-2.0"/>
+            </padding>
+        </RangeSlider>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="$MAX_YEAR">
+            <font>
+                <Font size="11.0"/>
+            </font>
+        </Text>
+        <Button fx:id="confirmSelection" maxWidth="20" minWidth="20.0" mnemonicParsing="false" onAction="#filterTable"
+                prefHeight="28.0" text="Apply"/>
     </buttons>
     <opaqueInsets>
-        <Insets />
+        <Insets/>
     </opaqueInsets>
     <padding>
-        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
     </padding>
 </ButtonBar>
