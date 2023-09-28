@@ -88,7 +88,7 @@ public class ButtonBarController {
      * Sets the severity values in the severities drop-down
      */
     public void setSeverityValues() {
-        for (Severity severity : Severity.values()) {
+        for (Severity severity : Severity.severities()) {
             CheckMenuItem severityItem = new CheckMenuItem(severity.displayValue());
             severityItem.setId(severity.name());
             severities.getItems().add(severityItem);

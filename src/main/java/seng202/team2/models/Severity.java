@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 /**
  * enum listing the possible crash severities
  *
@@ -44,5 +46,9 @@ public enum Severity {
     public String displayValue() {
         String display = name().toLowerCase().replaceAll("_", " ");
         return StringUtils.capitalize(display);
+    }
+
+    public static List<Severity> severities() {
+        return List.of(NON_INJURY, MINOR, SERIOUS, FATAL);
     }
 }
