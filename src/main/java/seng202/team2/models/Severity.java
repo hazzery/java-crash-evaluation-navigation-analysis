@@ -5,16 +5,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 /**
  * enum listing the possible crash severities
  *
  * @author Harrison Parkes
  */
 public enum Severity {
-    NON_INJURY_CRASH,
-    MINOR_CRASH,
-    SERIOUS_CRASH,
-    FATAL_CRASH,
+    NON_INJURY,
+    MINOR,
+    SERIOUS,
+    FATAL,
     UNKNOWN;
 
     private static final Logger log = LogManager.getLogger(Severity.class);
@@ -27,6 +29,7 @@ public enum Severity {
      */
     public static Severity fromString(String name) {
         name = name.toUpperCase().replace(" ", "_").replace("-", "_");
+        name = name.replace("_CRASH", "");
         try {
             return Severity.valueOf(name);
         } catch (IllegalArgumentException e) {
@@ -43,5 +46,9 @@ public enum Severity {
     public String displayValue() {
         String display = name().toLowerCase().replaceAll("_", " ");
         return StringUtils.capitalize(display);
+    }
+
+    public static List<Severity> severities() {
+        return List.of(NON_INJURY, MINOR, SERIOUS, FATAL);
     }
 }
