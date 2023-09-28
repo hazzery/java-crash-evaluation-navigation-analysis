@@ -55,6 +55,12 @@ public class ButtonBarController {
     @FXML
     private ToggleButton bus;
 
+    @FXML
+    private Integer MIN_YEAR;
+
+    @FXML
+    private Integer MAX_YEAR;
+
     private static final Map<String, DbAttributes> buttonIdToVehicle = new HashMap<>() {{
         put("pedestrian", DbAttributes.PEDESTRIAN);
         put("bicycle", DbAttributes.BICYCLE);
@@ -111,8 +117,8 @@ public class ButtonBarController {
      * this method sets the default values
      */
     private void setRangeSliderValues() {
-        yearSelect.setLowValue(2001);
-        yearSelect.setHighValue(2020);
+        yearSelect.setLowValue(MIN_YEAR);
+        yearSelect.setHighValue(MAX_YEAR);
     }
 
     void init() {
