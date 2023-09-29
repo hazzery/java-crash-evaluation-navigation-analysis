@@ -58,6 +58,7 @@ public class TableViewController {
         hasBeenBuilt = true;
         
         pagination.setStyle("-fx-border-color:red;");
+        pagination.setPageCount(Crashes.getCrashes().size()/100 + 1);
 
         /**
          * pagination is implemented with its own page, so it sets the content of its page to empty while updating table
