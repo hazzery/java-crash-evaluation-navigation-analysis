@@ -58,7 +58,6 @@ public class TableViewController {
         hasBeenBuilt = true;
         
         pagination.setStyle("-fx-border-color:red;");
-        pagination.setPageCount(Crashes.getCrashes().size()/100 + 1);
 
         /**
          * pagination is implemented with its own page, so it sets the content of its page to empty while updating table
@@ -88,6 +87,7 @@ public class TableViewController {
         tableView.getItems().clear();
 
 //        for (Crash crash: Crashes.getCrashes().subList(pagination.getCurrentPageIndex() * rowsPerPage,pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage)) {
+        pagination.setPageCount(Crashes.getCrashes().size()/100 + 1);
         for (int i = pagination.getCurrentPageIndex() * rowsPerPage; i < pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage && i < Crashes.getCrashes().size(); i++) {
             Crash crash = Crashes.getCrashes().get(i);
             tableCrashData.add(new DataRow(
