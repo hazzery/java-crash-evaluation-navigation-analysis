@@ -1,5 +1,6 @@
 package seng202.team2.controller;
 
+import javafx.scene.text.Text;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.models.Crashes;
@@ -61,6 +62,12 @@ public class ButtonBarController {
     @FXML
     private Integer MAX_YEAR;
 
+    @FXML
+    private Text yearSelectLeftLabel;
+
+    @FXML
+    private Text yearSelectRightLabel;
+
     private static final Map<String, DbAttributes> buttonIdToVehicle = new HashMap<>() {{
         put("pedestrian", DbAttributes.PEDESTRIAN);
         put("bicycle", DbAttributes.BICYCLE);
@@ -71,7 +78,7 @@ public class ButtonBarController {
     private static final Logger log = LogManager.getLogger(ButtonBarController.class);
     private MainController mainController;
 
-    public void setIcons() {
+    private void setIcons() {
         Image personIMG = null;
         Image cyclistIMG = null;
         Image carIMG = null;
@@ -93,7 +100,7 @@ public class ButtonBarController {
     /**
      * Sets the severity values in the severities drop-down
      */
-    public void setSeverityValues() {
+    private void setSeverityValues() {
         for (Severity severity : Severity.severities()) {
             CheckMenuItem severityItem = new CheckMenuItem(severity.displayValue());
             severityItem.setId(severity.name());
@@ -119,13 +126,6 @@ public class ButtonBarController {
     private void setRangeSliderValues() {
         yearSelect.setLowValue(MIN_YEAR);
         yearSelect.setHighValue(MAX_YEAR);
-    }
-
-    void init() {
-        setIcons();
-        setSeverityValues();
-        setRegions();
-        setRangeSliderValues();
     }
 
     public void filterTable() {
@@ -164,6 +164,13 @@ public class ButtonBarController {
 
     public void giveMainControl(MainController mainController) {
         this.mainController = mainController;
+    }
+
+    void init() {
+        setIcons();
+        setSeverityValues();
+        setRegions();
+        setRangeSliderValues();
     }
 }
 
