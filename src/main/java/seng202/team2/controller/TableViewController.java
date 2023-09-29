@@ -38,7 +38,7 @@ public class TableViewController {
     }
 
     /**
-     * Constructs the elements of the table view
+     * Constructs the elements of the table view/pagination
      */
     private void buildTableScene() {
 
@@ -59,6 +59,10 @@ public class TableViewController {
         
         pagination.setStyle("-fx-border-color:red;");
 
+        /**
+         * pagination is implemented with its own page, so it sets the content of its page to empty while updating table
+         * overhaul of tableview may be needed
+         */
         pagination.setPageFactory(new Callback<Integer, Node>() {
             @Override
             public Node call(Integer pageIndex) {
