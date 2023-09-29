@@ -17,8 +17,8 @@
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
-    <Button fx:id="tableViewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableViewButtonClicked" text="Table View" />
-    <Button fx:id="mapViewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mapViewButtonClicked" text="Map View" GridPane.rowIndex="1" />
+    <Button fx:id="mapViewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mapViewButtonClicked" text="Map View" GridPane.rowIndex="0"/>
+    <Button fx:id="tableViewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableViewButtonClicked" text="Table View" GridPane.rowIndex="1"/>
     <Button fx:id="menuButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#menuButtonClicked" text="Menu" GridPane.rowIndex="4" />
     <Button fx:id="helpButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#helpButtonClicked" text="Help" GridPane.rowIndex="3" />
    <padding>
