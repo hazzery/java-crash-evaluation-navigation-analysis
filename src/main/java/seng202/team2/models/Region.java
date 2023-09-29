@@ -2,6 +2,8 @@ package seng202.team2.models;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
 public enum Region {
     AUCKLAND,
     NORTHLAND,
@@ -46,10 +48,28 @@ public enum Region {
         return StringUtils.capitalize(display);
     }
 
-//    /**
-//     * Gets the name of the database table for the region
-//     * @return
-//     */
-//    public String databaseName() {
-//    }
+    /**
+     * Gets a list of all the regions
+     * @return All regions minus UNKNOWN
+     */
+    public static List<Region> regions() {
+        return List.of(
+                AUCKLAND,
+                NORTHLAND,
+                WAIKATO,
+                BAY_OF_PLENTY,
+                HAWKES_BAY,
+                WELLINGTON,
+                OTAGO,
+                MANAWATŪ_WHANGANUI,
+                TARANAKI,
+                CANTERBURY,
+                GISBORNE,
+                SOUTHLAND,
+                WEST_COAST,
+                NELSON,
+                TASMAN,
+                MARLBOROUGH
+        );
+    }
 }

@@ -105,7 +105,7 @@ public class ButtonBarController {
      * Sets the regions in the regions drop-down
      */
     private void setRegions() {
-        for (Region region : Region.values()) {
+        for (Region region : Region.regions()) {
             CheckMenuItem regionItem = new CheckMenuItem(region.displayValue());
             regionItem.setId(region.name());
             Regions.getItems().add(regionItem);
