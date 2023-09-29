@@ -52,8 +52,10 @@ public class MapViewController {
                         // get a reference to the js object that has a reference to the js methods we need to use in java
                         javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
                         // call the javascript function to initialise the map
-                        javaScriptConnector.call("initMap");
-
+                        //javaScriptConnector.call("initMap");
+                        webEngine.executeScript(
+                                "doHeatmap();"
+                        );
                         addAllCrashMarkers();
                     }
                 });
