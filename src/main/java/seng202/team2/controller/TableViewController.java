@@ -26,6 +26,7 @@ public class TableViewController {
     ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
     private boolean hasBeenBuilt = false; // no point building the table twice.
 
+
     /**
      * Gets a displayable string representation of the enum value
      * e.g: FATAL_CRASH -> "Fatal crash"
@@ -57,19 +58,16 @@ public class TableViewController {
         hasBeenBuilt = true;
         
         pagination.setStyle("-fx-border-color:red;");
-        pagination.setPageFactory(
-        new Callback<Integer, Node>() {
-            
+
+        pagination.setPageFactory(new Callback<Integer, Node>() {
             @Override
             public Node call(Integer pageIndex) {
-                pagination.setCurrentPageIndex(pageIndex);
                 updateCrashes();
-                return null;
+                return new Label("");
             }
-
-        }
-        );
+        });
     }
+
 
 
     /**
