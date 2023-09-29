@@ -22,7 +22,7 @@ public class TableViewController {
     private TableView<DataRow> tableView;
     @FXML
     private Pagination pagination;
-    private Integer rowsPerPage = 100;
+    private int rowsPerPage = 100;
     ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
     private boolean hasBeenBuilt = false; // no point building the table twice.
 
@@ -36,6 +36,7 @@ public class TableViewController {
         String lowered = text.toLowerCase().replace("_", " ");
         return StringUtils.capitalize(lowered);
     }
+
 
     /**
      * Constructs the elements of the table view/pagination
@@ -60,8 +61,7 @@ public class TableViewController {
         pagination.setStyle("-fx-border-color:red;");
 
         /**
-         * pagination is implemented with its own page, so it sets the content of its page to empty while updating table
-         * overhaul of tableview may be needed
+         * Pagination is implemented with its own page, so it sets the content of its page to empty while updating table
          */
         pagination.setPageFactory(new Callback<Integer, Node>() {
             @Override
@@ -73,7 +73,6 @@ public class TableViewController {
     }
 
 
-
     /**
      * Inits the tableview
      */
@@ -83,11 +82,13 @@ public class TableViewController {
         }
     }
 
+    /**
+     * Updates crashes; displays first rowsPerPage
+     */
     public void updateCrashes() {
         tableView.getItems().clear();
+        pagination.setPageCount(Crashes.getCrashes().size()/rowsPerPage + 1);
 
-//        for (Crash crash: Crashes.getCrashes().subList(pagination.getCurrentPageIndex() * rowsPerPage,pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage)) {
-        pagination.setPageCount(Crashes.getCrashes().size()/100 + 1);
         for (int i = pagination.getCurrentPageIndex() * rowsPerPage; i < pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage && i < Crashes.getCrashes().size(); i++) {
             Crash crash = Crashes.getCrashes().get(i);
             tableCrashData.add(new DataRow(
