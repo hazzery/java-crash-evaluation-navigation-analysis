@@ -21,19 +21,20 @@
         <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false"/>
         <MenuButton fx:id="severities" mnemonicParsing="false" text="Severity"/>
         <MenuButton fx:id="Regions" mnemonicParsing="false" text="Region"/>
-        <Text layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="$MIN_YEAR">
+        <Text fx:id="yearSelectLeftLabel" layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="$MIN_YEAR">
             <font>
                 <Font size="11.0"/>
             </font>
         </Text>
         <RangeSlider fx:id="yearSelect" blockIncrement="1.0" highValue="$MAX_YEAR" lowValue="$MIN_YEAR"
-                     majorTickUnit="10.0" max="$MAX_YEAR" min="$MIN_YEAR" minWidth="700.0" minorTickCount="9"
-                     prefHeight="38.0" showTickMarks="true" snapToTicks="true" translateY="5.0">
+                     majorTickUnit="10.0" max="$MAX_YEAR" min="$MIN_YEAR"
+                     minWidth="700.0" minorTickCount="9" prefHeight="38.0" showTickMarks="true" snapToTicks="true"
+                     translateY="5.0">
             <padding>
                 <Insets left="-2.0" right="-2.0"/>
             </padding>
         </RangeSlider>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="$MAX_YEAR">
+        <Text fx:id="yearSelectRightLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="$MAX_YEAR">
             <font>
                 <Font size="11.0"/>
             </font>
