@@ -194,7 +194,8 @@
         // });
         var mapOptions = {
             center: [-44.0, 171.0],
-            zoom: 10,
+            zoom: 5,
+            minZoom: 5,
             layers: [baseLayer, heatmapLayer]
         }
         map = new L.map('map', mapOptions);
