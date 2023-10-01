@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.Node;
+import javafx.util.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.lang3.StringUtils;
 import seng202.team2.models.Crash;
@@ -18,8 +20,12 @@ import seng202.team2.models.Crashes;
 public class TableViewController {
     @FXML
     private TableView<DataRow> tableView;
+    @FXML
+    private Pagination pagination;
+    private int rowsPerPage = 100;
     ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
     private boolean hasBeenBuilt = false; // no point building the table twice.
+
 
     /**
      * Gets a displayable string representation of the enum value
@@ -31,8 +37,9 @@ public class TableViewController {
         return StringUtils.capitalize(lowered);
     }
 
+
     /**
-     * Constructs the elements of the table view
+     * Constructs the elements of the table view/pagination
      */
     private void buildTableScene() {
 
@@ -50,7 +57,20 @@ public class TableViewController {
 
         updateCrashes();
         hasBeenBuilt = true;
+
+
+        /**
+         * Pagination is implemented with its own page, so it sets the content of its page to empty while updating table
+         */
+        pagination.setPageFactory(new Callback<Integer, Node>() {
+            @Override
+            public Node call(Integer pageIndex) {
+                updateCrashes();
+                return new Label("");
+            }
+        });
     }
+
 
     /**
      * Inits the tableview
@@ -61,10 +81,15 @@ public class TableViewController {
         }
     }
 
+    /**
+     * Updates crashes; displays first rowsPerPage
+     */
     public void updateCrashes() {
         tableView.getItems().clear();
+        pagination.setPageCount(Crashes.getCrashes().size()/rowsPerPage + 1);
 
-        for (Crash crash: Crashes.getCrashes()) {
+        for (int i = pagination.getCurrentPageIndex() * rowsPerPage; i < pagination.getCurrentPageIndex() * rowsPerPage + rowsPerPage && i < Crashes.getCrashes().size(); i++) {
+            Crash crash = Crashes.getCrashes().get(i);
             tableCrashData.add(new DataRow(
                     crash.severity().displayValue(),
                     crash.fatalities(),
