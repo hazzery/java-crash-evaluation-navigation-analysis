@@ -1,6 +1,7 @@
 package seng202.team2.controller;
 
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
@@ -8,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+import javafx.util.Duration;
 import netscape.javascript.JSObject;
 
 import seng202.team2.models.Crash;
@@ -67,8 +69,10 @@ public class MapViewController {
      */
     public void addAllCrashMarkers()  {
         // Clear markers being displayed on the screen and show the loading screen
-        mainController.displayLoadingView("Loading crash data onto the map...");
+        //mainController.displayLoadingView("Loading crash data onto the map...");
         clearMarkers();
+
+        mainController.hideLoadingView();
 
         // load the crashes onto the map
         for (Crash crash : Crashes.getCrashes()) {
