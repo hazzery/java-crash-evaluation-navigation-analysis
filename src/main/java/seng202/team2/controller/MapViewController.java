@@ -74,12 +74,16 @@ public class MapViewController {
 
         mainController.hideLoadingView();
 
+        StringBuilder markerString = new StringBuilder();
         // load the crashes onto the map
         for (Crash crash : Crashes.getCrashes()) {
             if (crash != null) {
-                preMarker(crash);
+                //preMarker(crash);
+                markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), (float) crash.longitude()));
             }
         }
+
+        webEngine.executeScript(markerString.toString());
 
         postMarkers();
         mainController.hideLoadingView();
