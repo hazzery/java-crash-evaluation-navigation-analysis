@@ -92,7 +92,7 @@ public class MenuBarController {
         } else {
             menuPane.setPrefWidth(120);
 
-            menuButton.setText("Menu");
+            menuButton.setText("Close");
             displayIcons();
             helpButton.setText("Help ?");
             tableViewButton.setText("Table");
