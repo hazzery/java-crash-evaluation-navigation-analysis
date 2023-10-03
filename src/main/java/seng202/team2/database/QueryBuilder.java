@@ -70,12 +70,11 @@ public class QueryBuilder {
     }
 
     public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
-        sql.append("(");
         for (DbAttributes vehicle : queryVehicles) {
             sql.append("(").append(vehicle).append(" > 0)").append(" OR ");
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
-        sql.append(") AND ");
+        sql.append(" AND ");
         noConditions = false;
         return this;
 
