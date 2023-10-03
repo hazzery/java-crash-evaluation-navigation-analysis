@@ -69,6 +69,12 @@ public class QueryBuilder {
         return this;
     }
 
+    /**
+     * Builds query with list of vehicles
+     * Checks if number of one is greater than 1.
+     *
+     * @param queryVehicles List of DbAttributes to be checked
+     */
     public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
         for (DbAttributes vehicle : queryVehicles) {
             sql.append("(").append(vehicle).append(" > 0)").append(" OR ");
