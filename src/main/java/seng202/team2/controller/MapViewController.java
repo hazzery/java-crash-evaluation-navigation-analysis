@@ -1,19 +1,14 @@
 package seng202.team2.controller;
 
 
-import javafx.animation.PauseTransition;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-
-import javafx.util.Duration;
-import netscape.javascript.JSObject;
-
 import seng202.team2.models.Crash;
 import seng202.team2.models.Crashes;
+
+import java.util.Objects;
 
 /**
  * Map view controller class for the application.
@@ -31,7 +26,6 @@ public class MapViewController {
     private WebView webView;
     
     private WebEngine webEngine;
-    private JSObject javaScriptConnector;
 
     private MainController mainController;
     
@@ -42,17 +36,15 @@ public class MapViewController {
     private void initMap() {
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
-        webEngine.load(MapViewController.class.getResource("/map.html").toExternalForm());
+        webEngine.load(Objects.requireNonNull(MapViewController.class.getResource("/map.html")).toExternalForm());
         
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
                     // if javascript loads successfully
                     if (newState == Worker.State.SUCCEEDED) {
                         // set our bridge object
-                        JSObject window = (JSObject) webEngine.executeScript("window");
                         //window.setMember("javaScriptBridge", javaScriptBridge);
                         // get a reference to the js object that has a reference to the js methods we need to use in java
-                        javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
                         // call the javascript function to initialise the map
                         //javaScriptConnector.call("initMap");
                         webEngine.executeScript(
@@ -82,15 +74,6 @@ public class MapViewController {
 
         postMarkers();
         mainController.hideLoadingView();
-    }
-    
-    /**
-     * Parse in all the crashes into javascript
-     */
-    private void preMarker(Crash crash) {
-        webEngine.executeScript(
-                String.format("preMarker(%f, %f);", (float)crash.latitude(), (float)crash.longitude())
-        );
     }
 
     /**
