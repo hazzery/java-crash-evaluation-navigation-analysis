@@ -52,21 +52,32 @@ public class MenuBarController {
     private void displayIcons() {
         Image mapIMG = null;
         Image tableIMG = null;
-        Image menuIMG = null;
-        try{
+        Image closeIMG = null;
+        try {
             mapIMG = new Image(getClass().getResourceAsStream("/icons/map.png"), 20, 20, true, true);
             tableIMG = new Image(getClass().getResourceAsStream("/icons/table.png"), 20, 20, true, true);
-            menuIMG = new Image(getClass().getResourceAsStream("/icons/menu.png"), 12, 12, true, true);
+
+            closeIMG = new Image(getClass().getResourceAsStream("/icons/close.png"), 12, 12, true, true);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
         menuButton.setContentDisplay(ContentDisplay.RIGHT);
         tableViewButton.setContentDisplay(ContentDisplay.RIGHT);
         mapViewButton.setContentDisplay(ContentDisplay.RIGHT);
-        menuButton.setGraphic(new ImageView(menuIMG));
+        menuButton.setGraphic(new ImageView(closeIMG));
         tableViewButton.setGraphic(new ImageView(tableIMG));
         mapViewButton.setGraphic(new ImageView(mapIMG));
 
+    }
+
+    private void displayClose() {
+        Image menuIMG = null;
+        try {
+            menuIMG = new Image(getClass().getResourceAsStream("/icons/menu.png"), 12, 12, true, true);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        menuButton.setGraphic(new ImageView(menuIMG));
     }
 
     private void toggleMenuBar() {
@@ -74,13 +85,15 @@ public class MenuBarController {
             menuPane.setPrefWidth(40);
 
             menuButton.setText("");
+            displayClose();
             helpButton.setText("?");
             tableViewButton.setText("");
             mapViewButton.setText("");
         } else {
             menuPane.setPrefWidth(120);
 
-            menuButton.setText("Menu");
+            menuButton.setText("Close");
+            displayIcons();
             helpButton.setText("Help ?");
             tableViewButton.setText("Table");
             mapViewButton.setText("Map");
