@@ -81,6 +81,7 @@ public class MapViewController {
         webEngine.executeScript(markerString.toString());
 
         postMarkers();
+        mainController.hideLoadingView();
     }
     
     /**
