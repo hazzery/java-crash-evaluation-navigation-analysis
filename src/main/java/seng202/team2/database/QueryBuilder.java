@@ -3,6 +3,7 @@ package seng202.team2.database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.management.Query;
 import java.util.List;
 
 /**
@@ -66,6 +67,18 @@ public class QueryBuilder {
         sql.append("(").append(queryField).append(" > ").append(lowerBound).append(") AND ");
         noConditions = false;
         return this;
+    }
+
+    public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
+        sql.append("(");
+        for (DbAttributes vehicle : queryVehicles) {
+            sql.append("(").append(vehicle).append(" > 0)").append(" OR ");
+        }
+        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
+        sql.append(") AND ");
+        noConditions = false;
+        return this;
+
     }
 
     /**
