@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,13 +133,15 @@ public class ButtonBarController {
 
     public void filterTable() {
         QueryBuilder queryBuilder = new QueryBuilder();
+        List<DbAttributes> vehiclesToQuery = new ArrayList<DbAttributes>();
 
         for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
             if (button.isSelected()) {
                 DbAttributes vehicle = buttonIdToVehicle.get(button.getId());
-                queryBuilder.greaterThan(0, vehicle);
+                vehiclesToQuery.add(vehicle);
             }
         }
+        queryBuilder.orVehicle(vehiclesToQuery);
 
         List<String> selectedSeverities = severities.getItems().stream()
                 .filter(item -> ((CheckBox)((CustomMenuItem) item).getContent()).isSelected())
