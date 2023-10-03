@@ -138,7 +138,6 @@ public class ButtonBarController {
         for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
             if (button.isSelected()) {
                 DbAttributes vehicle = buttonIdToVehicle.get(button.getId());
-                //queryBuilder.greaterThan(0,vehicle);
                 vehiclesToQuery.add(vehicle);
             }
         }
