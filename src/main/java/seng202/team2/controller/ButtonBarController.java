@@ -33,7 +33,7 @@ public class ButtonBarController {
     public ButtonBar buttonBar;
 
     @FXML
-    public MenuButton Regions;
+    public MenuButton regions;
 
     @FXML
     private RangeSlider yearSelect;
@@ -102,10 +102,12 @@ public class ButtonBarController {
      */
     private void setSeverityValues() {
         for (Severity severity : Severity.severities()) {
-            CheckMenuItem severityItem = new CheckMenuItem(severity.displayValue());
+            CustomMenuItem severityItem = new CustomMenuItem(new CheckBox(severity.displayValue()), false);
             severityItem.setId(severity.name());
             severities.getItems().add(severityItem);
         }
+        severities.setContextMenu(new ContextMenu());
+        severities.getContextMenu().setAutoHide(false);
     }
 
     /**
@@ -113,9 +115,9 @@ public class ButtonBarController {
      */
     private void setRegions() {
         for (Region region : Region.regions()) {
-            CheckMenuItem regionItem = new CheckMenuItem(region.displayValue());
+            CustomMenuItem regionItem = new CustomMenuItem(new CheckBox(region.displayValue()), false);
             regionItem.setId(region.name());
-            Regions.getItems().add(regionItem);
+            regions.getItems().add(regionItem);
         }
     }
 
@@ -139,7 +141,7 @@ public class ButtonBarController {
         }
 
         List<String> selectedSeverities = severities.getItems().stream()
-                .filter(item -> ((CheckMenuItem) item).isSelected())
+                .filter(item -> ((CheckBox)((CustomMenuItem) item).getContent()).isSelected())
                 .map(MenuItem::getId)
                 .toList();
 
@@ -151,8 +153,8 @@ public class ButtonBarController {
             queryBuilder.betweenValues(minYear, maxYear, DbAttributes.YEAR);
         }
 
-        List<String> selectedRegions = Regions.getItems().stream()
-                .filter(item -> ((CheckMenuItem) item).isSelected())
+        List<String> selectedRegions = regions.getItems().stream()
+                .filter(item -> ((CheckBox)((CustomMenuItem) item).getContent()).isSelected())
                 .map(MenuItem::getId)
                 .toList();
 
