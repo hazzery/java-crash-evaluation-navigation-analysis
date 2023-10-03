@@ -141,7 +141,7 @@ public class ButtonBarController {
         }
 
         List<String> selectedSeverities = severities.getItems().stream()
-                .filter(item -> ((CheckMenuItem) item).isSelected())
+                .filter(item -> ((CheckBox)((CustomMenuItem) item).getContent()).isSelected())
                 .map(MenuItem::getId)
                 .toList();
 
@@ -154,7 +154,7 @@ public class ButtonBarController {
         }
 
         List<String> selectedRegions = regions.getItems().stream()
-                .filter(item -> ((CheckMenuItem) item).isSelected())
+                .filter(item -> ((CheckBox)((CustomMenuItem) item).getContent()).isSelected())
                 .map(MenuItem::getId)
                 .toList();
 
