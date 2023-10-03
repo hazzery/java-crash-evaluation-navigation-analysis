@@ -1,7 +1,4 @@
-# SENG202 Template Project Overview
-Welcome to the template project for SENG202-2022 which you will transform into your own.
-This README file includes some useful information to help you get started.
-However, we expect that this README becomes your own
+# SENG202 - Team 2 JCENA
 
 ## Overview
 - This application is created for users to view traffic incident data provided by Waka Kotahi. It is made for users such as learner drivers and other stakeholders to navigate and query in order to identify areas of interest (such as places with low crashes).
