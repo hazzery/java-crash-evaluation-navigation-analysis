@@ -68,25 +68,19 @@ public class MapViewController {
      * Uses threading to display loading updates on the application
      */
     public void addAllCrashMarkers()  {
-        // Clear markers being displayed on the screen and show the loading screen
-        //mainController.displayLoadingView("Loading crash data onto the map...");
+        // Clear markers being displayed on the screen
         clearMarkers();
 
-        mainController.hideLoadingView();
-
-        StringBuilder markerString = new StringBuilder();
         // load the crashes onto the map
+        StringBuilder markerString = new StringBuilder();
         for (Crash crash : Crashes.getCrashes()) {
             if (crash != null) {
-                //preMarker(crash);
                 markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), (float) crash.longitude()));
             }
         }
-
         webEngine.executeScript(markerString.toString());
 
         postMarkers();
-        mainController.hideLoadingView();
     }
     
     /**
