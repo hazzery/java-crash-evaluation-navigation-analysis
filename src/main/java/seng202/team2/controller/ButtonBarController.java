@@ -108,7 +108,7 @@ public class ButtonBarController {
      */
     private void setRegions() {
         for (Region region : Region.regions()) {
-            CheckMenuItem regionItem = new CheckMenuItem(region.displayValue());
+            CustomMenuItem regionItem = new CustomMenuItem(new CheckBox(region.displayValue()), false);
             regionItem.setId(region.name());
             regions.getItems().add(regionItem);
         }
@@ -153,7 +153,7 @@ public class ButtonBarController {
             queryBuilder.betweenValues(minYear, maxYear, DbAttributes.YEAR);
         }
 
-        List<String> selectedRegions = Regions.getItems().stream()
+        List<String> selectedRegions = regions.getItems().stream()
                 .filter(item -> ((CheckMenuItem) item).isSelected())
                 .map(MenuItem::getId)
                 .toList();
