@@ -1,7 +1,5 @@
 package seng202.team2.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.text.Text;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
@@ -168,8 +166,8 @@ public class ButtonBarController {
      * Creates a listener for when either handle in the year selector changes and updates the slider labels
      */
     private void initYearSelectListeners() {
-        yearSelectLeftLabel.setWrappingWidth(27);
-        yearSelectRightLabel.setWrappingWidth(27);
+        yearSelectLeftLabel.setWrappingWidth(30);
+        yearSelectRightLabel.setWrappingWidth(30);
 
         yearSelect.lowValueProperty().addListener((observable, oldValue, newValue) -> {
             yearSelectLeftLabel.setText(Integer.toString((int) yearSelect.getLowValue()));
