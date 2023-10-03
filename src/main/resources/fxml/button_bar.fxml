@@ -20,7 +20,7 @@
         <ToggleButton fx:id="car" maxWidth="5.0" mnemonicParsing="false"/>
         <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false"/>
         <MenuButton fx:id="severities" mnemonicParsing="false" text="Severity"/>
-        <MenuButton fx:id="Regions" mnemonicParsing="false" text="Region"/>
+        <MenuButton fx:id="regions" mnemonicParsing="false" text="Region"/>
         <Text layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="$MIN_YEAR">
             <font>
                 <Font size="11.0"/>

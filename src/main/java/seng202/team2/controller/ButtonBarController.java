@@ -32,7 +32,7 @@ public class ButtonBarController {
     public ButtonBar buttonBar;
 
     @FXML
-    public MenuButton Regions;
+    public MenuButton regions;
 
     @FXML
     private RangeSlider yearSelect;
@@ -95,10 +95,12 @@ public class ButtonBarController {
      */
     public void setSeverityValues() {
         for (Severity severity : Severity.severities()) {
-            CheckMenuItem severityItem = new CheckMenuItem(severity.displayValue());
+            CustomMenuItem severityItem = new CustomMenuItem(new CheckBox(severity.displayValue()), false);
             severityItem.setId(severity.name());
             severities.getItems().add(severityItem);
         }
+        severities.setContextMenu(new ContextMenu());
+        severities.getContextMenu().setAutoHide(false);
     }
 
     /**
@@ -108,7 +110,7 @@ public class ButtonBarController {
         for (Region region : Region.regions()) {
             CheckMenuItem regionItem = new CheckMenuItem(region.displayValue());
             regionItem.setId(region.name());
-            Regions.getItems().add(regionItem);
+            regions.getItems().add(regionItem);
         }
     }
 
