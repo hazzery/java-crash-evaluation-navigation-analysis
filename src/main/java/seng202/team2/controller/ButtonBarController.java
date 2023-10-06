@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Controls the filter button bar of the table
+ * JavaFX controller for the crash filter toolbar.
  *
  * @author Isaac Ure
  * @author Ben Moore
  */
-
 public class ButtonBarController {
 
     @FXML
@@ -79,6 +78,9 @@ public class ButtonBarController {
     private static final Logger log = LogManager.getLogger(ButtonBarController.class);
     private MainController mainController;
 
+    /**
+     * Set the icons on the vehicle filter buttons
+     */
     private void setIcons() {
         Image personIMG = null;
         Image cyclistIMG = null;
@@ -99,7 +101,7 @@ public class ButtonBarController {
     }
 
     /**
-     * Sets the severity values in the severities drop-down
+     * Set the severity values in the severities drop-down
      */
     private void setSeverityValues() {
         for (Severity severity : Severity.severities()) {
@@ -121,7 +123,7 @@ public class ButtonBarController {
     }
 
     /**
-     * default behavior of rangeSlider is not working correctly,
+     * Default behaviour of rangeSlider is not working correctly,
      * this method sets the default values
      */
     private void setRangeSliderValues() {
@@ -129,6 +131,9 @@ public class ButtonBarController {
         yearSelect.setHighValue(MAX_YEAR);
     }
 
+    /**
+     * Builds a query based on which filters are selected and updates the pool.
+     */
     public void filterTable() {
         QueryBuilder queryBuilder = new QueryBuilder();
         List<DbAttributes> vehiclesToQuery = new ArrayList<DbAttributes>();
@@ -166,7 +171,8 @@ public class ButtonBarController {
     }
 
     /**
-     * Creates a listener for when either handle in the year selector changes and updates the slider labels
+     * Creates listeners for both handles on the year selector.
+     * These update the values of the slider labels to show the current values of the year filter.
      */
     private void initYearSelectListeners() {
         yearSelectLeftLabel.setWrappingWidth(30);
@@ -180,10 +186,18 @@ public class ButtonBarController {
         });
     }
 
+    /**
+     * Gives the button bar access to the main controller.
+     * This allows for the button bar to update the table and map views.
+     * @param mainController The main JavaFX controller.
+     */
     public void giveMainControl(MainController mainController) {
         this.mainController = mainController;
     }
 
+    /**
+     * Initialises the button bar.
+     */
     void init() {
         setIcons();
         setSeverityValues();
