@@ -84,16 +84,13 @@ public class ButtonBarController {
         Image carIMG = null;
         Image busIMG = null;
         try {
-            personIMG = new Image(getClass().getResourceAsStream("/icons/person.png"), 20, 20, true, false);
-            cyclistIMG = new Image(getClass().getResourceAsStream("/icons/cyclist.png"), 20, 20, true, false);
-            carIMG = new Image(getClass().getResourceAsStream("/icons/car.png"), 20, 20, true, false);
-            busIMG = new Image(getClass().getResourceAsStream("/icons/bus.png"), 20, 20, true, false);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
             personIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/person.png")), 20, 20, true, false);
             cyclistIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/cyclist.png")), 20, 20, true, false);
             carIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/car.png")), 20, 20, true, false);
             busIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/bus.png")), 20, 20, true, false);
+        } catch (NullPointerException exception) {
+            log.error("Error loading vehicle icons");
+            log.error(exception);
         }
         pedestrian.setGraphic(new ImageView(personIMG));
         bicycle.setGraphic(new ImageView(cyclistIMG));
@@ -188,6 +185,7 @@ public class ButtonBarController {
     /**
      * Gives the button bar access to the main controller.
      * This allows for the button bar to update the table and map views.
+     *
      * @param mainController The main JavaFX controller.
      */
     public void giveMainControl(MainController mainController) {
