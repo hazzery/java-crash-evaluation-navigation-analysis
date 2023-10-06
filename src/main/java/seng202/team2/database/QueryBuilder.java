@@ -9,6 +9,7 @@ import java.util.List;
  * Query builder class
  *
  * @author James Lanigan
+ * @author Harrison Parkes
  */
 public class QueryBuilder {
     private static final Logger log = LogManager.getLogger(QueryBuilder.class);
