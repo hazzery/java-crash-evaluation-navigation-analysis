@@ -27,47 +27,12 @@ public class CrashDao {
         this.databaseManager = DatabaseManager.getInstance();
     }
 
-
-    /**
-     * Gets all crashes in database
-     *
-     * @return a list of all crashes
-     */
-    @Override
-    public List<Crash> getAll() {
-        String sql = "SELECT * FROM crashes";
-        return queryDatabase(sql);
-    }
-
     /**
      * Gets a single crash from the database by id
      *
      * @param id id of object to get
      * @return Crash that has id given
      */
-    @Override
-    public Crash getOne(int id) {
-        Crash crash = null;
-        String sql = "SELECT * FROM crashes WHERE id=?";
-        try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                while (resultSet.next()) {
-                    crash = crashFromResultSet(resultSet);
-                }
-
-                return crash;
-            } catch (SQLException exception) {
-                log.error(exception);
-                return null;
-            }
-        } catch (SQLException exception) {
-            log.error(exception);
-            return null;
-        }
-    }
-
     public List<Crash> queryDatabase(String sql) {
         List<Crash> crashes = new ArrayList<>();
 
@@ -112,16 +77,6 @@ public class CrashDao {
         );
     }
 
-    private List<Crash> crashListFromResults(ResultSet resultSet) throws SQLException {
-        ArrayList<Crash> crashes = new ArrayList<>();
-
-        while (resultSet.next()) {
-            crashes.add(crashFromResultSet(resultSet));
-        }
-
-        return crashes;
-    }
-
 
     private void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
         preparedStatement.setInt(DbAttributes.ID.dbColumn(), crash.crashID());
@@ -140,31 +95,6 @@ public class CrashDao {
 
         for (Vehicle vehicle : crash.vehicles().keySet()) {
             preparedStatement.setInt(vehicle.getDbColumn(), crash.vehicles().get(vehicle));
-        }
-    }
-
-
-    /**
-     * Adds a single object of type T to database
-     *
-     * @param toAdd object of type T to add
-     * @return object insert id if inserted correctly
-     */
-    @Override
-    public int add(Crash toAdd) {
-        String sql = "INSERT INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
-            prepareStatementForCrash(preparedStatement, toAdd);
-            preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            int insertId = -1;
-            if (resultSet.next()) {
-                insertId = resultSet.getInt(1);
-            }
-            return insertId;
-        } catch (SQLException sqlException) {
-            log.error(sqlException);
-            return -1;
         }
     }
 
@@ -191,31 +121,5 @@ public class CrashDao {
         } catch (SQLException sqlException) {
             log.info(sqlException);
         }
-    }
-
-    /**
-     * Deletes and object from database that matches id given
-     *
-     * @param id id of object to delete
-     */
-    @Override
-    public void delete(int id) {
-        String sql = "DELETE FROM crashes WHERE id=?";
-        try (PreparedStatement preparedStatement = databaseManager.getConnection().prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            log.error(sqlException);
-        }
-    }
-
-    /**
-     * Updates an object in the database
-     *
-     * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
-     */
-    @Override
-    public void update(Crash toUpdate) {
-        throw new NotImplementedException();
     }
 }
