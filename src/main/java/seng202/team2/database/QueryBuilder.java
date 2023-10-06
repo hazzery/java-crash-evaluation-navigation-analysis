@@ -3,7 +3,6 @@ package seng202.team2.database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.management.Query;
 import java.util.List;
 
 /**
