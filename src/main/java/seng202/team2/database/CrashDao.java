@@ -18,7 +18,7 @@ import java.util.Map;
  * @see <a href="https://docs.google.com/document/d/1OzJJYrHxHRYVzx_MKjC2XPGS8_arDKSxYD4NhDN37_E/edit">
  *     SENG202 Advanced Applications with JavaFX</a>
  */
-public class CrashDao implements DaoInterface<Crash> {
+public class CrashDao {
     private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger(CrashDao.class);
 
