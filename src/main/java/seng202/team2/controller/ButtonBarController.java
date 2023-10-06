@@ -16,10 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * JavaFX controller for the crash filter toolbar.
@@ -93,6 +90,10 @@ public class ButtonBarController {
             busIMG = new Image(getClass().getResourceAsStream("/icons/bus.png"), 20, 20, true, false);
         } catch (NullPointerException e) {
             e.printStackTrace();
+            personIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/person.png")), 20, 20, true, false);
+            cyclistIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/cyclist.png")), 20, 20, true, false);
+            carIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/car.png")), 20, 20, true, false);
+            busIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/bus.png")), 20, 20, true, false);
         }
         pedestrian.setGraphic(new ImageView(personIMG));
         bicycle.setGraphic(new ImageView(cyclistIMG));
