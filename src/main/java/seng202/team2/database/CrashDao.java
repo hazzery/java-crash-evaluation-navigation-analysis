@@ -1,6 +1,5 @@
 package seng202.team2.database;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team2.models.*;
