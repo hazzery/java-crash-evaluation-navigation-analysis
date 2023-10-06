@@ -40,7 +40,7 @@ public class CsvReader {
     private static int nullSafeParseInt(String string) {
         try {
             return Integer.parseInt(string);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             return 0;
         }
     }
