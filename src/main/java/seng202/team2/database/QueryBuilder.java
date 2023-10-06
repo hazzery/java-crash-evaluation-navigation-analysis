@@ -6,7 +6,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 /**
- * Query builder class
+ * Query builder class to create SQL queries for the database.
+ * Allows for complex queries to be built up in a modular fashion.
  *
  * @author James Lanigan
  * @author Harrison Parkes
