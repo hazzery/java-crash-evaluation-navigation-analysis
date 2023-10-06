@@ -178,12 +178,10 @@ public class ButtonBarController {
         yearSelectLeftLabel.setWrappingWidth(30);
         yearSelectRightLabel.setWrappingWidth(30);
 
-        yearSelect.lowValueProperty().addListener((observable, oldValue, newValue) -> {
-            yearSelectLeftLabel.setText(Integer.toString((int) yearSelect.getLowValue()));
-        });
-        yearSelect.highValueProperty().addListener((observable, oldValue, newValue) -> {
-            yearSelectRightLabel.setText(Integer.toString((int) yearSelect.getHighValue()));
-        });
+        yearSelect.lowValueProperty().addListener((observable, oldValue, newValue) ->
+                        yearSelectLeftLabel.setText(Integer.toString((int) yearSelect.getLowValue())));
+        yearSelect.highValueProperty().addListener((observable, oldValue, newValue) ->
+                        yearSelectRightLabel.setText(Integer.toString((int) yearSelect.getHighValue())));
     }
 
     /**
