@@ -107,8 +107,6 @@ public class ButtonBarController {
             severityItem.setId(severity.name());
             severities.getItems().add(severityItem);
         }
-        severities.setContextMenu(new ContextMenu());
-        severities.getContextMenu().setAutoHide(false);
     }
 
     /**
