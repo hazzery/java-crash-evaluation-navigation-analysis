@@ -136,7 +136,7 @@ public class ButtonBarController {
      */
     public void filterTable() {
         QueryBuilder queryBuilder = new QueryBuilder();
-        List<DbAttributes> vehiclesToQuery = new ArrayList<DbAttributes>();
+        List<DbAttributes> vehiclesToQuery = new ArrayList<>();
 
         for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
             if (button.isSelected()) {
