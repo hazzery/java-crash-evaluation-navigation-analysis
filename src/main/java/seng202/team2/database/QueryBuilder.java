@@ -15,25 +15,28 @@ public class QueryBuilder {
 
     private StringBuilder sql = new StringBuilder("SELECT * FROM crashes WHERE ");
     private boolean noConditions = true; // Used to remove the WHERE of empty query
-    
-    public QueryBuilder() {}
+
+    public QueryBuilder() {
+    }
 
     /**
      * Filter out tuples with values of `queryField` not between lowerBound and upperBound (inclusive).
+     *
      * @param lowerBound lowest year value to include in results.
      * @param upperBound highest year value to include in results.
      */
     public QueryBuilder betweenValues(int lowerBound, int upperBound, DbAttributes queryField) {
         sql.append("(").append(queryField)
-                .append(" BETWEEN ").append(lowerBound).append(" AND ").append(upperBound)
-                .append(") AND ");
+                        .append(" BETWEEN ").append(lowerBound).append(" AND ").append(upperBound)
+                        .append(") AND ");
         noConditions = false;
         return this;
     }
 
     /**
      * Filter out tuple with values of `queryField` not equal to `value`.
-     * @param value value for comparison.
+     *
+     * @param value      value for comparison.
      * @param queryField field for comparison.
      */
     public QueryBuilder equalVal(int value, DbAttributes queryField) {
@@ -44,6 +47,7 @@ public class QueryBuilder {
 
     /**
      * Filter out tuples with values of `queryField` greater than or equal to `upperBound`.
+     *
      * @param upperBound The less than comparison operand.
      * @param queryField The particular crash attribute to filter by.
      */
@@ -55,6 +59,7 @@ public class QueryBuilder {
 
     /**
      * Filter out tuples with values of `queryField` less than or equal to `lowerBound`
+     *
      * @param lowerBound The greater than comparison operand.
      * @param queryField The particular crash attribute to filter by.
      */
@@ -66,6 +71,7 @@ public class QueryBuilder {
 
     /**
      * Filters out tuples which do not have at least one of the vehicles specified in `queryVehicles`.
+     *
      * @param queryVehicles List of vehicles to include in results.
      */
     public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
@@ -82,8 +88,9 @@ public class QueryBuilder {
     /**
      * Filters out all tuples which do not have a value of `queryField` similar to `searchString`.
      * NOTE: Current implementation functions only as direct match, not matching similar string.
+     *
      * @param searchString String input by user to search for.
-     * @param queryField The particular crash attribute to filter by.
+     * @param queryField   The particular crash attribute to filter by.
      */
     public QueryBuilder likeString(String searchString, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" LIKE ").append(searchString).append(") AND ");
@@ -93,9 +100,10 @@ public class QueryBuilder {
 
     /**
      * Filters out all tuples which do not have a value of `queryField`
-     *     that is equal to one of the values in `conditionList`.
+     * that is equal to one of the values in `conditionList`.
+     *
      * @param conditionList list of allowable values for `queryField`.
-     * @param queryField field for filtering
+     * @param queryField    field for filtering
      */
     public QueryBuilder orString(List<String> conditionList, DbAttributes queryField) {
         if (conditionList.isEmpty()) {
@@ -115,6 +123,7 @@ public class QueryBuilder {
 
     /**
      * Return the SQL query string for the given query
+     *
      * @return final concatenated query
      */
     public String getQuery() {

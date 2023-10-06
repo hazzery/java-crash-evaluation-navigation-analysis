@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author Harrison Parkes
  * @see <a href="https://docs.google.com/document/d/1OzJJYrHxHRYVzx_MKjC2XPGS8_arDKSxYD4NhDN37_E/edit">
- *     SENG202 Advanced Applications with JavaFX</a>
+ * SENG202 Advanced Applications with JavaFX</a>
  */
 public class CrashDao {
     private final DatabaseManager databaseManager;
@@ -32,6 +32,7 @@ public class CrashDao {
 
     /**
      * Get a selection of crashes from the database.
+     *
      * @param sql An SQL query to select the crashes to return.
      * @return A list of crashes matching the query.
      */
@@ -54,6 +55,7 @@ public class CrashDao {
 
     /**
      * Convert a JDBC ResultSet to a Crash object.
+     *
      * @param resultSet The result of the SQL query
      * @return A Crash object with the data from the ResultSet
      * @throws SQLException If the ResultSet is invalid
@@ -68,27 +70,28 @@ public class CrashDao {
             }
         }
         return new Crash(
-                resultSet.getInt(DbAttributes.ID.dbColumn()),
-                resultSet.getInt(DbAttributes.YEAR.dbColumn()),
-                resultSet.getInt(DbAttributes.FATALITIES.dbColumn()),
-                resultSet.getInt(DbAttributes.SERIOUS_INJURIES.dbColumn()),
-                resultSet.getInt(DbAttributes.MINOR_INJURIES.dbColumn()),
-                resultSet.getDouble(DbAttributes.LATITUDE.dbColumn()),
-                resultSet.getDouble(DbAttributes.LONGITUDE.dbColumn()),
-                resultSet.getString(DbAttributes.ROAD_NAME_1.dbColumn()),
-                resultSet.getString(DbAttributes.ROAD_NAME_2.dbColumn()),
-                Region.fromString(resultSet.getString(DbAttributes.REGION.dbColumn())),
-                Weather.fromString(resultSet.getString(DbAttributes.WEATHER.dbColumn())),
-                Lighting.fromString(resultSet.getString(DbAttributes.LIGHTING.dbColumn())),
-                Severity.fromString(resultSet.getString(DbAttributes.SEVERITY.dbColumn())),
-                vehicles
+                        resultSet.getInt(DbAttributes.ID.dbColumn()),
+                        resultSet.getInt(DbAttributes.YEAR.dbColumn()),
+                        resultSet.getInt(DbAttributes.FATALITIES.dbColumn()),
+                        resultSet.getInt(DbAttributes.SERIOUS_INJURIES.dbColumn()),
+                        resultSet.getInt(DbAttributes.MINOR_INJURIES.dbColumn()),
+                        resultSet.getDouble(DbAttributes.LATITUDE.dbColumn()),
+                        resultSet.getDouble(DbAttributes.LONGITUDE.dbColumn()),
+                        resultSet.getString(DbAttributes.ROAD_NAME_1.dbColumn()),
+                        resultSet.getString(DbAttributes.ROAD_NAME_2.dbColumn()),
+                        Region.fromString(resultSet.getString(DbAttributes.REGION.dbColumn())),
+                        Weather.fromString(resultSet.getString(DbAttributes.WEATHER.dbColumn())),
+                        Lighting.fromString(resultSet.getString(DbAttributes.LIGHTING.dbColumn())),
+                        Severity.fromString(resultSet.getString(DbAttributes.SEVERITY.dbColumn())),
+                        vehicles
         );
     }
 
     /**
      * Prepares a JDBC SQL insertion for a given crash
+     *
      * @param preparedStatement The statement to add the crash data into
-     * @param crash The crash to add to the statement
+     * @param crash             The crash to add to the statement
      * @throws SQLException If the statement is not of the correct format for a crash
      */
     private void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
@@ -114,9 +117,10 @@ public class CrashDao {
     /**
      * Adds a batch of sales to the database
      * This is done much quicker than individually
+     *
      * @param toAdd list of sales to add to the database
      */
-    public void addBatch (List <Crash> toAdd) {
+    public void addBatch(List<Crash> toAdd) {
         String sql = "INSERT INTO crashes values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -127,7 +131,7 @@ public class CrashDao {
             }
             preparedStatement.executeBatch();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 log.info(resultSet.getLong(1));
             }
             connection.commit();
