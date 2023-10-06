@@ -120,28 +120,4 @@ public class CsvReader {
         }
         return crashes;
     }
-
-    /**
-     * Reads the CSV file and creates a new {@link Crash} object for each row.
-     *
-     * @param numCrashes The number of crashes to read from the CSV file
-     * @deprecated Use {@link #generateAllCrashes()} instead
-     */
-    @Deprecated
-    public Crash[] readLines(int numCrashes) {
-        Crash[] crashes = new Crash[numCrashes];
-
-        try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
-            reader.skip(1); // skip the first line of headers
-
-            for (int crash = 0; crash < numCrashes; crash++) {
-                String[] values = reader.readNext();
-
-                crashes[crash] = crashFromCsvData(values);
-            }
-        } catch (IOException | CsvValidationException exception) {
-            log.error(exception);
-        }
-        return crashes;
-    }
 }
