@@ -25,12 +25,11 @@ public class QueryBuilder {
      * @param lowerBound lowest year value to include in results.
      * @param upperBound highest year value to include in results.
      */
-    public QueryBuilder betweenValues(int lowerBound, int upperBound, DbAttributes queryField) {
+    public void betweenValues(int lowerBound, int upperBound, DbAttributes queryField) {
         sql.append("(").append(queryField)
                         .append(" BETWEEN ").append(lowerBound).append(" AND ").append(upperBound)
                         .append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
@@ -39,10 +38,9 @@ public class QueryBuilder {
      * @param value      value for comparison.
      * @param queryField field for comparison.
      */
-    public QueryBuilder equalVal(int value, DbAttributes queryField) {
+    public void equalVal(int value, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" = ").append(value).append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
@@ -51,10 +49,9 @@ public class QueryBuilder {
      * @param upperBound The less than comparison operand.
      * @param queryField The particular crash attribute to filter by.
      */
-    public QueryBuilder lessThan(int upperBound, DbAttributes queryField) {
+    public void lessThan(int upperBound, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" < ").append(upperBound).append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
@@ -63,10 +60,9 @@ public class QueryBuilder {
      * @param lowerBound The greater than comparison operand.
      * @param queryField The particular crash attribute to filter by.
      */
-    public QueryBuilder greaterThan(int lowerBound, DbAttributes queryField) {
+    public void greaterThan(int lowerBound, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" > ").append(lowerBound).append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
@@ -74,14 +70,13 @@ public class QueryBuilder {
      *
      * @param queryVehicles List of vehicles to include in results.
      */
-    public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
+    public void orVehicle(List<DbAttributes> queryVehicles) {
         for (DbAttributes vehicle : queryVehicles) {
             sql.append("(").append(vehicle).append(" > 0)").append(" OR ");
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
         sql.append(" AND ");
         noConditions = false;
-        return this;
 
     }
 
@@ -92,10 +87,9 @@ public class QueryBuilder {
      * @param searchString String input by user to search for.
      * @param queryField   The particular crash attribute to filter by.
      */
-    public QueryBuilder likeString(String searchString, DbAttributes queryField) {
+    public void likeString(String searchString, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" LIKE ").append(searchString).append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
@@ -105,9 +99,9 @@ public class QueryBuilder {
      * @param conditionList list of allowable values for `queryField`.
      * @param queryField    field for filtering
      */
-    public QueryBuilder orString(List<String> conditionList, DbAttributes queryField) {
+    public void orString(List<String> conditionList, DbAttributes queryField) {
         if (conditionList.isEmpty()) {
-            return this;
+            return;
         }
 
         sql.append("(");
@@ -118,7 +112,6 @@ public class QueryBuilder {
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
         sql.append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
