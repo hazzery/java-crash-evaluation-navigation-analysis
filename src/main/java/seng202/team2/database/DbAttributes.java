@@ -1,5 +1,10 @@
 package seng202.team2.database;
 
+/**
+ * Enum listing all columns of the crashes table in the database, in order.
+ *
+ * @author Harrison Parkes
+ */
 public enum DbAttributes {
     ID,
     YEAR,
