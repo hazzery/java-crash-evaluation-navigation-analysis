@@ -89,7 +89,6 @@ public class CsvReader {
                              weather, lighting, severity, vehicles);
         } catch (NumberFormatException exception) {
             log.error("Error parsing crash data: " + Arrays.toString(crashData));
-            exception.printStackTrace();
             log.error(exception);
         }
 
