@@ -23,15 +23,18 @@ public class CrashDao {
     private static final Logger log = LogManager.getLogger(CrashDao.class);
 
 
+    /**
+     * Database Access Object for Crash objects.
+     * Establishes a connection to the database.
+     */
     public CrashDao() {
         this.databaseManager = DatabaseManager.getInstance();
     }
 
     /**
-     * Gets a single crash from the database by id
-     *
-     * @param id id of object to get
-     * @return Crash that has id given
+     * Get a selection of crashes from the database.
+     * @param sql An SQL query to select the crashes to return.
+     * @return A list of crashes matching the query.
      */
     public List<Crash> queryDatabase(String sql) {
         List<Crash> crashes = new ArrayList<>();
@@ -50,6 +53,12 @@ public class CrashDao {
         }
     }
 
+    /**
+     * Convert a JDBC ResultSet to a Crash object.
+     * @param resultSet The result of the SQL query
+     * @return A Crash object with the data from the ResultSet
+     * @throws SQLException If the ResultSet is invalid
+     */
     private Crash crashFromResultSet(ResultSet resultSet) throws SQLException {
         Map<Vehicle, Integer> vehicles = new HashMap<>();
 
@@ -77,7 +86,12 @@ public class CrashDao {
         );
     }
 
-
+    /**
+     * Prepares a JDBC SQL insertion for a given crash
+     * @param preparedStatement The statement to add the crash data into
+     * @param crash The crash to add to the statement
+     * @throws SQLException If the statement is not of the correct format for a crash
+     */
     private void prepareStatementForCrash(PreparedStatement preparedStatement, Crash crash) throws SQLException {
         preparedStatement.setInt(DbAttributes.ID.dbColumn(), crash.crashID());
         preparedStatement.setInt(DbAttributes.YEAR.dbColumn(), crash.year());
