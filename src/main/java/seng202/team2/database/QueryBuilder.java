@@ -74,7 +74,7 @@ public class QueryBuilder {
      */
     public void orVehicle(List<DbAttributes> queryVehicles) {
         if (queryVehicles.isEmpty()) {
-            return this;
+            return;
         }
 
         for (DbAttributes vehicle : queryVehicles) {
