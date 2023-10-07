@@ -76,6 +76,10 @@ public class QueryBuilder {
      * @param queryVehicles List of DbAttributes to be checked
      */
     public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
+        if (queryVehicles.isEmpty()) {
+            return this;
+        }
+
         for (DbAttributes vehicle : queryVehicles) {
             sql.append("(").append(vehicle).append(" > 0)").append(" OR ");
         }
