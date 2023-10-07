@@ -141,19 +141,14 @@ public class ButtonBarController {
                 vehiclesToQuery.add(vehicle);
             }
         }
-
-        if (vehiclesToQuery.size() > 0) {
-            queryBuilder.orVehicle(vehiclesToQuery);
-        }
+        queryBuilder.orVehicle(vehiclesToQuery);
 
         List<String> selectedSeverities = severities.getItems().stream()
                 .filter(item -> ((CheckBox)((CustomMenuItem) item).getContent()).isSelected())
                 .map(MenuItem::getId)
                 .toList();
 
-        if (selectedSeverities.size() > 0) {
-            queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY);
-        }
+        queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY);
 
         int minYear = (int) yearSelect.getLowValue();
         int maxYear = (int) yearSelect.getHighValue();
@@ -166,9 +161,7 @@ public class ButtonBarController {
                 .map(MenuItem::getId)
                 .toList();
 
-        if (selectedRegions.size() > 0) {
-            queryBuilder.orString(selectedRegions, DbAttributes.REGION);
-        }
+        queryBuilder.orString(selectedRegions, DbAttributes.REGION);
 
         Crashes.setQuery(queryBuilder);
         mainController.updateViews();
