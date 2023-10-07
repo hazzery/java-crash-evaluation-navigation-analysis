@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions;
  * @author bmo80
  */
 public class QueryStepDefs {
-    @Given("All Information Shown")
+    @Given("I have the car button selected")
     public void allInformationShown() {
 
     }
