@@ -1,8 +1,6 @@
 package seng202.team2.controller;
 
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
