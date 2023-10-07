@@ -108,7 +108,6 @@ public class MainController {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
             tableViewParent = tableViewLoader.load();
             tableViewController = tableViewLoader.getController();
-            tableViewController.init();
             mainWindow.getStylesheets().add(getClass().getResource("/stylesheets/table.css").toExternalForm());
         } catch (IOException e) {
             e.printStackTrace();
