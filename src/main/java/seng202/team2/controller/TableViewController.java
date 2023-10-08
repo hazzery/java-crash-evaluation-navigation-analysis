@@ -54,7 +54,7 @@ public class TableViewController {
     private Node setPage(int pageIndex) {
         int indexOfFirst = pageIndex * rowsPerPage;
         int indexOfLast = Math.min(indexOfFirst + rowsPerPage, Crashes.getCrashes().size());
-        tableView.setItems(FXCollections.observableArrayList(Crashes.getCrashes().subList(indexOfFirst, indexOfLast)));
+        tableView.setItems(FXCollections.observableList(Crashes.getCrashes().subList(indexOfFirst, indexOfLast)));
         return new Label();
     }
 
