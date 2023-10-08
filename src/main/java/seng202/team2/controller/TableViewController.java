@@ -59,11 +59,9 @@ public class TableViewController {
     }
 
     /**
-     * Applies the new filter to the table view,
-     * making sure to update the page count too
+     * Updates the page count to reflect the new number or results for the last query
      */
     public void updateCrashes() {
-        tableView.setItems(Crashes.getCrashes());
         pagination.setPageCount(Crashes.getCrashes().size() / rowsPerPage + 1);
     }
 }
