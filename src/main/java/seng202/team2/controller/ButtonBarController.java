@@ -1,6 +1,7 @@
 package seng202.team2.controller;
 
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.models.Crashes;
@@ -182,6 +183,21 @@ public class ButtonBarController {
         });
     }
 
+    /**
+     * Sets tooltips for all the buttons on the filter bar
+     * using the helper function in MainController
+     */
+    private void setTooltips() {
+        pedestrian.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving pedestrians"));
+        bicycle.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving bicycles"));
+        car.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving cars"));
+        bus.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving heavy vehicles"));
+        severities.setTooltip(this.mainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
+        regions.setTooltip(this.mainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
+        yearSelect.setTooltip(this.mainController.makeTooltip("Slider: Limit crashes to specific range of years"));
+        confirmSelection.setTooltip(this.mainController.makeTooltip("Apply all the selected filters (May take time to load)"));
+    }
+
     public void giveMainControl(MainController mainController) {
         this.mainController = mainController;
     }
@@ -191,6 +207,7 @@ public class ButtonBarController {
         setSeverityValues();
         setRegions();
         setRangeSliderValues();
+        setTooltips();
         initYearSelectListeners();
     }
 }

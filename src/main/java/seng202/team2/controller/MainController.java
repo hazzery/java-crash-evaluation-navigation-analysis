@@ -4,8 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -33,7 +35,8 @@ public class MainController {
     private MapViewController mapViewController;
 
     private Label loadingLabel;
-    int currentView;
+    private int currentView;
+    private final Duration tooltipDelaySec = Duration.seconds(1);
 
     public void init(Stage stage) {
         initialiseLoadingView();
@@ -67,8 +70,8 @@ public class MainController {
             FXMLLoader buttonBarLoader = new FXMLLoader(getClass().getResource("/fxml/button_bar.fxml"));
             Parent buttonBarParent = buttonBarLoader.load();
             ButtonBarController buttonBarController = buttonBarLoader.getController();
-            buttonBarController.init();
             buttonBarController.giveMainControl(this);
+            buttonBarController.init();
             topBarPane.setCenter(buttonBarParent);
         } catch (IOException e) {
             e.printStackTrace();
@@ -139,7 +142,6 @@ public class MainController {
         }
     }
 
-
     public void displayTableView() {
         tableButtonsPane.setCenter(tableViewParent);
         currentView = 0;
@@ -153,5 +155,17 @@ public class MainController {
     public void updateViews() {
         mapViewController.addAllCrashMarkers();
         tableViewController.updateCrashes();
+    }
+
+    /**
+     * A helper function to condense making new tooltips for all the buttons
+     * @param tooltipText The text for the tooltip to display
+     * @return new tooltip with specified text and the specific tooltip show delay time.
+     */
+    public Tooltip makeTooltip(String tooltipText) {
+        Tooltip newTooltip = new Tooltip();
+        newTooltip.setShowDelay(tooltipDelaySec);
+        newTooltip.setText(tooltipText);
+        return newTooltip;
     }
 }
