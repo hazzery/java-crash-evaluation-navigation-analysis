@@ -24,4 +24,19 @@ public enum TableAttribute {
         String display = name().toLowerCase().replaceAll("_", " ");
         return StringUtils.capitalize(display);
     }
+
+    /**
+     * Gets the suffix of the attributes getter within the crash class.
+     * e.g. SERIOUS_INJURIES -> "SeriousInjuries"
+     * @return string name of getter function for reflection
+     */
+    public String columnGetterName() {
+        StringBuilder output = new StringBuilder();
+
+        for (String word : name().split("_")) {
+            output.append(StringUtils.capitalize(word.toLowerCase()));
+        }
+
+        return output.toString();
+    }
 }
