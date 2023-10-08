@@ -32,7 +32,7 @@ public class QueryStepDefs {
 
     @Then("All results in database are shown")
     public void allRowsShown() {
-        Assertions.assertTrue(0<queryResult.size());
+        Assertions.assertEquals(820467,queryResult.size());
     }
 
     @When("User Asks For Just 2018 Crashes")
