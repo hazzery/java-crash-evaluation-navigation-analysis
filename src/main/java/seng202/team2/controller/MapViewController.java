@@ -67,7 +67,11 @@ public class MapViewController {
         StringBuilder markerString = new StringBuilder();
         for (Crash crash : Crashes.getCrashes()) {
             if (crash != null) {
-                markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), (float) crash.longitude()));
+                float newLong = (float) crash.longitude();
+                if (newLong < 0) {
+                    newLong += 360;
+                }
+                markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), newLong));
             }
         }
         webEngine.executeScript(markerString.toString());
