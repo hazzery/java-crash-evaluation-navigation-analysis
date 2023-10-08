@@ -37,6 +37,7 @@ public class TableViewController {
         for (TableAttribute tableAttribute : TableAttribute.values()) {
             TableColumn<Crash, String> column = new TableColumn<>(tableAttribute.displayValue());
             column.setCellValueFactory(new PropertyValueFactory<>(tableAttribute.columnGetterName()));
+            column.setSortable(false);
             tableView.getColumns().add(column);
         }
 
