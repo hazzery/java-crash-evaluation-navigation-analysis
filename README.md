@@ -1,6 +1,6 @@
 # SENG202 Team 2 JCENA
 ## Overview
-- This application is created for users to view crash data provided by Waka Kotahi. It is made for learner/ restricted drivers and their instructors to navigate and query in order to identify areas of interest (such as places with low crashes).
+- This application is created for users to view (800000) crash data points provided by Waka Kotahi. It is made for learner/ restricted drivers and their instructors to navigate and query in order to identify areas of interest (such as places with low crashes).
 
 ## Authors
 - Ben Moore
