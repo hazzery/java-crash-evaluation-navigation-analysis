@@ -3,7 +3,10 @@ package seng202.team2.controller;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.team2.models.Crash;
 import seng202.team2.models.Crashes;
@@ -44,6 +47,7 @@ public class TableViewController {
     /**
      * Sets the tableview page.
      * This callback is executed every time the user presses a page button on the pagination toolbar.
+     *
      * @param pageIndex The index of the page to show.
      * @return A JavaFX Node. This node is not used and only exists to please JavaFX.
      */
@@ -63,4 +67,3 @@ public class TableViewController {
         pagination.setPageCount(Crashes.getCrashes().size() / rowsPerPage + 1);
     }
 }
-
