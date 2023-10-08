@@ -33,10 +33,7 @@
     var route;
     var cluster;
     var heatmapLayer;
-    var testData = {
-        max: 100000,
-        data: []
-    };
+    var testData = {max: 100000,data: []};
 
     // don't open context menu on right click
     document.oncontextmenu = function(event) {
@@ -94,6 +91,10 @@
      */
     function preMarker(lat, lng) {
         testData.data.push({lat: lat, lng: lng, count: 1});
+    }
+
+    function setData(data) {
+        heatmapLayer.setData(data);
     }
 
     /**
@@ -196,12 +197,12 @@
             10: 1000,
             11: 500,
             12: 100,
-            13: 50,
-            14: 20,
-            15: 14,
+            13: 60,
+            14: 40,
+            15: 20,
             16: 10,
-            17: 9,
-            18: 8,
+            17: 10,
+            18: 10,
         };
 
         map.on('zoomend', function() {
