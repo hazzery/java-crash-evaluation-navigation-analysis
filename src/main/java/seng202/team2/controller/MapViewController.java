@@ -2,7 +2,11 @@ package seng202.team2.controller;
 
 
 import javafx.concurrent.Worker;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.team2.models.Crash;
@@ -67,7 +71,7 @@ public class MapViewController {
         StringBuilder markerString = new StringBuilder();
         for (Crash crash : Crashes.getCrashes()) {
             if (crash != null) {
-                markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), (float) crash.longitude()));
+                markerString.append(String.format("preMarker(%f,%f);", (float) crash.latitude(), (float) crash.longitude()));
             }
         }
         webEngine.executeScript(markerString.toString());

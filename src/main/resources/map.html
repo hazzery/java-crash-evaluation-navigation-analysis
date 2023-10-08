@@ -4,8 +4,6 @@
     <title>Leaflet & OSM Map Demo</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-    <link rel="stylesheet" href="MarkerCluster.css" />
-    <link rel="stylesheet" href="MarkerCluster.Default.css" />
 
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
@@ -24,7 +22,6 @@
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-<script src="leaflet.markercluster.js"></script>
 <script src="heatmap.js"></script>
 <script src="leaflet-heatmap.js"></script>
 <script>
@@ -37,8 +34,8 @@
     var cluster;
     var heatmapLayer;
     var testData = {
-        max: 8,
-        data: [{lat: 24.6408, lng: 46.7728, count: 3}, {lat: 50.75, lng: -1.55, count: 1}]
+        max: 100000,
+        data: []
     };
 
     // don't open context menu on right click
@@ -103,12 +100,6 @@
      * Clear markers
      */
     function clearMarkers() {
-        // crashList = [];
-        // // remove cluster from the map
-        // if (map.hasLayer(cluster)) {
-        //     map.removeLayer(cluster);
-        // }
-        // cluster = undefined; // to avoid memory errors
         testData.data = [];
     }
 
@@ -116,13 +107,6 @@
      * Creates a bunch of clusters after they have all been added to crashList
      */
     function postMarkers() {
-        // cluster = new L.MarkerClusterGroup();
-        // for (var i = 0; i < crashList.length; i++) {
-        //     var c = crashList[i];
-        //     var m = new L.Marker([c[0], c[1]]);
-        //     cluster.addLayer(m);
-        // }
-        // map.addLayer(cluster);
         heatmapLayer.setData(testData);
     }
 
@@ -170,32 +154,30 @@
             // if scaleRadius is false it will be the constant radius used in pixels
             "radius": 15,
             "maxOpacity": .8,
+            "minOpacity": .0,
             // scales the radius based on map zoom
             "scaleRadius": false,
             // if set to false the heatmap uses the global maximum for colorization
             // if activated: uses the data maximum within the current map boundaries
             //   (there will always be a red spot with useLocalExtremas true)
             "useLocalExtrema": false,
+            //max: 10000,
             // which field name in your data represents the latitude - default "lat"
             latField: 'lat',
             // which field name in your data represents the longitude - default "lng"
             lngField: 'lng',
             // which field name in your data represents the data value - default "value"
-            valueField: 'count'
+            valueField: 'count',
+            gradient: {0: 'yellow', 0.45: 'orange', 1: 'red'}
         };
 
 
         heatmapLayer = new HeatmapOverlay(cfg);
-
-        // var map = new L.Map('map-canvas', {
-        //     center: new L.LatLng(25.6586, -80.3568),
-        //     zoom: 4
-        //     //layers: [baseLayer, heatmapLayer]
-        // });
         var mapOptions = {
             center: [-44.0, 171.0],
             zoom: 5,
             minZoom: 5,
+            maxZoom: 18,
             layers: [baseLayer, heatmapLayer]
         }
         map = new L.map('map', mapOptions);
@@ -203,6 +185,33 @@
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
         }).addTo(map)
 
+        heatmapLayer.setData(testData);
+
+        const heatmapMaxValues = {
+            5: 10000,
+            6: 6000,
+            7: 5000,
+            8: 3000,
+            9: 2000,
+            10: 1000,
+            11: 500,
+            12: 100,
+            13: 50,
+            14: 20,
+            15: 14,
+            16: 10,
+            17: 9,
+            18: 8,
+        };
+
+        map.on('zoomend', function() {
+            let x = -1 * map.getZoom() + 15
+            setMax(heatmapMaxValues[map.getZoom()]);
+        });
+    }
+
+    function setMax(value) {
+        testData.max = value;
         heatmapLayer.setData(testData);
     }
 </script>
