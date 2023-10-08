@@ -11,29 +11,33 @@ import java.sql.*;
 
 /**
  * Singleton class responsible for interaction with SQLite database
+ *
  * @author Morgan English
  * @author Harrison Parkes
  * @see <a href="https://docs.google.com/document/d/1OzJJYrHxHRYVzx_MKjC2XPGS8_arDKSxYD4NhDN37_E/edit">
- *     SENG202 Advanced Applications with JavaFX</a>
+ * SENG202 Advanced Applications with JavaFX</a>
  */
-public class DatabaseManager implements AutoCloseable{
+public class DatabaseManager implements AutoCloseable {
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
     private final String url;
     Connection connection;
 
     /**
-     * Private constructor for singleton purposes
-     * Creates database if it does not already exist in specified location
+     * The constructor is private as this is a singleton class.
+     * Use {@link #getInstance()} to get the current instance.
+     * This creates a new database if one does not already exist in the specified location.
+     *
+     * @param urlIn url of the database to load (this needs to be full url e.g. "jdbc:sqlite:...") or null.
      */
     private DatabaseManager(String urlIn) {
-        if (urlIn==null || urlIn.isEmpty()){
+        if (urlIn == null || urlIn.isEmpty()) {
             this.url = getDatabasePath();
         } else {
             this.url = urlIn;
         }
 
-        if(!checkDatabaseExists(url)){
+        if (!checkDatabaseExists(url)) {
             createDatabaseFile(url);
             resetDB();
         }
@@ -46,11 +50,12 @@ public class DatabaseManager implements AutoCloseable{
     }
 
     /**
-     * Singleton method to get current Instance if exists otherwise create it
-     * @return the single instance DatabaseSingleton
+     * Singleton method to get current instance if one exists, otherwise create a new one.
+     *
+     * @return The single instance of DatabaseManager.
      */
     public static DatabaseManager getInstance() {
-        if(instance == null)
+        if (instance == null)
             // todo find a way to actually get db within jar
             // The following line can be used to reach a db file within the jar, however this will not be modifiable
             instance = new DatabaseManager(null);
@@ -59,14 +64,17 @@ public class DatabaseManager implements AutoCloseable{
     }
 
     /**
-     * WARNING Allows for setting specific database url (currently only needed for test databases, but may be useful
-     * in future) USE WITH CAUTION. This does not override the current singleton instance so must be the first call.
-     * @param url string url of database to load (this needs to be full url e.g. "jdbc:sqlite:./src/...")
-     * @throws InstanceAlreadyExistsException if there is already a singleton instance
+     * WARNING: Allows for setting specific database url.
+     * Currently only needed for test databases, but may be useful in the future.
+     * USE WITH CAUTION.
+     * This does not override the current singleton instance so must be the first call.
+     *
+     * @param url string url of a database to load (this needs to be full url e.g. "jdbc:sqlite:...")
      * @return current singleton instance
+     * @throws InstanceAlreadyExistsException if there is already a singleton instance
      */
     public static DatabaseManager initialiseInstanceWithUrl(String url) throws InstanceAlreadyExistsException {
-        if(instance == null)
+        if (instance == null)
             instance = new DatabaseManager(url);
         else
             throw new InstanceAlreadyExistsException("Database Manager instance already exists, cannot create with url: " + url);
@@ -75,15 +83,16 @@ public class DatabaseManager implements AutoCloseable{
     }
 
     /**
-     *  WARNING Sets the current singleton instance to null
+     * WARNING: Sets the current singleton instance to null.
      */
     public static void REMOVE_INSTANCE() {
         instance = null;
     }
 
     /**
-     * Connect to the database
-     * @return database connection
+     * Get a connection to the database.
+     *
+     * @return A database connection.
      */
     public Connection getConnection() throws SQLException {
         Connection con;
@@ -98,42 +107,45 @@ public class DatabaseManager implements AutoCloseable{
     }
 
     /**
-     * Initialises the database if it does not exist using the sql script included in resources
+     * Initialises the database if it does not exist using the sql script included in resources.
      */
     public void resetDB() {
         try {
-            InputStream in = getClass().getResourceAsStream("/sql/initialise_database.sql");
-            executeSQLScript(in);
+            InputStream initialise = getClass().getResourceAsStream("/sql/initialise_database.sql");
+            executeSQLScript(initialise);
         } catch (NullPointerException e) {
             log.error("Error loading database initialisation file", e);
         }
     }
 
     /**
-     * Gets path to the database relative to the jar file
-     * @return jdbc encoded url location of database
+     * Gets the path to the database relative to the jar file.
+     *
+     * @return JDBC encoded url location of the database.
      */
     private String getDatabasePath() {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         log.info(path);
         File jarDir = new File(path);
-        return "jdbc:sqlite:"+jarDir.getParentFile()+"/database.db";
+        return "jdbc:sqlite:" + jarDir.getParentFile() + "/database.db";
     }
 
     /**
-     * Check that a database exists in the expected location
-     * @param url expected location to check for database
-     * @return True if database exists else false
+     * Check that a database exists in the specified location.
+     *
+     * @param url Location to check for a database.
+     * @return True if a database exists at the location, otherwise false.
      */
-    private boolean checkDatabaseExists(String url){
+    private boolean checkDatabaseExists(String url) {
         File f = new File(url.substring(12));
         return f.exists();
     }
 
     /**
-     * Creates a database file at the location specified by the url
-     * @param url url to creat database at
+     * Creates a database file at the location specified by the url.
+     *
+     * @param url Location to create the database at.
      */
     private void createDatabaseFile(String url) {
         try {
@@ -148,15 +160,16 @@ public class DatabaseManager implements AutoCloseable{
 
     /**
      * Reads and executes all statements within the sql file provided
-     * Note that each statement must be separated by '--SPLIT' this is not a desired limitation but allows for a much
+     * NOTE: Each statement must be separated by '--SPLIT' this is not a desired limitation but allows for a much
      * wider range of statement types.
-     * @param sqlFile input stream of file containing sql statements for execution (separated by --SPLIT)
+     *
+     * @param sqlFile input stream of file containing SQL statements for execution (separated by --SPLIT)
      */
     private void executeSQLScript(InputStream sqlFile) {
         String string;
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(sqlFile))) {
-            while((string = bufferedReader.readLine()) != null) {
+            while ((string = bufferedReader.readLine()) != null) {
                 stringBuffer.append(string);
             }
 
@@ -178,6 +191,7 @@ public class DatabaseManager implements AutoCloseable{
 
     /**
      * Closes the database connection
+     *
      * @throws SQLException if connection cannot be closed
      */
     @Override

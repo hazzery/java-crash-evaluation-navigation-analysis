@@ -3,81 +3,78 @@ package seng202.team2.database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.management.Query;
 import java.util.List;
 
 /**
- * Query builder class
+ * Query builder class to create SQL queries for the database.
+ * Allows for complex queries to be built up in a modular fashion.
  *
  * @author James Lanigan
+ * @author Harrison Parkes
  */
 public class QueryBuilder {
     private static final Logger log = LogManager.getLogger(QueryBuilder.class);
 
     private StringBuilder sql = new StringBuilder("SELECT * FROM crashes WHERE ");
-    private boolean noConditions = true; // remove the WHERE
-    
-    public QueryBuilder() {}
+    private boolean noConditions = true; // Used to remove the WHERE of empty query
 
-    /**
-     * Creates query for tuples between lowerBound and upperBound inclusive
-     *
-     * @param lowerBound lowest year value to include in query
-     * @param upperBound highest year value to include in query
-     */
-    public QueryBuilder betweenValues(int lowerBound, int upperBound, DbAttributes queryField) {
-        sql.append("(").append(queryField)
-                .append(" BETWEEN ").append(lowerBound).append(" AND ").append(upperBound)
-                .append(") AND ");
-        noConditions = false;
-        return this;
+    public QueryBuilder() {
     }
 
     /**
-     * Creates query for queryField == val1
+     * Filter out tuples with values of `queryField` not between lowerBound and upperBound (inclusive).
      *
-     * @param value value for comparison
-     * @param queryField field for comparison
+     * @param lowerBound lowest year value to include in results.
+     * @param upperBound highest year value to include in results.
      */
-    public QueryBuilder equalVal(int value, DbAttributes queryField) {
+    public void betweenValues(int lowerBound, int upperBound, DbAttributes queryField) {
+        sql.append("(").append(queryField)
+                        .append(" BETWEEN ").append(lowerBound).append(" AND ").append(upperBound)
+                        .append(") AND ");
+        noConditions = false;
+    }
+
+    /**
+     * Filter out tuple with values of `queryField` not equal to `value`.
+     *
+     * @param value      value for comparison.
+     * @param queryField field for comparison.
+     */
+    public void equalVal(int value, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" = ").append(value).append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
-     * Query all tuples with queryField less than upperBound
+     * Filter out tuples with values of `queryField` greater than or equal to `upperBound`.
      *
-     * @param upperBound The less than comparison operand
-     * @param queryField The particular crash attribute to filter by
+     * @param upperBound The less than comparison operand.
+     * @param queryField The particular crash attribute to filter by.
      */
-    public QueryBuilder lessThan(int upperBound, DbAttributes queryField) {
+    public void lessThan(int upperBound, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" < ").append(upperBound).append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
-     * Query all tuples with queryField greater than val1 exclusive
+     * Filter out tuples with values of `queryField` less than or equal to `lowerBound`
      *
-     * @param lowerBound The greater than comparison operand
-     * @param queryField The particular crash attribute to filter by
+     * @param lowerBound The greater than comparison operand.
+     * @param queryField The particular crash attribute to filter by.
      */
-    public QueryBuilder greaterThan(int lowerBound, DbAttributes queryField) {
+    public void greaterThan(int lowerBound, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" > ").append(lowerBound).append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
-     * Builds query with list of vehicles
-     * Checks if number of one is greater than 1.
+     * Filters out tuples which do not have at least one of the vehicles specified in `queryVehicles`.
      *
-     * @param queryVehicles List of DbAttributes to be checked
+     * @param queryVehicles List of vehicles to include in results.
      */
-    public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
+    public void orVehicle(List<DbAttributes> queryVehicles) {
         if (queryVehicles.isEmpty()) {
-            return this;
+            return;
         }
 
         for (DbAttributes vehicle : queryVehicles) {
@@ -86,45 +83,45 @@ public class QueryBuilder {
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
         sql.append(" AND ");
         noConditions = false;
-        return this;
 
     }
 
     /**
-     * Create query for string searching queryField
-     * @param searchString String input by user to search for
-     * @param queryField The particular crash attribute to filter by
+     * Filters out all tuples which do not have a value of `queryField` similar to `searchString`.
+     * NOTE: Current implementation functions only as direct match, not matching similar string.
+     *
+     * @param searchString String input by user to search for.
+     * @param queryField   The particular crash attribute to filter by.
      */
-    public QueryBuilder likeString(String searchString, DbAttributes queryField) {
+    public void likeString(String searchString, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" LIKE ").append(searchString).append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
-     * Create query for tuples satisfying one condition in conditionList
+     * Filters out all tuples which do not have a value of `queryField`
+     * that is equal to one of the values in `conditionList`.
      *
-     * @param conditionList list of conditions for checking (String)
-     * @param queryField field for querying
+     * @param conditionList list of allowable values for `queryField`.
+     * @param queryField    field for filtering
      */
-    public QueryBuilder orString(List<String> conditionList, DbAttributes queryField) {
+    public void orString(List<String> conditionList, DbAttributes queryField) {
         if (conditionList.isEmpty()) {
-            return this;
+            return;
         }
 
         sql.append("(");
         for (String condition : conditionList) {
             sql.append(queryField).append(" = ");
-            sql.append("\"" + condition).append("\" OR ");
+            sql.append("\"").append(condition).append("\" OR ");
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
         sql.append(") AND ");
         noConditions = false;
-        return this;
     }
 
     /**
-     * Return generated query
+     * Return the SQL query string for the given query
      *
      * @return final concatenated query
      */
