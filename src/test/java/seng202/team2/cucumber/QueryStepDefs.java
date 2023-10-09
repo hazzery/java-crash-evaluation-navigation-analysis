@@ -62,14 +62,4 @@ public class QueryStepDefs {
         }
         Assertions.assertTrue(valid);
     }
-
-    @When("User Asks For Just 2018 Crashes")
-    public void userAsksForJust2018Crashes() {
-
-    }
-
-    @Then("??? Results Are Shown")
-    public void resultsAreShown() {
-        Assertions.assertEquals(2,2);
-    }
 }
