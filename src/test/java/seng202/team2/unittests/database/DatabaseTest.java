@@ -11,6 +11,7 @@ import java.sql.SQLException;
  * Tests for database creation, from JavaFX lab
  *
  * @author Morgan English
+ * @author James Lanigan
  */
 class DatabaseTest {
 
