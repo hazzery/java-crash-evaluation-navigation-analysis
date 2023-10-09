@@ -73,6 +73,8 @@ public class MainController {
         notificationLayoutPane = new BorderPane();
         notificationPane = new FlowPane(Orientation.VERTICAL);
         notificationPane.setAlignment(Pos.BOTTOM_CENTER);
+        notificationPane.setPickOnBounds(false);
+        notificationLayoutPane.setPickOnBounds(false);
         notificationLayoutPane.setRight(notificationPane);
         overlayPane.getChildren().add(notificationLayoutPane);
     }
