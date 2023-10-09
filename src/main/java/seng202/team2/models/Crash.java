@@ -1,5 +1,7 @@
 package seng202.team2.models;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Map;
 
 
@@ -9,9 +11,58 @@ import java.util.Map;
  *
  * @author Harrison Parkes
  */
-public record Crash(int crashID, int year, int fatalities, int seriousInjuries, int minorInjuries,
-                    double latitude, double longitude, String roadName1, String roadName2, Region region,
-                    Weather weather, Lighting lighting, Severity severity, Map<Vehicle, Integer> vehicles) {
+public record Crash(int id, int year, int fatalities, int seriousInjuries, int minorInjuries, double latitude,
+                    double longitude, String roadName1, String roadName2, Region region, Weather weather,
+                    Lighting lighting, Severity severity, Map<Vehicle, Integer> vehicles) {
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getFatalities() {
+        return fatalities;
+    }
+
+    public int getSeriousInjuries() {
+        return seriousInjuries;
+    }
+
+    public int getMinorInjuries() {
+        return minorInjuries;
+    }
+
+    public String getRoadName1() {
+        return StringUtils.capitalize(roadName1.toLowerCase());
+    }
+
+    public String getRoadName2() {
+        return StringUtils.capitalize(roadName2.toLowerCase());
+    }
+
+    public String getRegion() {
+        return region.displayValue();
+    }
+
+    public String getSeverity() {
+        return severity.displayValue();
+    }
+
+
+    public String getWeather() {
+        return weather.displayValue();
+    }
+
+    public String getLighting() {
+        return lighting.displayValue();
+    }
+
+    public int getNumberOfVehiclesInvolved() {
+        int total = 0;
+        for (int value : vehicles.values()) {
+            total += value;
+        }
+        return total;
+    }
 
     /**
      * Creates a human-readable string representation of the crash's attributes.
@@ -21,7 +72,7 @@ public record Crash(int crashID, int year, int fatalities, int seriousInjuries, 
     @Override
     public String toString() {
         return "Crash{" +
-                        "crashID=" + crashID +
+                        "crashID=" + id +
                         ", year=" + year +
                         ", fatalities=" + fatalities +
                         ", seriousInjuries=" + seriousInjuries +
@@ -31,23 +82,10 @@ public record Crash(int crashID, int year, int fatalities, int seriousInjuries, 
                         ", roadName1='" + roadName1 +
                         ", roadName2='" + roadName2 +
                         ", region='" + region +
-                        ", vehicles=" + vehicles +
                         ", weather=" + weather +
                         ", lighting=" + lighting +
                         ", severity=" + severity +
+                        ", vehicles=" + vehicles +
                         '}';
-    }
-
-    /**
-     * Calculates the total number of vehicles involved in the crash.
-     *
-     * @return The total number of vehicles involved in the crash.
-     */
-    public int vehiclesInvolved() {
-        int total = 0;
-        for (int value : vehicles.values()) {
-            total += value;
-        }
-        return total;
     }
 }
