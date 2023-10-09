@@ -8,6 +8,7 @@ import seng202.team2.database.CrashDao;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.models.Crash;
+import seng202.team2.models.Region;
 import seng202.team2.models.Severity;
 import seng202.team2.models.Vehicle;
 
@@ -56,6 +57,31 @@ public class QueryStepDefs {
         for (Crash crash: queryResult) {
             if (!(crash.severity().equals(Severity.FATAL)) ||
                     !(crash.vehicles().containsKey(Vehicle.PEDESTRIAN))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Given("I have cyclist and Bay of plenty region selected")
+    public void BayofplentyCyclistFilter() {
+        queryTester = new QueryBuilder();
+        ArrayList<String> regionTest = new ArrayList<String>();
+        regionTest.add("BAYOFPLENTY");
+        queryTester.orString(regionTest, DbAttributes.REGION);
+
+        ArrayList<DbAttributes> cyclistTest = new ArrayList<DbAttributes>();
+        cyclistTest.add(DbAttributes.BICYCLE);
+        queryTester.orVehicle(cyclistTest);
+    }
+
+    @Then("All results shown involve a cyclist in the Bay of plenty")
+    public void allBayofplentyCyclistResults() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!(crash.region().equals(Region.BAY_OF_PLENTY)) ||
+                    !(crash.vehicles().containsKey(Vehicle.BICYCLE))) {
                 valid = false;
                 break;
             }
