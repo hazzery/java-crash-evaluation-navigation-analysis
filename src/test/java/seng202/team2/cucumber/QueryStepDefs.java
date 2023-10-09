@@ -9,6 +9,7 @@ import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.models.Crash;
 import seng202.team2.models.Severity;
+import seng202.team2.models.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class QueryStepDefs {
         boolean valid = true;
         for (Crash crash: queryResult) {
             if (!(crash.severity().equals(Severity.FATAL)) ||
-                    !(crash.vehicles().containsKey(DbAttributes.PEDESTRIAN))) {
+                    !(crash.vehicles().containsKey(Vehicle.PEDESTRIAN))) {
                 valid = false;
                 break;
             }

@@ -5,6 +5,6 @@ Feature: Query Test
     Then All results in database are shown
 
   Scenario: Filter with car
-    Given I have the car button selected
+    Given User has Person and fatal severity selected
     When I press apply
-    Then Only results with at least one car are shown
+    Then All results shown involve a pedestrian and a fatality
