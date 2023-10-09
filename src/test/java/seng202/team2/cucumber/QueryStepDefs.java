@@ -39,7 +39,7 @@ public class QueryStepDefs {
         Assertions.assertEquals(820467,queryResult.size());
     }
 
-    @Given("User has Person and fatal severity selected")
+    @Given("I have person and fatal severity selected")
     public void fatalPersonFilter() {
         queryTester = new QueryBuilder();
         ArrayList<String> severityTest = new ArrayList<String>();
