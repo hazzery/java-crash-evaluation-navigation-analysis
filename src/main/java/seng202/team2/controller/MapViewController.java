@@ -1,12 +1,7 @@
 package seng202.team2.controller;
 
-
 import javafx.concurrent.Worker;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.team2.models.Crash;
@@ -16,16 +11,14 @@ import java.util.Objects;
 
 /**
  * Map view controller class for the application.
- * Handles displaying the map and point markers.
+ * Handles displaying the map and heatmap.
  * Adapted from Special Lab: Working with Interactive Map APIs
  *
  * @author Louis Hobson
  * @author Findlay Royds
  */
-
-
 public class MapViewController {
-    
+
     @FXML
     private WebView webView;
     
@@ -46,11 +39,6 @@ public class MapViewController {
                 (ov, oldState, newState) -> {
                     // if javascript loads successfully
                     if (newState == Worker.State.SUCCEEDED) {
-                        // set our bridge object
-                        //window.setMember("javaScriptBridge", javaScriptBridge);
-                        // get a reference to the js object that has a reference to the js methods we need to use in java
-                        // call the javascript function to initialise the map
-                        //javaScriptConnector.call("initMap");
                         webEngine.executeScript(
                                 "initHeatmap();"
                         );
@@ -60,18 +48,14 @@ public class MapViewController {
     }
 
     /**
-     * Adds all the crashes as markers on the map and pre-calculates the clustering
-     * Uses threading to display loading updates on the application
+     * Adds all the crashes into the heatmap layer
      */
     public void addAllCrashMarkers()  {
         // Clear markers being displayed on the screen
-        //long startTime = System.nanoTime();
         clearMarkers();
-        //System.out.println("clear Markers: " + (System.nanoTime() - startTime) / 1000000);
 
-        //startTime = System.nanoTime();
         // load the crashes onto the map
-        StringBuffer markerString = new StringBuffer();
+        StringBuilder markerString = new StringBuilder();
         for (Crash crash : Crashes.getCrashes()) {
             if (crash != null) {
                 float newLong = (float) crash.longitude();
@@ -81,18 +65,10 @@ public class MapViewController {
                 markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), newLong));
             }
         }
-        //System.out.println("Building string: " + (System.nanoTime() - startTime) / 1000000);
-
-        //startTime = System.nanoTime();
-        //markerString.append("]});");
-        //System.out.println(markerString);
         webEngine.executeScript(markerString.toString());
-        //System.out.println("executing script: " + (System.nanoTime() - startTime) / 1000000);
 
-        //startTime = System.nanoTime();
         postMarkers();
         mainController.hideLoadingView();
-        //System.out.println("post marker: " + (System.nanoTime() - startTime) / 1000000);
     }
 
     /**
@@ -110,7 +86,10 @@ public class MapViewController {
     }
 
     /**
-     * Init
+     * Initialise the map
+     *
+     * @param mainController The mainController of the application
+     *                       Used to display the loading screen
      */
     void init(MainController mainController) {
         initMap();
