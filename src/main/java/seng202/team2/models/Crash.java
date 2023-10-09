@@ -65,9 +65,9 @@ public record Crash(int id, int year, int fatalities, int seriousInjuries, int m
     }
 
     /**
-     * Creates a human-readable string representation of the crash's attributes
+     * Creates a human-readable string representation of the crash's attributes.
      *
-     * @return A string representation of the crash object
+     * @return A string representation of the crash object.
      */
     @Override
     public String toString() {
