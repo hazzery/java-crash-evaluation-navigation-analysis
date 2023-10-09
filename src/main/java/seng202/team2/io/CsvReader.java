@@ -9,7 +9,6 @@ import seng202.team2.models.*;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.FileReader;
 import java.util.*;
 
 
@@ -25,6 +24,7 @@ public class CsvReader {
 
     /**
      * Creates a new CSVReader object for the given file.
+     *
      * @param fileName The name of the file to read
      */
     public CsvReader(String fileName) {
@@ -34,19 +34,21 @@ public class CsvReader {
     /**
      * Some integer fields in the CSV, e.g. fatal_count, have empty cells
      * This function simply returns 0 in this case.
+     *
      * @param string The string to parse
      * @return The integer value of the string, or 0 if the string is empty
      */
     private static int nullSafeParseInt(String string) {
         try {
             return Integer.parseInt(string);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             return 0;
         }
     }
 
     /**
      * Creates an array of vehicles from a list containing a crash's whole row from the CSV.
+     *
      * @param crashData A list containing the crash's whole row from the CSV.
      * @return An array of {@link Vehicle} objects for the given crash data
      */
@@ -63,6 +65,7 @@ public class CsvReader {
 
     /**
      * Creates a Crash object from a list containing crash's whole row from the CSV.
+     *
      * @param crashData A list containing the crash's whole row from the CSV.
      * @return A new {@link Crash} object for the given crash data
      */
@@ -86,11 +89,10 @@ public class CsvReader {
             Severity severity = Severity.fromString(crashData[CsvAttributes.CRASH_SEVERITY.ordinal()]);
 
             return new Crash(crashId, year, fatalities, seriousInjuries, minorInjuries,
-                             latitude, longitude, roadName1, roadName2, region,
-                             weather, lighting, severity, vehicles);
+                            latitude, longitude, roadName1, roadName2, region,
+                            weather, lighting, severity, vehicles);
         } catch (NumberFormatException exception) {
             log.error("Error parsing crash data: " + Arrays.toString(crashData));
-            exception.printStackTrace();
             log.error(exception);
         }
 
@@ -99,13 +101,14 @@ public class CsvReader {
 
     /**
      * Reads the CSV file and creates a new {@link Crash} object for each row.
+     *
      * @return A list of Crash objects describing each row in the CSV file
      */
     public List<Crash> generateAllCrashes() {
         List<Crash> crashes = new ArrayList<>();
 
         try (CSVReader reader = new CSVReader(new BufferedReader(new InputStreamReader(Objects.requireNonNull(
-                Thread.currentThread().getContextClassLoader().getResourceAsStream(this.fileName)))))) {
+                        Thread.currentThread().getContextClassLoader().getResourceAsStream(this.fileName)))))) {
             reader.skip(1); // skip the first line of headers
             String[] line;
             while ((line = reader.readNext()) != null) {
@@ -114,30 +117,6 @@ public class CsvReader {
                 if (crash != null) {
                     crashes.add(crash);
                 }
-            }
-        } catch (IOException | CsvValidationException exception) {
-            log.error(exception);
-        }
-        return crashes;
-    }
-
-    /**
-     * Reads the CSV file and creates a new {@link Crash} object for each row.
-     *
-     * @param numCrashes The number of crashes to read from the CSV file
-     * @deprecated Use {@link #generateAllCrashes()} instead
-     */
-    @Deprecated
-    public Crash[] readLines(int numCrashes) {
-        Crash[] crashes = new Crash[numCrashes];
-
-        try (CSVReader reader = new CSVReader(new FileReader(fileName))) {
-            reader.skip(1); // skip the first line of headers
-
-            for (int crash = 0; crash < numCrashes; crash++) {
-                String[] values = reader.readNext();
-
-                crashes[crash] = crashFromCsvData(values);
             }
         } catch (IOException | CsvValidationException exception) {
             log.error(exception);

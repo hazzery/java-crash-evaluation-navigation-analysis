@@ -1,86 +1,68 @@
 package seng202.team2.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.apache.commons.lang3.StringUtils;
 import seng202.team2.models.Crash;
 import seng202.team2.models.Crashes;
+import seng202.team2.models.TableAttribute;
 
 /**
- * Class to demo the table view for the application
+ * Table view controller implements the initialisation of the table view
  *
  * @author Isaac Ure
  * @author Findlay Royds
+ * @author Harrison Parkes
  */
 public class TableViewController {
     @FXML
-    private TableView<DataRow> tableView;
-    ObservableList<DataRow> tableCrashData = FXCollections.observableArrayList();
-    private boolean hasBeenBuilt = false; // no point building the table twice.
+    private TableView<Crash> tableView;
+    @FXML
+    private Pagination pagination;
+    private final int rowsPerPage = 1000;
 
     /**
-     * Gets a displayable string representation of the enum value
-     * e.g: FATAL_CRASH -> "Fatal crash"
-     * @return Nicely formatted string of enum value
+     * Initialises the tableview,
+     * defining each of the columns,
+     * telling the column where to fetch their data from,
+     * and setting up pagination.
      */
-    private String toDisplayText(String text) {
-        String lowered = text.toLowerCase().replace("_", " ");
-        return StringUtils.capitalize(lowered);
-    }
-
-    /**
-     * Constructs the elements of the table view
-     */
-    private void buildTableScene() {
-
-        String[] columnKeys = {"Severity", "Fatalities", "NumberOfVehiclesInvolved", "RoadName1", "RoadName2",
-                "Region", "SeriousInjuries", "MinorInjuries", "Weather", "Lighting", "Year"};
-        String[] columnHeaders = {"Severity", "Fatalities", "Number of Vehicles Involved", "Road 1", "Road 2",
-                "Region", "Serious Injuries", "Minor Injuries", "Weather", "Lighting", "Year"};
-
-        for (int i = 0; i < columnKeys.length; i++) {
-            TableColumn<DataRow, String> column = new TableColumn<>(columnHeaders[i]);
-            column.setCellValueFactory(new PropertyValueFactory<>(columnKeys[i]));
-            column.setReorderable(false);
+    @FXML
+    void initialize() {
+        for (TableAttribute tableAttribute : TableAttribute.values()) {
+            TableColumn<Crash, String> column = new TableColumn<>(tableAttribute.displayValue());
+            column.setCellValueFactory(new PropertyValueFactory<>(tableAttribute.columnGetterName()));
+            column.setSortable(false);
             tableView.getColumns().add(column);
         }
 
+        pagination.setPageFactory(this::setPage);
         updateCrashes();
-        hasBeenBuilt = true;
     }
 
     /**
-     * Inits the tableview
+     * Sets the tableview page.
+     * This callback is executed every time the user presses a page button on the pagination toolbar.
+     *
+     * @param pageIndex The index of the page to show.
+     * @return A JavaFX Node. This node is not used and only exists to please JavaFX.
      */
-    void init() {
-        if (!hasBeenBuilt) {
-            buildTableScene();
-        }
+    private Node setPage(int pageIndex) {
+        int indexOfFirst = pageIndex * rowsPerPage;
+        int indexOfLast = Math.min(indexOfFirst + rowsPerPage, Crashes.getCrashes().size());
+        tableView.setItems(FXCollections.observableList(Crashes.getCrashes().subList(indexOfFirst, indexOfLast)));
+        return new Label();
     }
 
+    /**
+     * Updates the page count to reflect the new number of results for the last query
+     */
     public void updateCrashes() {
-        tableView.getItems().clear();
-
-        for (Crash crash: Crashes.getCrashes()) {
-            tableCrashData.add(new DataRow(
-                    crash.severity().displayValue(),
-                    crash.fatalities(),
-                    crash.vehiclesInvolved(),
-                    toDisplayText(crash.roadName1()),
-                    toDisplayText(crash.roadName2()),
-                    crash.region().displayValue(),
-                    crash.seriousInjuries(),
-                    crash.minorInjuries(),
-                    crash.weather().displayValue(),
-                    crash.lighting().displayValue(),
-                    crash.year())
-            );
-        }
-
-        tableView.setItems(tableCrashData);
+        pagination.setPageCount(Crashes.getCrashes().size() / rowsPerPage + 1);
     }
 }
-
