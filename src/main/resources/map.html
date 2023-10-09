@@ -93,10 +93,6 @@
         testData.data.push({lat: lat, lng: lng, count: 1});
     }
 
-    function setData(data) {
-        heatmapLayer.setData(data);
-    }
-
     /**
      * Clear markers
      */
@@ -151,25 +147,16 @@
         );
 
         var cfg = {
-            // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-            // if scaleRadius is false it will be the constant radius used in pixels
-            "radius": 15,
-            "maxOpacity": .8,
+            "radius": 20,
+            "maxOpacity": .75,
             "minOpacity": .0,
-            // scales the radius based on map zoom
             "scaleRadius": false,
-            // if set to false the heatmap uses the global maximum for colorization
-            // if activated: uses the data maximum within the current map boundaries
-            //   (there will always be a red spot with useLocalExtremas true)
             "useLocalExtrema": false,
-            //max: 10000,
-            // which field name in your data represents the latitude - default "lat"
             latField: 'lat',
-            // which field name in your data represents the longitude - default "lng"
             lngField: 'lng',
-            // which field name in your data represents the data value - default "value"
             valueField: 'count',
-            gradient: {0: 'yellow', 0.45: 'orange', 1: 'red'}
+            blur: 1.0,
+            gradient: {0: 'green', 0.3: 'yellow', 0.75: 'orange', 1: 'red'}
         };
 
 
@@ -186,7 +173,7 @@
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
         }).addTo(map)
 
-        heatmapLayer.setData(testData);
+        //heatmapLayer.setData(testData);
 
         const heatmapMaxValues = {
             5: 10000,
@@ -196,13 +183,13 @@
             9: 2000,
             10: 1000,
             11: 500,
-            12: 100,
-            13: 60,
-            14: 40,
-            15: 20,
-            16: 10,
-            17: 10,
-            18: 10,
+            12: 200,
+            13: 90,
+            14: 60,
+            15: 40,
+            16: 35,
+            17: 25,
+            18: 20,
         };
 
         map.on('zoomend', function() {
@@ -214,6 +201,9 @@
     function setMax(value) {
         testData.max = value;
         heatmapLayer.setData(testData);
+        //heatmapLayer.setDataMax(value);
+        //heatmapLayer.repaint();
+
     }
 </script>
 </body>

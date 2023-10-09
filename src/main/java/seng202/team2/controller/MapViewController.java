@@ -65,11 +65,11 @@ public class MapViewController {
      */
     public void addAllCrashMarkers()  {
         // Clear markers being displayed on the screen
-        long startTime = System.nanoTime();
+        //long startTime = System.nanoTime();
         clearMarkers();
-        System.out.println("clear Markers: " + (System.nanoTime() - startTime) / 1000000);
+        //System.out.println("clear Markers: " + (System.nanoTime() - startTime) / 1000000);
 
-        startTime = System.nanoTime();
+        //startTime = System.nanoTime();
         // load the crashes onto the map
         StringBuffer markerString = new StringBuffer();
         for (Crash crash : Crashes.getCrashes()) {
@@ -79,18 +79,18 @@ public class MapViewController {
                 markerString.append(String.format("preMarker(%f,%f);", (float) crash.latitude(), (float) crash.longitude()));
             }
         }
-        System.out.println("Building string: " + (System.nanoTime() - startTime) / 1000000);
+        //System.out.println("Building string: " + (System.nanoTime() - startTime) / 1000000);
 
-        startTime = System.nanoTime();
+        //startTime = System.nanoTime();
         //markerString.append("]});");
         //System.out.println(markerString);
         webEngine.executeScript(markerString.toString());
-        System.out.println("executing script: " + (System.nanoTime() - startTime) / 1000000);
+        //System.out.println("executing script: " + (System.nanoTime() - startTime) / 1000000);
 
-        startTime = System.nanoTime();
+        //startTime = System.nanoTime();
         postMarkers();
         mainController.hideLoadingView();
-        System.out.println("post marker: " + (System.nanoTime() - startTime) / 1000000);
+        //System.out.println("post marker: " + (System.nanoTime() - startTime) / 1000000);
     }
 
     /**

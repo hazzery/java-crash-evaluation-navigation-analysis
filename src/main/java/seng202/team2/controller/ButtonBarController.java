@@ -129,6 +129,7 @@ public class ButtonBarController {
     }
 
     public void filterTable() {
+        long startTime = System.nanoTime();
         QueryBuilder queryBuilder = new QueryBuilder();
 
         for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
@@ -158,7 +159,12 @@ public class ButtonBarController {
 
         queryBuilder.orString(selectedRegions, DbAttributes.REGION);
 
+        System.out.println("query builder: " + (System.nanoTime() - startTime) / 1000000);
+
+        startTime = System.nanoTime();
         Crashes.setQuery(queryBuilder);
+        System.out.println("set query: " + (System.nanoTime() - startTime) / 1000000);
+
         mainController.updateViews();
     }
 

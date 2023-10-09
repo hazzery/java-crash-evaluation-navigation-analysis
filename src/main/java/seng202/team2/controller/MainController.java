@@ -151,7 +151,12 @@ public class MainController {
     }
 
     public void updateViews() {
+        long startTime = System.nanoTime();
         mapViewController.addAllCrashMarkers();
+        System.out.println("update map: " + (System.nanoTime() - startTime) / 1000000);
+
+        startTime = System.nanoTime();
         tableViewController.updateCrashes();
+        System.out.println("update table: " + (System.nanoTime() - startTime) / 1000000);
     }
 }
