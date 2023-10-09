@@ -2,10 +2,14 @@ package seng202.team2.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -26,6 +30,9 @@ public class MainController {
     @FXML
     private BorderPane mainWindow;
     private BorderPane tableButtonsPane;
+    private BorderPane notificationLayoutPane;
+    private FlowPane notificationPane;
+    private StackPane overlayPane;
     private BorderPane topBarPane;
 
     private Parent mapViewParent;
@@ -36,6 +43,7 @@ public class MainController {
 
     private Label loadingLabel;
     private int currentView;
+    private int notificationStack;
     private final Duration tooltipDelaySec = Duration.seconds(1);
 
     public void init(Stage stage) {
@@ -49,7 +57,7 @@ public class MainController {
         displayButtonBar();
         displayMenuBar();
 
-        displayLoadingView("Loading crash data onto the map...");
+        initialiseNotificationPane();
 
         stage.sizeToScene();
     }
@@ -57,12 +65,25 @@ public class MainController {
     private void initialiseLoadingView() {
         loadingLabel = new Label();
         currentView = 1;
+        notificationStack = 0;
+    }
+
+    private void initialiseNotificationPane() {
+        notificationStack = 0;
+        notificationLayoutPane = new BorderPane();
+        notificationPane = new FlowPane(Orientation.VERTICAL);
+        notificationPane.setAlignment(Pos.BOTTOM_CENTER);
+        notificationLayoutPane.setRight(notificationPane);
+        overlayPane.getChildren().add(notificationLayoutPane);
     }
 
     private void displayTableButtonsPane() {
         tableButtonsPane = new BorderPane();
+        overlayPane = new StackPane();
         tableButtonsPane.setId("tableButtonsPane");
-        mainWindow.setCenter(tableButtonsPane);
+        displayLoadingView("Loading crash data onto the map...");
+        overlayPane.getChildren().add(tableButtonsPane);
+        mainWindow.setCenter(overlayPane);
     }
 
     private void displayButtonBar() {
@@ -144,11 +165,13 @@ public class MainController {
     public void displayTableView() {
         tableButtonsPane.setCenter(tableViewParent);
         currentView = 0;
+        showNotification("displayingTableView");
     }
 
     public void displayMapView() {
         tableButtonsPane.setCenter(mapViewParent);
         currentView = 1;
+        showNotification("displayingMapView");
     }
 
     public void updateViews() {
@@ -166,5 +189,15 @@ public class MainController {
         newTooltip.setShowDelay(tooltipDelaySec);
         newTooltip.setText(tooltipText);
         return newTooltip;
+    }
+
+    /**
+     * Notification builder
+     * @param text text for the notification to show
+     */
+    public void showNotification(String text) {
+        Label notifLabel = new Label(text);
+        notifLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
+        notificationPane.getChildren().add(notifLabel);
     }
 }
