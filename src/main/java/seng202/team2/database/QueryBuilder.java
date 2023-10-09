@@ -80,7 +80,7 @@ public class QueryBuilder {
         for (DbAttributes vehicle : queryVehicles) {
             sql.append("(").append(vehicle).append(" > 0)").append(" OR ");
         }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
+        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing " OR "
         sql.append(" AND ");
         noConditions = false;
 
@@ -115,7 +115,7 @@ public class QueryBuilder {
             sql.append(queryField).append(" = ");
             sql.append("\"").append(condition).append("\" OR ");
         }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
+        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing " OR "
         sql.append(") AND ");
         noConditions = false;
     }
