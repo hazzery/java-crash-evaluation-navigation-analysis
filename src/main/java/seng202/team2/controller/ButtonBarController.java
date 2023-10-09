@@ -183,12 +183,6 @@ public class ButtonBarController {
     }
 
     /**
-     * Gives the button bar access to the main controller.
-     * This allows for the button bar to update the table and map views.
-     *
-     * @param mainController The main JavaFX controller.
-     */
-    /**
      * Sets tooltips for all the buttons on the filter bar
      * using the helper function in MainController
      */
@@ -203,6 +197,12 @@ public class ButtonBarController {
         confirmSelection.setTooltip(this.mainController.makeTooltip("Apply all the selected filters (May take time to load)"));
     }
 
+    /**
+     * Gives the button bar access to the main controller.
+     * This allows for the button bar to update the table and map views.
+     *
+     * @param mainController The main JavaFX controller.
+     */
     public void giveMainControl(MainController mainController) {
         this.mainController = mainController;
     }
