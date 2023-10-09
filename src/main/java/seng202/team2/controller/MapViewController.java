@@ -52,7 +52,7 @@ public class MapViewController {
                         // call the javascript function to initialise the map
                         //javaScriptConnector.call("initMap");
                         webEngine.executeScript(
-                                "doHeatmap();"
+                                "initHeatmap();"
                         );
                         addAllCrashMarkers();
                     }
