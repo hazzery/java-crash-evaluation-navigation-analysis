@@ -2,7 +2,7 @@ let map;
 var heatmapLayer;
 var heatmapData = {max: 10000,data: []};
 
-// manually defined values to adjust the intensity of the heatmap at different zoom levels
+// Manually defined values to adjust the intensity of the heatmap at different zoom levels
 const heatmapMaxValues = {
     5: 10000,
     6: 6000,
@@ -20,14 +20,13 @@ const heatmapMaxValues = {
     18: 20,
 };
 
-// don't open context menu on right click
+// Don't open context menu on right click
 document.oncontextmenu = function(event) {
     event.preventDefault();
 }
 
 /**
  * Saves a crash location to an array of crash markers
- * @param region
  * @param lat latitude to place marker at
  * @param lng longitude to place marker at
  */
@@ -46,7 +45,8 @@ function clearMarkers() {
  * Sets the data of the heatmap layer to the crash data
  */
 function postMarkers() {
-    heatmapLayer.setData(heatmapData);
+    //heatmapLayer.setData(heatmapData);
+    refreshIntensity();
 }
 
 /**
@@ -54,7 +54,7 @@ function postMarkers() {
  * Connects the leaflet zoomend event to adjusting the
  */
 function initHeatmap() {
-    // configuration for the heatmap
+    // Configuration for the heatmap
     var cfg = {
         "radius": 20,
         "maxOpacity": .75,
@@ -84,15 +84,15 @@ function initHeatmap() {
         attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
     }).addTo(map)
 
-    // update the max value of the heatmap when the map has been zoomed
+    // Update the max value of the heatmap when the map has been zoomed
     map.on('zoomend', function() {
-        let x = -1 * map.getZoom() + 15
-        setMax(heatmapMaxValues[map.getZoom()]);
+        refreshIntensity();
     });
 }
 
-
-function setMax(value) {
-    heatmapData.max = value;
+// Calculate the intensity config value for the heatmap based off the zoom level
+// and number of crashes being shown
+function refreshIntensity() {
+    heatmapData.max = heatmapMaxValues[map.getZoom()] * (heatmapData.data.length / 800000);
     heatmapLayer.setData(heatmapData);
 }
