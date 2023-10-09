@@ -2,7 +2,11 @@ package seng202.team2.controller;
 
 
 import javafx.concurrent.Worker;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.team2.models.Crash;
@@ -48,7 +52,7 @@ public class MapViewController {
                         // call the javascript function to initialise the map
                         //javaScriptConnector.call("initMap");
                         webEngine.executeScript(
-                                "doHeatmap();"
+                                "initHeatmap();"
                         );
                         addAllCrashMarkers();
                     }
@@ -61,10 +65,13 @@ public class MapViewController {
      */
     public void addAllCrashMarkers()  {
         // Clear markers being displayed on the screen
+        //long startTime = System.nanoTime();
         clearMarkers();
+        //System.out.println("clear Markers: " + (System.nanoTime() - startTime) / 1000000);
 
+        //startTime = System.nanoTime();
         // load the crashes onto the map
-        StringBuilder markerString = new StringBuilder();
+        StringBuffer markerString = new StringBuffer();
         for (Crash crash : Crashes.getCrashes()) {
             if (crash != null) {
                 float newLong = (float) crash.longitude();
@@ -74,10 +81,18 @@ public class MapViewController {
                 markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), newLong));
             }
         }
-        webEngine.executeScript(markerString.toString());
+        //System.out.println("Building string: " + (System.nanoTime() - startTime) / 1000000);
 
+        //startTime = System.nanoTime();
+        //markerString.append("]});");
+        //System.out.println(markerString);
+        webEngine.executeScript(markerString.toString());
+        //System.out.println("executing script: " + (System.nanoTime() - startTime) / 1000000);
+
+        //startTime = System.nanoTime();
         postMarkers();
         mainController.hideLoadingView();
+        //System.out.println("post marker: " + (System.nanoTime() - startTime) / 1000000);
     }
 
     /**
