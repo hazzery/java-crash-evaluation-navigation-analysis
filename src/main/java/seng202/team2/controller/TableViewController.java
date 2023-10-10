@@ -24,7 +24,7 @@ public class TableViewController {
     private TableView<Crash> tableView;
     @FXML
     private Pagination pagination;
-    private final int rowsPerPage = 1000;
+    private final int ROWS_PER_PAGE = 1000;
 
     /**
      * Initialises the tableview,
@@ -53,8 +53,8 @@ public class TableViewController {
      * @return A JavaFX Node. This node is not used and only exists to please JavaFX.
      */
     private Node setPage(int pageIndex) {
-        int indexOfFirst = pageIndex * rowsPerPage;
-        int indexOfLast = Math.min(indexOfFirst + rowsPerPage, Crashes.getCrashes().size());
+        int indexOfFirst = pageIndex * ROWS_PER_PAGE;
+        int indexOfLast = Math.min(indexOfFirst + ROWS_PER_PAGE, Crashes.getCrashes().size());
         tableView.setItems(FXCollections.observableList(Crashes.getCrashes().subList(indexOfFirst, indexOfLast)));
         return new Label();
     }
@@ -63,6 +63,6 @@ public class TableViewController {
      * Updates the page count to reflect the new number of results for the last query
      */
     public void updateCrashes() {
-        pagination.setPageCount(Crashes.getCrashes().size() / rowsPerPage + 1);
+        pagination.setPageCount(Crashes.getCrashes().size() / ROWS_PER_PAGE + 1);
     }
 }
