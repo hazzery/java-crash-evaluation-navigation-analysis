@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Skeleton for what will become the Query tests
- * @author bmo80
+ * @author Ben Moore
  * @author James Lanigan
  */
 public class QueryStepDefs {
