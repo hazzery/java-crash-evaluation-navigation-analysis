@@ -33,7 +33,7 @@ public class MapViewController {
     private void initMap() {
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
-        webEngine.load(Objects.requireNonNull(MapViewController.class.getResource("/map.html")).toExternalForm());
+        webEngine.load(Objects.requireNonNull(MapViewController.class.getResource("/map/map.html")).toExternalForm());
         
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
