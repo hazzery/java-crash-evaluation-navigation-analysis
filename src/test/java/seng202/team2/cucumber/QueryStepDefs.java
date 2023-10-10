@@ -110,4 +110,35 @@ public class QueryStepDefs {
         }
         Assertions.assertTrue(valid);
     }
+
+    @Given("I have pedestrian and bus buttons and serious and fatal severities selected")
+    public void pedestrianBusSeriousFatalFilter() {
+        queryTester = new QueryBuilder();
+        ArrayList<String> severityTest = new ArrayList<>();
+        severityTest.add("FATAL");
+        severityTest.add("SERIOUS");
+        queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        ArrayList<DbAttributes> pedestrianBusTest = new ArrayList<>();
+        pedestrianBusTest.add(DbAttributes.PEDESTRIAN);
+        pedestrianBusTest.add(DbAttributes.BUS);
+        queryTester.orVehicle(pedestrianBusTest);
+    }
+
+    @Then("All results shown involve a pedestrian or a bus with a serious or fatal severity")
+    public void allPedestrianBusSeriousFatalResults() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.severity().equals(Severity.SERIOUS)) ||
+                    (crash.severity().equals(Severity.FATAL))) ||
+                    !((crash.vehicles().containsKey(Vehicle.BUS)) ||
+                    (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+
 }

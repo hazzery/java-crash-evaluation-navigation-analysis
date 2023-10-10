@@ -4,7 +4,7 @@ Feature: Query Test
     When I press apply
     Then All results in database are shown
 
-  Scenario: Filter with fatal pedestrian
+  Scenario: Filter with Pedestrian with fatal severity
     Given I have person and fatal severity selected
     When I press apply
     Then All results shown involve a pedestrian and a fatality
@@ -18,3 +18,8 @@ Feature: Query Test
     Given I have bus selected with the year slider set between 2006 and 2016
     When I press apply
     Then All results shown involve a bus between 2006 and 2016
+
+  Scenario: Filter with Pedestrians or Buses with serious or fatal severity
+    Given I have pedestrian and bus buttons and serious and fatal severities selected
+    When I press apply
+    Then All results shown involve a pedestrian or a bus with a serious or fatal severity
