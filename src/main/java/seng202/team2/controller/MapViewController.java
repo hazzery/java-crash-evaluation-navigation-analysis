@@ -65,6 +65,7 @@ public class MapViewController {
                 markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), newLong));
             }
         }
+
         webEngine.executeScript(markerString.toString());
 
         postMarkers();
