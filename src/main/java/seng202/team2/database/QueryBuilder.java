@@ -76,11 +76,15 @@ public class QueryBuilder {
      * @param queryVehicles List of DbAttributes to be checked
      */
     public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
+        if (queryVehicles.isEmpty()) {
+            return this;
+        }
+        sql.append("(");
         for (DbAttributes vehicle : queryVehicles) {
             sql.append("(").append(vehicle).append(" > 0)").append(" OR ");
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
-        sql.append(" AND ");
+        sql.append(") AND ");
         noConditions = false;
         return this;
 
