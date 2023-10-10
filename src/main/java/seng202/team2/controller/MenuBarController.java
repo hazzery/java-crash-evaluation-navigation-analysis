@@ -101,13 +101,13 @@ public class MenuBarController {
         expanded = !expanded;
     }
 
-    public void tableViewButtonClicked(ActionEvent actionEvent) {
+    public void tableViewButtonClicked(ActionEvent ignoredActionEvent) {
         tableViewButton.setStyle("-fx-background-color: white");
         mapViewButton.setStyle("-fx-background-color: transparent");
         mainController.displayTableView();
     }
 
-    public void mapViewButtonClicked(ActionEvent actionEvent) {
+    public void mapViewButtonClicked(ActionEvent ignoredActionEvent) {
         tableViewButton.setStyle("-fx-background-color: transparent");
         mapViewButton.setStyle("-fx-background-color: white");
         mainController.displayMapView();
