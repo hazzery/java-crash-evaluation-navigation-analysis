@@ -1,5 +1,7 @@
 package seng202.team2.controller;
 
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
@@ -13,7 +15,10 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Main controller class for the application window.
@@ -43,7 +48,6 @@ public class MainController {
 
     private Label loadingLabel;
     private int currentView;
-    private int notificationStack;
     private final Duration tooltipDelaySec = Duration.seconds(1);
 
     public void init(Stage stage) {
@@ -65,11 +69,9 @@ public class MainController {
     private void initialiseLoadingView() {
         loadingLabel = new Label();
         currentView = 1;
-        notificationStack = 0;
     }
 
     private void initialiseNotificationPane() {
-        notificationStack = 0;
         notificationLayoutPane = new BorderPane();
         notificationPane = new FlowPane(Orientation.VERTICAL);
         notificationPane.setAlignment(Pos.BOTTOM_CENTER);
@@ -195,11 +197,32 @@ public class MainController {
 
     /**
      * Notification builder
+     * Uses timer on a separate thread to delete notification
+     * after 2 seconds
      * @param text text for the notification to show
      */
     public void showNotification(String text) {
         Label notifLabel = new Label(text);
         notifLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
+        notifLabel.setMinWidth(200);
+        notifLabel.setMinHeight(30);
         notificationPane.getChildren().add(notifLabel);
+        FadeTransition ft = new FadeTransition(Duration.seconds(1), notifLabel);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        Timer timer = new Timer(true);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        ft.play();
+                        ft.setOnFinished(e -> notificationPane.getChildren().remove(notifLabel));
+                        cancel();
+                    }
+                });
+            }
+        }, 2000);
     }
 }
