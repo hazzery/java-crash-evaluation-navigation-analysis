@@ -59,7 +59,6 @@ public class MainController {
         initialiseTableView();
         initialiseMapView();
 
-        displayTopBar();
         displayTableButtonsPane();
         displayButtonBar();
         displayMenuBar();
@@ -114,25 +113,10 @@ public class MainController {
             ButtonBarController buttonBarController = buttonBarLoader.getController();
             buttonBarController.giveMainControl(this);
             buttonBarController.init();
-            topBarPane.setCenter(buttonBarParent);
+            mainWindow.setTop(buttonBarParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void displayTopBar() {
-        try {
-            topBarPane = new BorderPane();
-            topBarPane.setId("topBarPane");
-            FXMLLoader topBarLoader = new FXMLLoader(getClass().getResource("/fxml/top_bar.fxml"));
-            Parent topBarParent = topBarLoader.load();
-            TopBarController topBarController = topBarLoader.getController();
-            topBarController.init();
-            mainWindow.setTop(topBarPane);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void displayMenuBar() {
