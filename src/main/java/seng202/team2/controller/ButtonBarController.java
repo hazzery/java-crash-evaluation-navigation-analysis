@@ -1,5 +1,6 @@
 package seng202.team2.controller;
 
+import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
@@ -196,6 +197,36 @@ public class ButtonBarController {
         yearSelect.setTooltip(this.mainController.makeTooltip("Slider: Limit crashes to specific range of years"));
         confirmSelection.setTooltip(this.mainController.makeTooltip("Apply all the selected filters (May take time to load)"));
     }
+
+    /**
+     * A function to generate notifications for all the toggle
+     * buttons in a compact manner.
+     * @param event An event representing some type of action
+     */
+    @FXML
+    public void notifToggle(ActionEvent event) {
+        ToggleButton eventOrigin = (ToggleButton) event.getSource();
+        switch (eventOrigin.getId()) {
+            case "pedestrian":
+                mainController.showNotification(pedestrian.isSelected() ?
+                        "Crashes involving pedestrians have been added to the filter" : "Crashes involving pedestrians have been removed from the filter");
+                break;
+            case "bicycle":
+                mainController.showNotification(bicycle.isSelected() ?
+                        "Crashes involving bikes have been added to the filter" : "Crashes involving bikes have been removed from the filter");
+                break;
+            case "car":
+                mainController.showNotification(car.isSelected() ?
+                        "Crashes involving cars have been added to the filter" : "Crashes involving cars have been removed from the filter");
+                break;
+            case "bus":
+                mainController.showNotification(bus.isSelected() ?
+                        "Crashes involving heavy vehicles have been added to the filter" : "Crashes involving heavy vehicles have been removed from the filter");
+                break;
+        }
+
+    }
+
 
     /**
      * Gives the button bar access to the main controller.

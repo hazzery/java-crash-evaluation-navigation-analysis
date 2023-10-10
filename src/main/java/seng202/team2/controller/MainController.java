@@ -71,10 +71,15 @@ public class MainController {
         currentView = 1;
     }
 
+    /**
+     * Puts a flowpane on the right side of a
+     * borderpane and overlays it over the map and
+     * table view
+     */
     private void initialiseNotificationPane() {
         notificationLayoutPane = new BorderPane();
         notificationPane = new FlowPane(Orientation.VERTICAL);
-        notificationPane.setAlignment(Pos.BOTTOM_CENTER);
+        notificationPane.setAlignment(Pos.BOTTOM_LEFT);
         notificationPane.setPickOnBounds(false);
         notificationLayoutPane.setPickOnBounds(false);
         notificationLayoutPane.setRight(notificationPane);
@@ -169,13 +174,11 @@ public class MainController {
     public void displayTableView() {
         tableButtonsPane.setCenter(tableViewParent);
         currentView = 0;
-        showNotification("displayingTableView");
     }
 
     public void displayMapView() {
         tableButtonsPane.setCenter(mapViewParent);
         currentView = 1;
-        showNotification("displayingMapView");
     }
 
     public void updateViews() {
@@ -197,8 +200,9 @@ public class MainController {
 
     /**
      * Notification builder
-     * Uses timer on a separate thread to delete notification
-     * after 2 seconds
+     * Creates a 'notification' as a label and
+     * uses timer on a separate thread to delete notification
+     * after 3 seconds
      * @param text text for the notification to show
      */
     public void showNotification(String text) {
@@ -206,6 +210,7 @@ public class MainController {
         notifLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
         notifLabel.setMinWidth(200);
         notifLabel.setMinHeight(30);
+        notifLabel.setAlignment(Pos.BOTTOM_RIGHT);
         notificationPane.getChildren().add(notifLabel);
         FadeTransition ft = new FadeTransition(Duration.seconds(1), notifLabel);
         ft.setFromValue(1.0);
