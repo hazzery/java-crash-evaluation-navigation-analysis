@@ -1,5 +1,6 @@
 package seng202.team2.controller;
 
+import javafx.concurrent.Task;
 import javafx.scene.text.Text;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
@@ -133,14 +134,11 @@ public class ButtonBarController {
     }
 
     /**
-     * Builds a query based on which filters are selected:
-     * Checks which toggle buttons are selected and adds them to the orVehicle method of QueryBuilder
-     * Then checks which severities are selected and adds them to the orString method of QueryBuilder
-     * Then checks the year range defined by the slider and runs the betweenValues method if the slider has been changed
-     * Finally checks the selected regions and queries them using another QueryBuilder orString.
-     * This query is then run and the view is updated to show the new data.
+     * Build a query builder based on the filter selected in the top bar
+     *
+     * @return the query builder used to query the database
      */
-    public void filterTable() {
+    private QueryBuilder buildQuery() {
         QueryBuilder queryBuilder = new QueryBuilder();
         List<DbAttributes> vehiclesToQuery = new ArrayList<>();
 
@@ -172,9 +170,39 @@ public class ButtonBarController {
 
         queryBuilder.orString(selectedRegions, DbAttributes.REGION);
 
-        Crashes.setQuery(queryBuilder);
+        return queryBuilder;
+    }
 
-        mainController.updateViews();
+    /**
+     * Builds a query based on which filters are selected:
+     * Checks which toggle buttons are selected and adds them to the orVehicle method of QueryBuilder
+     * Then checks which severities are selected and adds them to the orString method of QueryBuilder
+     * Then checks the year range defined by the slider and runs the betweenValues method if the slider has been changed
+     * Finally checks the selected regions and queries them using another QueryBuilder orString.
+     * This query is then run and the view is updated to show the new data.
+     */
+    public void filterTable() {
+        QueryBuilder queryBuilder = buildQuery();
+
+        //Crashes.setQuery(queryBuilder);
+        //mainController.updateViews();
+        runAfter(() -> Crashes.setQuery(queryBuilder), () -> mainController.updateViews());
+    }
+
+    private void runAfter(Runnable before, Runnable after) {
+        // Run before task in separate thread to allow JavaFX application to update
+        Task<Void> beforeTask = new Task<>() {
+            @Override
+            protected Void call() {
+                before.run();
+                return null;
+            }
+        };
+        // After the before task has completed, run the after task in the main JavaFX thread
+        beforeTask.setOnSucceeded(event -> after.run());
+
+        new Thread(beforeTask).start();
+        mainController.displayLoadingView("before");
     }
 
     /**
