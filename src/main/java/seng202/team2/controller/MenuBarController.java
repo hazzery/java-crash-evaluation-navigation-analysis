@@ -50,11 +50,6 @@ public class MenuBarController {
         menuButton.setTooltip(this.mainController.makeTooltip("Expand/Collapse the menu side bar"));
     }
 
-    public void menuButtonClicked() {
-        toggleMenuBar();
-    }
-
-
     /**
      * Inits the icon images for the menu bar and places them on their
      * respective buttons
@@ -90,6 +85,7 @@ public class MenuBarController {
         menuButton.setGraphic(new ImageView(menuIMG));
     }
 
+    @FXML
     private void toggleMenuBar() {
         if (expanded) {
             menuPane.setPrefWidth(40);
