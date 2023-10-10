@@ -48,7 +48,7 @@ public class MainController {
     private int currentView;
     private int notificationCount;
 
-    private final Duration tooltipDelaySec = Duration.seconds(1);
+    private final Duration tooltipDelaySec = Duration.millis(300);
 
     public void init(Stage stage) {
         initialiseLoadingView();
