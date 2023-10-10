@@ -59,10 +59,10 @@ public class MenuBarController {
         Image tableIMG = null;
         Image closeIMG = null;
         try {
-            mapIMG = new Image(getClass().getResourceAsStream("/icons/map.png"), 20, 20, true, true);
-            tableIMG = new Image(getClass().getResourceAsStream("/icons/table.png"), 20, 20, true, true);
+            mapIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/map.png")), 20, 20, true, true);
+            tableIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/table.png")), 20, 20, true, true);
 
-            closeIMG = new Image(getClass().getResourceAsStream("/icons/close.png"), 12, 12, true, true);
+            closeIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/close.png")), 12, 12, true, true);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,7 @@ public class MenuBarController {
     private void displayClose() {
         Image menuIMG = null;
         try {
-            menuIMG = new Image(getClass().getResourceAsStream("/icons/menu.png"), 12, 12, true, true);
+            menuIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/menu.png")), 12, 12, true, true);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
