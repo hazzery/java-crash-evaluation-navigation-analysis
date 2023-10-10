@@ -68,7 +68,7 @@ public class QueryStepDefs {
     public void BayofplentyCyclistFilter() {
         queryTester = new QueryBuilder();
         ArrayList<String> regionTest = new ArrayList<>();
-        regionTest.add("BAYOFPLENTY");
+        regionTest.add("BAY_OF_PLENTY");
         queryTester.orString(regionTest, DbAttributes.REGION);
 
         ArrayList<DbAttributes> cyclistTest = new ArrayList<>();
@@ -90,7 +90,7 @@ public class QueryStepDefs {
     }
 
     @Given("I have bus selected with the year slider set between 2006 and 2016")
-    public void HeavyvehicleYearFilter() {
+    public void BusYearFilter() {
         queryTester = new QueryBuilder();
         queryTester.betweenValues(2006, 2016, DbAttributes.YEAR);
         ArrayList<DbAttributes> busTest = new ArrayList<>();
@@ -140,5 +140,43 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
+    @Given("I have bicycle and car buttons and non injury and minor severities and Auckland and Northland regions" +
+            " selected with the year range set to 2018-2023")
+    public void everythingFilter() {
+        queryTester = new QueryBuilder();
+        ArrayList<String> severityTest = new ArrayList<>();
+        severityTest.add("NON_INJURY");
+        severityTest.add("MINOR");
+        queryTester.orString(severityTest, DbAttributes.SEVERITY);
 
+        ArrayList<DbAttributes> bikeCarTest = new ArrayList<>();
+        bikeCarTest.add(DbAttributes.BICYCLE);
+        bikeCarTest.add(DbAttributes.CAR_OR_STATION_WAGON);
+        queryTester.orVehicle(bikeCarTest);
+
+        queryTester.betweenValues(2018, 2023, DbAttributes.YEAR);
+
+        ArrayList<String> regionTest = new ArrayList<>();
+        regionTest.add("AUCKLAND");
+        regionTest.add("NORTHLAND");
+        queryTester.orString(regionTest, DbAttributes.REGION);
+    }
+
+    @Then("All results shown involve a bicycle or car, with no injury or minor, in the Auckland or Northland" +
+            " regions between the years 2018 and 2023")
+    public void allEverythingResults() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.severity().equals(Severity.NON_INJURY)) ||
+                    (crash.severity().equals(Severity.MINOR))) ||
+                    !((crash.vehicles().containsKey(Vehicle.BICYCLE)) ||
+                    (crash.vehicles().containsKey(Vehicle.CAR_OR_STATION_WAGON))) ||
+                    !((crash.region().equals(Region.AUCKLAND)) || (crash.region().equals(Region.NORTHLAND))) ||
+                    !((crash.year() <= 2023) && (crash.year() >= 2018))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
 }
