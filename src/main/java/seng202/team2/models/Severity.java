@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 /**
- * enum listing the possible crash severities
+ * Enum listing the possible crash severities
  *
  * @author Harrison Parkes
  */
@@ -24,6 +24,7 @@ public enum Severity {
 
     /**
      * Converts a string to a severity enum value
+     *
      * @param name The string to convert
      * @return The severity enum value
      */
@@ -40,14 +41,19 @@ public enum Severity {
 
     /**
      * Gets a displayable string representation of the enum value
-     * e.g: FATAL_CRASH -> "Fatal crash"
-     * @return Nicely formatted string of enum value
+     * e.g. FATAL_CRASH -> "Fatal crash".
+     *
+     * @return Nicely formatted string of enum value.
      */
     public String displayValue() {
         String display = name().toLowerCase().replaceAll("_", " ");
         return StringUtils.capitalize(display);
     }
 
+    /**
+     * Gets a list of all the possible severity values except UNKNOWN.
+     * @return List of all severity values.
+     */
     public static List<Severity> severities() {
         return List.of(NON_INJURY, MINOR, SERIOUS, FATAL);
     }

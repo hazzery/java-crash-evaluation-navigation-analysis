@@ -4,6 +4,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+/**
+ * Enum listing all regions in New Zealand.
+ * Contains method to retrieve enum value from string,
+ * method string representation to show users, and
+ * method to get a list of all regions excluding UNKNOWN.
+ *
+ * @author Harrison Parkes
+ */
 public enum Region {
     AUCKLAND,
     NORTHLAND,
@@ -24,9 +32,10 @@ public enum Region {
     UNKNOWN;
 
     /**
-     * Converts a string to a Region enum value
-     * @param name The string to convert
-     * @return The Region enum value
+     * Converts a string to a Region enum value.
+     *
+     * @param name The string to convert.
+     * @return The Region enum value.
      */
     public static Region fromString(String name) {
         name = name.toUpperCase().replace(" ", "_").replace("-", "_");
@@ -40,8 +49,9 @@ public enum Region {
 
     /**
      * Gets a displayable string representation of the enum value
-     * e.g: BAY_OF_PLENTY -> "Bay Of Plenty"
-     * @return Nicely formatted string of enum value
+     * e.g. BAY_OF_PLENTY -> "Bay Of Plenty".
+     *
+     * @return Nicely formatted string of enum value.
      */
     public String displayValue() {
         String display = name().toLowerCase().replaceAll("_", " ");
@@ -49,27 +59,28 @@ public enum Region {
     }
 
     /**
-     * Gets a list of all the regions
-     * @return All regions minus UNKNOWN
+     * Gets a list of all the regions.
+     *
+     * @return All regions minus UNKNOWN.
      */
     public static List<Region> regions() {
         return List.of(
-                AUCKLAND,
-                NORTHLAND,
-                WAIKATO,
-                BAY_OF_PLENTY,
-                HAWKES_BAY,
-                WELLINGTON,
-                OTAGO,
-                MANAWATŪ_WHANGANUI,
-                TARANAKI,
-                CANTERBURY,
-                GISBORNE,
-                SOUTHLAND,
-                WEST_COAST,
-                NELSON,
-                TASMAN,
-                MARLBOROUGH
+                        AUCKLAND,
+                        NORTHLAND,
+                        WAIKATO,
+                        BAY_OF_PLENTY,
+                        HAWKES_BAY,
+                        WELLINGTON,
+                        OTAGO,
+                        MANAWATŪ_WHANGANUI,
+                        TARANAKI,
+                        CANTERBURY,
+                        GISBORNE,
+                        SOUTHLAND,
+                        WEST_COAST,
+                        NELSON,
+                        TASMAN,
+                        MARLBOROUGH
         );
     }
 }

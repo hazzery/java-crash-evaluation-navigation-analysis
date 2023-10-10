@@ -8,7 +8,7 @@ import seng202.team2.database.DbAttributes;
 
 /**
  * Enum listing all possible vehicle types
- * and the zero-based index that the vehicle count is located in the CSV file
+ * and the zero-based index that the vehicle count is located in the CSV file.
  *
  * @author Harrison Parkes
  */
@@ -32,21 +32,28 @@ public enum Vehicle {
     private final int csvDataColumn;
 
     /**
-     * Create a new Vehicle
-     * @param csvDataColumn The zero-based index that the vehicle count is located in the CSV file
+     * Create a new Vehicle.
+     *
+     * @param csvDataColumn The zero-based index that the vehicle count is located in the CSV file.
      */
     Vehicle(int csvDataColumn) {
         this.csvDataColumn = csvDataColumn;
     }
 
     /**
-     * Get the zero-based index that the vehicle count is located in the CSV file
-     * @return The zero-based index that the vehicle count is located in the CSV file
+     * Get the zero-based index that the vehicle count is located in the CSV file.
+     *
+     * @return The zero-based index that the vehicle count is located in the CSV file.
      */
     public int getCsvColumn() {
         return csvDataColumn;
     }
 
+    /**
+     * Gets the column of the database that the vehicle count is located in.
+     *
+     * @return The column of the database that the vehicle count is located in.
+     */
     public int getDbColumn() {
         try {
             return DbAttributes.valueOf(this.name()).dbColumn();

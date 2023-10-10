@@ -1,10 +1,9 @@
 package seng202.team2.models;
 
-
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * enum listing the possible lighting conditions at the time of a crash
+ * Enum listing the possible lighting conditions at the time of a crash.
  *
  * @author Harrison Parkes
  */
@@ -16,9 +15,10 @@ public enum Lighting {
     UNKNOWN;
 
     /**
-     * Convert a string to a lighting enum
-     * @param name The string to convert
-     * @return The lighting enum value
+     * Convert a string to a lighting enum.
+     *
+     * @param name The string to convert.
+     * @return The lighting enum value.
      */
     public static Lighting fromString(String name) {
         name = name.toUpperCase().replace(" ", "_");
@@ -31,8 +31,9 @@ public enum Lighting {
 
     /**
      * Gets a displayable string representation of the enum value
-     * e.g: BRIGHT_SUN -> "Bright Sun"
-     * @return Nicely formatted string of enum value
+     * e.g. BRIGHT_SUN -> "Bright Sun".
+     *
+     * @return Nicely formatted string of enum value.
      */
     public String displayValue() {
         String display = name().toLowerCase().replaceAll("_", " ");
