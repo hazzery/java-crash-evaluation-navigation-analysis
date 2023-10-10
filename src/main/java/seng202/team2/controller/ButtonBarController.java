@@ -1,6 +1,5 @@
 package seng202.team2.controller;
 
-import javafx.concurrent.Task;
 import javafx.scene.text.Text;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
@@ -134,60 +133,40 @@ public class ButtonBarController {
      * Builds a query based on which filters are selected and updates the pool.
      */
     public void filterTable() {
-        mainController.displayLoadingView("EEE");
+        QueryBuilder queryBuilder = new QueryBuilder();
+        List<DbAttributes> vehiclesToQuery = new ArrayList<>();
 
-        delay(20, () -> {
-
-            long startTime = System.nanoTime();
-            QueryBuilder queryBuilder = new QueryBuilder();
-            List<DbAttributes> vehiclesToQuery = new ArrayList<>();
-
-            for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
-                if (button.isSelected()) {
-                    DbAttributes vehicle = buttonIdToVehicle.get(button.getId());
-                    vehiclesToQuery.add(vehicle);
-                }
+        for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
+            if (button.isSelected()) {
+                DbAttributes vehicle = buttonIdToVehicle.get(button.getId());
+                vehiclesToQuery.add(vehicle);
             }
-            queryBuilder.orVehicle(vehiclesToQuery);
+        }
+        queryBuilder.orVehicle(vehiclesToQuery);
 
-            List<String> selectedSeverities = severities.getItems().stream()
-                    .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
-                    .map(MenuItem::getId)
-                    .toList();
+        List<String> selectedSeverities = severities.getItems().stream()
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
 
-            queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY);
+        queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY);
 
-            int minYear = (int) yearSelect.getLowValue();
-            int maxYear = (int) yearSelect.getHighValue();
-            if (minYear != yearSelect.getMin() || maxYear != yearSelect.getMax()) {
-                queryBuilder.betweenValues(minYear, maxYear, DbAttributes.YEAR);
-            }
+        int minYear = (int) yearSelect.getLowValue();
+        int maxYear = (int) yearSelect.getHighValue();
+        if (minYear != yearSelect.getMin() || maxYear != yearSelect.getMax()) {
+            queryBuilder.betweenValues(minYear, maxYear, DbAttributes.YEAR);
+        }
 
-            List<String> selectedRegions = regions.getItems().stream()
-                    .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
-                    .map(MenuItem::getId)
-                    .toList();
+        List<String> selectedRegions = regions.getItems().stream()
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
 
-            queryBuilder.orString(selectedRegions, DbAttributes.REGION);
+        queryBuilder.orString(selectedRegions, DbAttributes.REGION);
 
-            Crashes.setQuery(queryBuilder);
+        Crashes.setQuery(queryBuilder);
 
-            mainController.updateViews();
-            System.out.println((System.nanoTime() - startTime) / 1000000);
-        });
-    }
-
-    public static void delay(long millis, Runnable continuation) {
-        Task<Void> sleeper = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try { Thread.sleep(millis); }
-                catch (InterruptedException e) { }
-                return null;
-            }
-        };
-        sleeper.setOnSucceeded(event -> continuation.run());
-        new Thread(sleeper).start();
+        mainController.updateViews();
     }
 
     /**

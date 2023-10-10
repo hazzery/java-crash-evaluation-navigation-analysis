@@ -1,6 +1,13 @@
+/**
+ * Main script for displaying data on the heatmap.
+ * Exposes functions to manipulate the heatmap to the mapViewController class.
+ *
+ * @author Findlay Royds
+ */
+
 let map;
-var heatmapLayer;
-var heatmapData = {max: 10000,data: []};
+let heatmapLayer;
+let heatmapData = {max: 10000,data: []};
 
 // Manually defined values to adjust the intensity of the heatmap at different zoom levels
 const heatmapMaxValues = {
@@ -45,7 +52,6 @@ function clearMarkers() {
  * Sets the data of the heatmap layer to the crash data
  */
 function postMarkers() {
-    //heatmapLayer.setData(heatmapData);
     refreshIntensity();
 }
 
@@ -55,7 +61,7 @@ function postMarkers() {
  */
 function initHeatmap() {
     // Configuration for the heatmap
-    var cfg = {
+    const cfg = {
         "radius": 20,
         "maxOpacity": .75,
         "minOpacity": .0,
@@ -72,13 +78,13 @@ function initHeatmap() {
     heatmapLayer = new HeatmapOverlay(cfg);
 
     // Create the leaflet map using the UC tileserver for the baseLayer
-    var mapOptions = {
+    const mapOptions = {
         center: [-44.0, 171.0],
         zoom: 5,
         minZoom: 5,
         maxZoom: 18,
         layers: [heatmapLayer]
-    }
+    };
     map = new L.map('map', mapOptions);
     new L.TileLayer('https://tile.csse.canterbury.ac.nz/hot/{z}/{x}/{y}.png', { // UCs tilemap server
         attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'

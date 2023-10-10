@@ -1,10 +1,7 @@
 package seng202.team2.controller;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.team2.models.Crash;
@@ -54,6 +51,7 @@ public class MapViewController {
      * Adds all the crashes into the heatmap layer
      */
     public void addAllCrashMarkers()  {
+        mainController.displayLoadingView("Loading crash data onto the map...");
         clearMarkers();
 
         // load the crashes onto the map
