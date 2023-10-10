@@ -15,9 +15,6 @@ public class MenuBarController {
     private Button menuButton;
 
     @FXML
-    private Button helpButton;
-
-    @FXML
     private Button tableViewButton;
 
     @FXML
@@ -33,7 +30,6 @@ public class MenuBarController {
 
     void init(MainController mainController) {
         this.mainController = mainController;
-        helpButton.setVisible(false);
         mapViewButton.setStyle("-fx-background-color: white;");
         displayIcons();
         addTooltips();
@@ -92,7 +88,6 @@ public class MenuBarController {
 
             menuButton.setText("");
             displayClose();
-            helpButton.setText("?");
             tableViewButton.setText("");
             mapViewButton.setText("");
         } else {
@@ -100,7 +95,6 @@ public class MenuBarController {
 
             menuButton.setText("Close");
             displayIcons();
-            helpButton.setText("Help ?");
             tableViewButton.setText("Table");
             mapViewButton.setText("Map");
         }
@@ -117,8 +111,5 @@ public class MenuBarController {
         tableViewButton.setStyle("-fx-background-color: transparent");
         mapViewButton.setStyle("-fx-background-color: white");
         mainController.displayMapView();
-    }
-
-    public void helpButtonClicked(ActionEvent actionEvent) {
     }
 }
