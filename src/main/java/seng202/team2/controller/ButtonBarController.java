@@ -124,6 +124,7 @@ public class ButtonBarController {
         for (Region region : Region.regions()) {
             CustomMenuItem regionItem = new CustomMenuItem(new CheckBox(region.displayValue()), false);
             regionItem.setId(region.name());
+            regionItem.setOnAction(this::notifRegion);
             regions.getItems().add(regionItem);
         }
     }
@@ -242,13 +243,12 @@ public class ButtonBarController {
     }
 
     /**
-     * generates notifications on severity selections
+     * Generates notifications on severity selections
      * gets called twice per action so every second one is ignored
-     * Uses functions in {@link Severity} to get nicely formatted strings
+     * uses functions in {@link Severity} to get nicely formatted strings
      *
      * @param event An event representing some type of action
      */
-    @FXML
     public void notifSeverity(ActionEvent event) {
         if (consumeAction) {
             consumeAction = false;
@@ -265,6 +265,33 @@ public class ButtonBarController {
         }
         consumeAction = true;
     }
+
+
+    /**
+     * Generates notifications on region selections
+     * gets called twice per action so every second one is ignored
+     * uses functions in {@link Region} to get nicely formatted strings
+     *
+     * @param event An event representing some type of action
+     */
+    public void notifRegion(ActionEvent event) {
+        if (consumeAction) {
+            consumeAction = false;
+            return;
+        }
+        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
+        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
+        Region checkedRegion = Region.fromString(customActionOrigin.getId());
+        String actionString = checkedRegion.displayValue();
+        if (actionOrigin.isSelected()) {
+            mainController.showNotification("Adding all crashes in " + actionString + " to the filter");
+        } else {
+            mainController.showNotification("Removing all crashes in " + actionString + " from the filter.");
+        }
+        consumeAction = true;
+    }
+
+
 
 
     /**
