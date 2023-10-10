@@ -201,6 +201,7 @@ public class ButtonBarController {
     /**
      * A function to generate notifications for all the toggle
      * buttons in a compact manner.
+     *
      * @param event An event representing some type of action
      */
     @FXML

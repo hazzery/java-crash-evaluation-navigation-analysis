@@ -47,7 +47,10 @@ public class MainController {
     private MapViewController mapViewController;
 
     private Label loadingLabel;
+    private Label overflowLabel;
     private int currentView;
+    private int notificationCount;
+
     private final Duration tooltipDelaySec = Duration.seconds(1);
 
     public void init(Stage stage) {
@@ -77,12 +80,21 @@ public class MainController {
      * table view
      */
     private void initialiseNotificationPane() {
+        notificationCount = 0;
+        overflowLabel = new Label();
+        overflowLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
+        overflowLabel.setMinWidth(300);
+        overflowLabel.setMinHeight(30);
+        overflowLabel.setText("Too many notifications!");
+
         notificationLayoutPane = new BorderPane();
         notificationPane = new FlowPane(Orientation.VERTICAL);
+        notificationPane.setMaxWidth(400);
         notificationPane.setAlignment(Pos.BOTTOM_LEFT);
         notificationPane.setPickOnBounds(false);
         notificationLayoutPane.setPickOnBounds(false);
         notificationLayoutPane.setRight(notificationPane);
+
         overlayPane.getChildren().add(notificationLayoutPane);
     }
 
@@ -188,6 +200,7 @@ public class MainController {
 
     /**
      * A helper function to condense making new tooltips for all the buttons
+     *
      * @param tooltipText The text for the tooltip to display
      * @return new tooltip with specified text and the specific tooltip show delay time.
      */
@@ -203,12 +216,22 @@ public class MainController {
      * Creates a 'notification' as a label and
      * uses timer on a separate thread to delete notification
      * after 3 seconds
+     *
      * @param text text for the notification to show
      */
     public void showNotification(String text) {
+        if (notificationCount > 5) {
+            if (!notificationPane.getChildren().contains(overflowLabel)) {
+                notificationPane.getChildren().add(overflowLabel);
+            }
+            return;
+        }
+        notificationCount++;
         Label notifLabel = new Label(text);
         notifLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
-        notifLabel.setMinWidth(200);
+        notifLabel.setMinWidth(300);
+        notifLabel.setMaxWidth(300);
+        notifLabel.setWrapText(true);
         notifLabel.setMinHeight(30);
         notifLabel.setAlignment(Pos.BOTTOM_RIGHT);
         notificationPane.getChildren().add(notifLabel);
@@ -224,6 +247,10 @@ public class MainController {
                     public void run() {
                         ft.play();
                         ft.setOnFinished(e -> notificationPane.getChildren().remove(notifLabel));
+                        notificationCount--;
+                        if (notificationCount <= 5) {
+                            notificationPane.getChildren().remove(overflowLabel);
+                        }
                         cancel();
                     }
                 });
