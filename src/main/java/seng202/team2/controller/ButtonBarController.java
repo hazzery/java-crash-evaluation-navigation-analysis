@@ -153,9 +153,9 @@ public class ButtonBarController {
         queryBuilder.orVehicle(vehiclesToQuery);
 
         List<String> selectedSeverities = severities.getItems().stream()
-                        .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
-                        .map(MenuItem::getId)
-                        .toList();
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
 
         queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY);
 
@@ -166,13 +166,14 @@ public class ButtonBarController {
         }
 
         List<String> selectedRegions = regions.getItems().stream()
-                        .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
-                        .map(MenuItem::getId)
-                        .toList();
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
 
         queryBuilder.orString(selectedRegions, DbAttributes.REGION);
 
         Crashes.setQuery(queryBuilder);
+
         mainController.updateViews();
     }
 
