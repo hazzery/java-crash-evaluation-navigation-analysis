@@ -66,6 +66,8 @@ public class ButtonBarController {
     @FXML
     private Text yearSelectRightLabel;
 
+    private Boolean consumeAction;
+
     /**
      * Map used to convert the IDs of a button into their respective enum values
      */
@@ -109,8 +111,10 @@ public class ButtonBarController {
         for (Severity severity : Severity.severities()) {
             CustomMenuItem severityItem = new CustomMenuItem(new CheckBox(severity.displayValue()), false);
             severityItem.setId(severity.name());
+            severityItem.setOnAction(this::notifSeverity);
             severities.getItems().add(severityItem);
         }
+        consumeAction = false;
     }
 
     /**
@@ -235,6 +239,31 @@ public class ButtonBarController {
                 break;
         }
 
+    }
+
+    /**
+     * generates notifications on severity selections
+     * gets called twice per action so every second one is ignored
+     * Uses functions in {@link Severity} to get nicely formatted strings
+     *
+     * @param event An event representing some type of action
+     */
+    @FXML
+    public void notifSeverity(ActionEvent event) {
+        if (consumeAction) {
+            consumeAction = false;
+            return;
+        }
+        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
+        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
+        Severity checkedSeverity = Severity.fromString(customActionOrigin.getId());
+        String actionString = checkedSeverity.displayValue().toLowerCase();
+        if (actionOrigin.isSelected()) {
+            mainController.showNotification("Adding all " + actionString + " crashes to the filter.");
+        } else {
+            mainController.showNotification("Removing all " + actionString + " crashes from the filter.");
+        }
+        consumeAction = true;
     }
 
 

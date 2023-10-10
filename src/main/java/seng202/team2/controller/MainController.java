@@ -15,7 +15,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,10 +34,8 @@ public class MainController {
     @FXML
     private BorderPane mainWindow;
     private BorderPane tableButtonsPane;
-    private BorderPane notificationLayoutPane;
     private FlowPane notificationPane;
     private StackPane overlayPane;
-    private BorderPane topBarPane;
 
     private Parent mapViewParent;
     private Parent tableViewParent;
@@ -86,7 +83,7 @@ public class MainController {
         overflowLabel.setMinHeight(30);
         overflowLabel.setText("Too many notifications!");
 
-        notificationLayoutPane = new BorderPane();
+        BorderPane notificationLayoutPane = new BorderPane();
         notificationPane = new FlowPane(Orientation.VERTICAL);
         notificationPane.setMaxWidth(400);
         notificationPane.setAlignment(Pos.BOTTOM_LEFT);
