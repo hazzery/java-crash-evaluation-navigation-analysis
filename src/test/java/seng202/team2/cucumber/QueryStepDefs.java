@@ -43,11 +43,11 @@ public class QueryStepDefs {
     @Given("I have person and fatal severity selected")
     public void fatalPersonFilter() {
         queryTester = new QueryBuilder();
-        ArrayList<String> severityTest = new ArrayList<String>();
+        ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("FATAL");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
 
-        ArrayList<DbAttributes> pedestrianTest = new ArrayList<DbAttributes>();
+        ArrayList<DbAttributes> pedestrianTest = new ArrayList<>();
         pedestrianTest.add(DbAttributes.PEDESTRIAN);
         queryTester.orVehicle(pedestrianTest);
     }
@@ -67,11 +67,11 @@ public class QueryStepDefs {
     @Given("I have cyclist and Bay of plenty region selected")
     public void BayofplentyCyclistFilter() {
         queryTester = new QueryBuilder();
-        ArrayList<String> regionTest = new ArrayList<String>();
+        ArrayList<String> regionTest = new ArrayList<>();
         regionTest.add("BAYOFPLENTY");
         queryTester.orString(regionTest, DbAttributes.REGION);
 
-        ArrayList<DbAttributes> cyclistTest = new ArrayList<DbAttributes>();
+        ArrayList<DbAttributes> cyclistTest = new ArrayList<>();
         cyclistTest.add(DbAttributes.BICYCLE);
         queryTester.orVehicle(cyclistTest);
     }
@@ -82,6 +82,28 @@ public class QueryStepDefs {
         for (Crash crash: queryResult) {
             if (!(crash.region().equals(Region.BAY_OF_PLENTY)) ||
                     !(crash.vehicles().containsKey(Vehicle.BICYCLE))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Given("I have bus selected with the year slider set between 2006 and 2016")
+    public void HeavyvehicleYearFilter() {
+        queryTester = new QueryBuilder();
+        queryTester.betweenValues(2006, 2016, DbAttributes.YEAR);
+        ArrayList<DbAttributes> busTest = new ArrayList<>();
+        busTest.add(DbAttributes.BUS);
+        queryTester.orVehicle(busTest);
+    }
+
+    @Then("All results shown involve a bus between 2006 and 2016")
+    public void allBusYearResults() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.year() <= 2016) && (crash.year() >= 2006)) ||
+                    !(crash.vehicles().containsKey(Vehicle.BUS))) {
                 valid = false;
                 break;
             }
