@@ -28,6 +28,12 @@ public class MenuBarController {
     private MainController mainController;
 
 
+    /**
+     * Initialises the menu bar controller.
+     * Set the icons, tooltips and expands the menu bar
+     *
+     * @param mainController A reference to the main controller
+     */
     void init(MainController mainController) {
         this.mainController = mainController;
         mapViewButton.setStyle("-fx-background-color: white;");
@@ -47,8 +53,8 @@ public class MenuBarController {
     }
 
     /**
-     * Inits the icon images for the menu bar and places them on their
-     * respective buttons
+     * Initialises the icon images for the menu bar
+     * and places them on their respective buttons
      */
     private void displayIcons() {
         Image mapIMG = null;
@@ -71,6 +77,9 @@ public class MenuBarController {
 
     }
 
+    /**
+     * Replaces the menu button icon with a close icon
+     */
     private void displayClose() {
         Image menuIMG = null;
         try {
@@ -81,6 +90,9 @@ public class MenuBarController {
         menuButton.setGraphic(new ImageView(menuIMG));
     }
 
+    /**
+     * Toggles the menu bar between expanded and collapsed
+     */
     @FXML
     private void toggleMenuBar() {
         if (expanded) {
@@ -101,12 +113,24 @@ public class MenuBarController {
         expanded = !expanded;
     }
 
+    /**
+     * Event handler for the table view button.
+     * Displays the table view and toggles the button colours to reflect their new states.
+     *
+     * @param ignoredActionEvent The event that triggered the handler. (Not used)
+     */
     public void tableViewButtonClicked(ActionEvent ignoredActionEvent) {
         tableViewButton.setStyle("-fx-background-color: white");
         mapViewButton.setStyle("-fx-background-color: transparent");
         mainController.displayTableView();
     }
 
+    /**
+     * Event handler for the map view button.
+     * Displays the map view and toggles the button colours to reflect their new states.
+     *
+     * @param ignoredActionEvent The event that triggered the handler. (Not used)
+     */
     public void mapViewButtonClicked(ActionEvent ignoredActionEvent) {
         tableViewButton.setStyle("-fx-background-color: transparent");
         mapViewButton.setStyle("-fx-background-color: white");
