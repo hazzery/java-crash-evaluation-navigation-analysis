@@ -122,7 +122,6 @@ public class MainController {
             Parent buttonBarParent = buttonBarLoader.load();
             ButtonBarController buttonBarController = buttonBarLoader.getController();
             buttonBarController.giveMainControl(this);
-            buttonBarController.init();
             mainWindow.setTop(buttonBarParent);
         } catch (IOException e) {
             e.printStackTrace();

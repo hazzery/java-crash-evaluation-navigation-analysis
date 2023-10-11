@@ -323,7 +323,8 @@ public class ButtonBarController {
     /**
      * Initialises the button bar.
      */
-    void init() {
+    @FXML
+    void initialize() {
         setIcons();
         setSeverityValues();
         setRegions();
