@@ -23,7 +23,7 @@ import java.util.TimerTask;
  * Main controller class for the application window.
  * Handles displaying the top bar and navigation bar as well as swapping between the map and
  * table view.
- * adapted from "<a href="https://eng-git.canterbury.ac.nz/men63/seng202-advanced-fx-public">advanced JavaFX lab</a>"
+ * Adapted from "<a href="https://eng-git.canterbury.ac.nz/men63/seng202-advanced-fx-public">advanced JavaFX lab</a>"
  *
  * @author Findlay Royds
  * @author Isaac Ure
