@@ -57,6 +57,7 @@ public class MainController {
         initialiseMapView();
 
         displayTableButtonsPane();
+        displayLoadingView();
         displayButtonBar();
         displayMenuBar();
 
@@ -64,7 +65,7 @@ public class MainController {
     }
 
     private void initialiseLoadingView() {
-        loadingLabel = new Label();
+        loadingLabel = new Label("Loading full CAS data onto the map...");
         currentView = 1;
     }
 
@@ -96,7 +97,6 @@ public class MainController {
         tableButtonsPane = new BorderPane();
         overlayPane = new StackPane();
         tableButtonsPane.setId("tableButtonsPane");
-        displayLoadingView("Loading crash data onto the map...");
         overlayPane.getChildren().add(tableButtonsPane);
         mainWindow.setCenter(overlayPane);
     }
@@ -149,8 +149,7 @@ public class MainController {
         }
     }
 
-    public void displayLoadingView(String text) {
-        loadingLabel.setText(text);
+    public void displayLoadingView() {
         tableButtonsPane.setCenter(loadingLabel);
     }
 
