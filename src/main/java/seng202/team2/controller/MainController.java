@@ -32,7 +32,7 @@ import java.util.TimerTask;
 public class MainController {
     @FXML
     private BorderPane mainWindow;
-    private BorderPane tableButtonsPane;
+    private BorderPane mainViewPane;
     private FlowPane notificationPane;
     private StackPane overlayPane;
 
@@ -52,11 +52,10 @@ public class MainController {
     @FXML
     void initialize() {
         initialiseLoadingView();
-
+        initialiseMainViewPane();
         initialiseTableView();
         initialiseMapView();
 
-        displayTableButtonsPane();
         displayLoadingView();
         displayButtonBar();
         displayMenuBar();
@@ -93,11 +92,13 @@ public class MainController {
         overlayPane.getChildren().add(notificationLayoutPane);
     }
 
-    private void displayTableButtonsPane() {
-        tableButtonsPane = new BorderPane();
+    private void initialiseMainViewPane() {
         overlayPane = new StackPane();
-        tableButtonsPane.setId("tableButtonsPane");
-        overlayPane.getChildren().add(tableButtonsPane);
+
+        mainViewPane = new BorderPane();
+        mainViewPane.setId("mainViewPane");
+        overlayPane.getChildren().add(mainViewPane);
+
         mainWindow.setCenter(overlayPane);
     }
 
@@ -150,7 +151,7 @@ public class MainController {
     }
 
     public void displayLoadingView() {
-        tableButtonsPane.setCenter(loadingLabel);
+        mainViewPane.setCenter(loadingLabel);
     }
 
     public void hideLoadingView() {
@@ -162,12 +163,12 @@ public class MainController {
     }
 
     public void displayTableView() {
-        tableButtonsPane.setCenter(tableViewParent);
+        mainViewPane.setCenter(tableViewParent);
         currentView = 0;
     }
 
     public void displayMapView() {
-        tableButtonsPane.setCenter(mapViewParent);
+        mainViewPane.setCenter(mapViewParent);
         currentView = 1;
     }
 
