@@ -248,7 +248,7 @@ public class ButtonBarController {
             consumeAction = false;
             return;
         }
-        Boolean anySelected = false;
+        boolean anySelected = false;
         for (Object option : severities.getItems()) {
             if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
                 anySelected = true;
@@ -284,7 +284,7 @@ public class ButtonBarController {
             consumeAction = false;
             return;
         }
-        Boolean anySelected = false;
+        boolean anySelected = false;
         for (Object option : regions.getItems()) {
             if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
                 anySelected = true;
