@@ -221,6 +221,10 @@ public class ButtonBarController {
     @FXML
     public void notifToggle(ActionEvent event) {
         ToggleButton eventOrigin = (ToggleButton) event.getSource();
+        if (!pedestrian.isSelected() & !bicycle.isSelected() & !car.isSelected() & !bus.isSelected()) {
+            mainController.showNotification("Filtering crashes by all vehicle types");
+            return;
+        }
         switch (eventOrigin.getId()) {
             case "pedestrian":
                 mainController.showNotification(pedestrian.isSelected() ?
@@ -254,6 +258,17 @@ public class ButtonBarController {
             consumeAction = false;
             return;
         }
+        Boolean anySelected = false;
+        for (Object option : severities.getItems()) {
+            if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
+                anySelected = true;
+            }
+        }
+        if (!anySelected) {
+            mainController.showNotification("Filtering crashes by all severities");
+            consumeAction = true;
+            return;
+        }
         CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
         CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
         Severity checkedSeverity = Severity.fromString(customActionOrigin.getId());
@@ -277,6 +292,17 @@ public class ButtonBarController {
     public void notifRegion(ActionEvent event) {
         if (consumeAction) {
             consumeAction = false;
+            return;
+        }
+        Boolean anySelected = false;
+        for (Object option : regions.getItems()) {
+            if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
+                anySelected = true;
+            }
+        }
+        if (!anySelected) {
+            mainController.showNotification("Filtering crashes by all regions");
+            consumeAction = true;
             return;
         }
         CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
