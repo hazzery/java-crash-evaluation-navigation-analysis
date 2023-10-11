@@ -1,5 +1,6 @@
 package seng202.team2.controller;
 
+import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
@@ -65,6 +66,11 @@ public class ButtonBarController {
     @FXML
     private Text yearSelectRightLabel;
 
+    private Boolean consumeAction;
+
+    /**
+     * Map used to convert the IDs of a button into their respective enum values
+     */
     private static final Map<String, DbAttributes> buttonIdToVehicle = new HashMap<>() {{
         put("pedestrian", DbAttributes.PEDESTRIAN);
         put("bicycle", DbAttributes.BICYCLE);
@@ -76,7 +82,7 @@ public class ButtonBarController {
     private MainController mainController;
 
     /**
-     * Set the icons on the vehicle filter buttons
+     * Set the icons on the vehicle filter buttons by using included images
      */
     private void setIcons() {
         Image personIMG = null;
@@ -99,30 +105,33 @@ public class ButtonBarController {
     }
 
     /**
-     * Set the severity values in the severities drop-down
+     * Set the severity values in the severities drop-down from the pre-defined severities list
      */
     private void setSeverityValues() {
         for (Severity severity : Severity.severities()) {
             CustomMenuItem severityItem = new CustomMenuItem(new CheckBox(severity.displayValue()), false);
             severityItem.setId(severity.name());
+            severityItem.setOnAction(this::notifSeverity);
             severities.getItems().add(severityItem);
         }
+        consumeAction = false;
     }
 
     /**
-     * Sets the regions in the regions drop-down
+     * Sets the regions in the regions drop-down from the pre-defined region list
      */
     private void setRegions() {
         for (Region region : Region.regions()) {
             CustomMenuItem regionItem = new CustomMenuItem(new CheckBox(region.displayValue()), false);
             regionItem.setId(region.name());
+            regionItem.setOnAction(this::notifRegion);
             regions.getItems().add(regionItem);
         }
     }
 
     /**
-     * Default behaviour of rangeSlider is not working correctly,
-     * this method sets the default values
+     * Default behaviour of rangeSlider does not correctly set default values,
+     * this method overrides the default values with the correct ones
      */
     private void setRangeSliderValues() {
         yearSelect.setLowValue(MIN_YEAR);
@@ -130,7 +139,12 @@ public class ButtonBarController {
     }
 
     /**
-     * Builds a query based on which filters are selected and updates the pool.
+     * Builds a query based on which filters are selected:
+     * Checks which toggle buttons are selected and adds them to the orVehicle method of QueryBuilder
+     * Then checks which severities are selected and adds them to the orString method of QueryBuilder
+     * Then checks the year range defined by the slider and runs the betweenValues method if the slider has been changed
+     * Finally checks the selected regions and queries them using another QueryBuilder orString.
+     * This query is then run and the view is updated to show the new data.
      */
     public void filterTable() {
         QueryBuilder queryBuilder = new QueryBuilder();
@@ -145,9 +159,9 @@ public class ButtonBarController {
         queryBuilder.orVehicle(vehiclesToQuery);
 
         List<String> selectedSeverities = severities.getItems().stream()
-                        .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
-                        .map(MenuItem::getId)
-                        .toList();
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
 
         queryBuilder.orString(selectedSeverities, DbAttributes.SEVERITY);
 
@@ -158,13 +172,14 @@ public class ButtonBarController {
         }
 
         List<String> selectedRegions = regions.getItems().stream()
-                        .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
-                        .map(MenuItem::getId)
-                        .toList();
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
 
         queryBuilder.orString(selectedRegions, DbAttributes.REGION);
 
         Crashes.setQuery(queryBuilder);
+
         mainController.updateViews();
     }
 
@@ -196,6 +211,114 @@ public class ButtonBarController {
         yearSelect.setTooltip(this.mainController.makeTooltip("Slider: Limit crashes to specific range of years"));
         confirmSelection.setTooltip(this.mainController.makeTooltip("Apply all the selected filters (May take time to load)"));
     }
+
+    /**
+     * A function to generate notifications for all the toggle
+     * buttons in a compact manner.
+     *
+     * @param event An event representing some type of action
+     */
+    @FXML
+    public void notifToggle(ActionEvent event) {
+        ToggleButton eventOrigin = (ToggleButton) event.getSource();
+        if (!pedestrian.isSelected() & !bicycle.isSelected() & !car.isSelected() & !bus.isSelected()) {
+            mainController.showNotification("Filtering crashes by all vehicle types");
+            return;
+        }
+        switch (eventOrigin.getId()) {
+            case "pedestrian":
+                mainController.showNotification(pedestrian.isSelected() ?
+                        "Crashes involving pedestrians have been added to the filter" : "Crashes involving pedestrians have been removed from the filter");
+                break;
+            case "bicycle":
+                mainController.showNotification(bicycle.isSelected() ?
+                        "Crashes involving bikes have been added to the filter" : "Crashes involving bikes have been removed from the filter");
+                break;
+            case "car":
+                mainController.showNotification(car.isSelected() ?
+                        "Crashes involving cars have been added to the filter" : "Crashes involving cars have been removed from the filter");
+                break;
+            case "bus":
+                mainController.showNotification(bus.isSelected() ?
+                        "Crashes involving heavy vehicles have been added to the filter" : "Crashes involving heavy vehicles have been removed from the filter");
+                break;
+        }
+
+    }
+
+    /**
+     * Generates notifications on severity selections
+     * gets called twice per action so every second one is ignored
+     * uses functions in {@link Severity} to get nicely formatted strings
+     *
+     * @param event An event representing some type of action
+     */
+    public void notifSeverity(ActionEvent event) {
+        if (consumeAction) {
+            consumeAction = false;
+            return;
+        }
+        Boolean anySelected = false;
+        for (Object option : severities.getItems()) {
+            if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
+                anySelected = true;
+            }
+        }
+        if (!anySelected) {
+            mainController.showNotification("Filtering crashes by all severities");
+            consumeAction = true;
+            return;
+        }
+        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
+        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
+        Severity checkedSeverity = Severity.fromString(customActionOrigin.getId());
+        String actionString = checkedSeverity.displayValue().toLowerCase();
+        if (actionOrigin.isSelected()) {
+            mainController.showNotification("Adding all " + actionString + " crashes to the filter.");
+        } else {
+            mainController.showNotification("Removing all " + actionString + " crashes from the filter.");
+        }
+        consumeAction = true;
+    }
+
+
+    /**
+     * Generates notifications on region selections
+     * gets called twice per action so every second one is ignored
+     * uses functions in {@link Region} to get nicely formatted strings
+     *
+     * @param event An event representing some type of action
+     */
+    public void notifRegion(ActionEvent event) {
+        if (consumeAction) {
+            consumeAction = false;
+            return;
+        }
+        Boolean anySelected = false;
+        for (Object option : regions.getItems()) {
+            if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
+                anySelected = true;
+            }
+        }
+        if (!anySelected) {
+            mainController.showNotification("Filtering crashes by all regions");
+            consumeAction = true;
+            return;
+        }
+        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
+        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
+        Region checkedRegion = Region.fromString(customActionOrigin.getId());
+        String actionString = checkedRegion.displayValue();
+        if (actionOrigin.isSelected()) {
+            mainController.showNotification("Adding all crashes in " + actionString + " to the filter");
+        } else {
+            mainController.showNotification("Removing all crashes in " + actionString + " from the filter.");
+        }
+        consumeAction = true;
+    }
+
+
+
 
     /**
      * Gives the button bar access to the main controller.
