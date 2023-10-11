@@ -1,6 +1,7 @@
 package seng202.team2.controller;
 
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
@@ -66,6 +67,8 @@ public class ButtonBarController {
     @FXML
     private Text yearSelectRightLabel;
 
+    private Boolean consumeAction;
+
     /**
      * Map used to convert the IDs of a button into their respective enum values
      */
@@ -109,8 +112,10 @@ public class ButtonBarController {
         for (Severity severity : Severity.severities()) {
             CustomMenuItem severityItem = new CustomMenuItem(new CheckBox(severity.displayValue()), false);
             severityItem.setId(severity.name());
+            severityItem.setOnAction(this::notifSeverity);
             severities.getItems().add(severityItem);
         }
+        consumeAction = false;
     }
 
     /**
@@ -120,6 +125,7 @@ public class ButtonBarController {
         for (Region region : Region.regions()) {
             CustomMenuItem regionItem = new CustomMenuItem(new CheckBox(region.displayValue()), false);
             regionItem.setId(region.name());
+            regionItem.setOnAction(this::notifRegion);
             regions.getItems().add(regionItem);
         }
     }
@@ -233,6 +239,88 @@ public class ButtonBarController {
         yearSelect.setTooltip(this.mainController.makeTooltip("Slider: Limit crashes to specific range of years"));
         confirmSelection.setTooltip(this.mainController.makeTooltip("Apply all the selected filters (May take time to load)"));
     }
+
+    /**
+     * A function to generate notifications for all the toggle
+     * buttons in a compact manner.
+     *
+     * @param event An event representing some type of action
+     */
+    @FXML
+    public void notifToggle(ActionEvent event) {
+        ToggleButton eventOrigin = (ToggleButton) event.getSource();
+        switch (eventOrigin.getId()) {
+            case "pedestrian":
+                mainController.showNotification(pedestrian.isSelected() ?
+                        "Crashes involving pedestrians have been added to the filter" : "Crashes involving pedestrians have been removed from the filter");
+                break;
+            case "bicycle":
+                mainController.showNotification(bicycle.isSelected() ?
+                        "Crashes involving bikes have been added to the filter" : "Crashes involving bikes have been removed from the filter");
+                break;
+            case "car":
+                mainController.showNotification(car.isSelected() ?
+                        "Crashes involving cars have been added to the filter" : "Crashes involving cars have been removed from the filter");
+                break;
+            case "bus":
+                mainController.showNotification(bus.isSelected() ?
+                        "Crashes involving heavy vehicles have been added to the filter" : "Crashes involving heavy vehicles have been removed from the filter");
+                break;
+        }
+
+    }
+
+    /**
+     * Generates notifications on severity selections
+     * gets called twice per action so every second one is ignored
+     * uses functions in {@link Severity} to get nicely formatted strings
+     *
+     * @param event An event representing some type of action
+     */
+    public void notifSeverity(ActionEvent event) {
+        if (consumeAction) {
+            consumeAction = false;
+            return;
+        }
+        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
+        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
+        Severity checkedSeverity = Severity.fromString(customActionOrigin.getId());
+        String actionString = checkedSeverity.displayValue().toLowerCase();
+        if (actionOrigin.isSelected()) {
+            mainController.showNotification("Adding all " + actionString + " crashes to the filter.");
+        } else {
+            mainController.showNotification("Removing all " + actionString + " crashes from the filter.");
+        }
+        consumeAction = true;
+    }
+
+
+    /**
+     * Generates notifications on region selections
+     * gets called twice per action so every second one is ignored
+     * uses functions in {@link Region} to get nicely formatted strings
+     *
+     * @param event An event representing some type of action
+     */
+    public void notifRegion(ActionEvent event) {
+        if (consumeAction) {
+            consumeAction = false;
+            return;
+        }
+        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
+        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
+        Region checkedRegion = Region.fromString(customActionOrigin.getId());
+        String actionString = checkedRegion.displayValue();
+        if (actionOrigin.isSelected()) {
+            mainController.showNotification("Adding all crashes in " + actionString + " to the filter");
+        } else {
+            mainController.showNotification("Removing all crashes in " + actionString + " from the filter.");
+        }
+        consumeAction = true;
+    }
+
+
+
 
     /**
      * Gives the button bar access to the main controller.
