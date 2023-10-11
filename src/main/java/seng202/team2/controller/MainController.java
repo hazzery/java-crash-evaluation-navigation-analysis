@@ -37,7 +37,8 @@ public class MainController {
     private int currentView;
     private final Duration tooltipDelaySec = Duration.seconds(1);
 
-    public void init() {
+    @FXML
+    void initialize() {
         initialiseLoadingView();
 
         initialiseTableView();

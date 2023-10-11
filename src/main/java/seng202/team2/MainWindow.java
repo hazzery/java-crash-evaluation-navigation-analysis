@@ -20,7 +20,6 @@ public class MainWindow extends Application {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Parent root = baseLoader.load();
         MainController baseController = baseLoader.getController();
-        baseController.init();
         primaryStage.sizeToScene();
         primaryStage.setTitle("JCENA");
         primaryStage.setScene(new Scene(root, 1100, 800));
