@@ -1,21 +1,19 @@
 package seng202.team2.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.controlsfx.control.RangeSlider;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.models.Crashes;
 import seng202.team2.models.Region;
 import seng202.team2.models.Severity;
-
-import org.controlsfx.control.RangeSlider;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.util.*;
 
@@ -226,22 +224,14 @@ public class ButtonBarController {
             return;
         }
         switch (eventOrigin.getId()) {
-            case "pedestrian":
-                mainController.showNotification(pedestrian.isSelected() ?
-                        "Crashes involving pedestrians have been added to the filter" : "Crashes involving pedestrians have been removed from the filter");
-                break;
-            case "bicycle":
-                mainController.showNotification(bicycle.isSelected() ?
-                        "Crashes involving bikes have been added to the filter" : "Crashes involving bikes have been removed from the filter");
-                break;
-            case "car":
-                mainController.showNotification(car.isSelected() ?
-                        "Crashes involving cars have been added to the filter" : "Crashes involving cars have been removed from the filter");
-                break;
-            case "bus":
-                mainController.showNotification(bus.isSelected() ?
-                        "Crashes involving heavy vehicles have been added to the filter" : "Crashes involving heavy vehicles have been removed from the filter");
-                break;
+            case "pedestrian" -> mainController.showNotification(pedestrian.isSelected() ?
+                    "Crashes involving pedestrians have been added to the filter" : "Crashes involving pedestrians have been removed from the filter");
+            case "bicycle" -> mainController.showNotification(bicycle.isSelected() ?
+                    "Crashes involving bikes have been added to the filter" : "Crashes involving bikes have been removed from the filter");
+            case "car" -> mainController.showNotification(car.isSelected() ?
+                    "Crashes involving cars have been added to the filter" : "Crashes involving cars have been removed from the filter");
+            case "bus" -> mainController.showNotification(bus.isSelected() ?
+                    "Crashes involving heavy vehicles have been added to the filter" : "Crashes involving heavy vehicles have been removed from the filter");
         }
 
     }
