@@ -83,7 +83,8 @@ function initHeatmap() {
         zoom: 5,
         minZoom: 5,
         maxZoom: 18,
-        layers: [heatmapLayer]
+        layers: [heatmapLayer],
+        maxBounds: [ [-55.0, 164], [-30.0, 185] ]
     };
     map = new L.map('map', mapOptions);
     new L.TileLayer('https://tile.csse.canterbury.ac.nz/hot/{z}/{x}/{y}.png', { // UCs tilemap server
