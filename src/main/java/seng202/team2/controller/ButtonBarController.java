@@ -321,7 +321,10 @@ public class ButtonBarController {
     }
 
     /**
-     * Initialises the button bar.
+     * Initialises the button bar by setting the button icons,
+     * preparing the filter drop down menus,
+     * setting up the tool tips,
+     * and initialising the year slider
      */
     @FXML
     void initialize() {
