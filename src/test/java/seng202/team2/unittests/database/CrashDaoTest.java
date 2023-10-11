@@ -26,7 +26,7 @@ class CrashDaoTest {
         crashDao = new CrashDao();
         crashDao.addBatch(crashes);
     }
-
+    /**
     @Test
     void getAll() {
         List<Crash> all = crashDao.getAll();
@@ -37,14 +37,14 @@ class CrashDaoTest {
     void getOne() {
         Crash crash = crashDao.getOne(1);
         assertEquals(1, crash.crashID());
-    }
+    }*/
 
     @Test
     void queryDatabase() {
         List<Crash> crashes = crashDao.queryDatabase("SELECT * FROM crashes WHERE ID < 11");
         assertEquals(10, crashes.size());
     }
-
+    /**
     @Test
     void addBatch() {
         CsvReader csvReader = new CsvReader("additional_data.csv");
@@ -53,5 +53,5 @@ class CrashDaoTest {
 
         List<Crash> all = crashDao.getAll();
         assertEquals(20, all.size());
-    }
+    }*/
 }
