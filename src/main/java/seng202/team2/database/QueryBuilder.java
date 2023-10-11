@@ -72,9 +72,9 @@ public class QueryBuilder {
      *
      * @param queryVehicles List of vehicles to include in results.
      */
-    public QueryBuilder orVehicle(List<DbAttributes> queryVehicles) {
+    public void orVehicle(List<DbAttributes> queryVehicles) {
         if (queryVehicles.isEmpty()) {
-            return this;
+            return;
         }
         sql.append("(");
         for (DbAttributes vehicle : queryVehicles) {
