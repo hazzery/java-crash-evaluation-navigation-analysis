@@ -190,8 +190,6 @@ public class ButtonBarController {
     public void filterTable() {
         QueryBuilder queryBuilder = buildQuery();
 
-        //Crashes.setQuery(queryBuilder);
-        //mainController.updateViews();
         runAfter(() -> Crashes.setQuery(queryBuilder), () -> mainController.updateViews());
     }
 

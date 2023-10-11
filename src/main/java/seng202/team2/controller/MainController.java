@@ -174,7 +174,12 @@ public class MainController {
 
     public void updateViews() {
         mapViewController.addAllCrashMarkers();
+
+        if (currentView == 0)
+            tableButtonsPane.setCenter(mapViewParent);
         tableViewController.updateCrashes();
+        if (currentView == 0)
+            tableButtonsPane.setCenter(tableViewParent);
     }
 
     public LoadingScreenController getLoadingScreen() {

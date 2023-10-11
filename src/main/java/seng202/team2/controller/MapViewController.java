@@ -43,6 +43,7 @@ public class MapViewController {
                                 "initHeatmap();"
                         );
                         addAllCrashMarkers();
+                        mainController.getLoadingScreen().hide();
                     }
                 });
     }
