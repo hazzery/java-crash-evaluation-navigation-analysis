@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -82,7 +83,7 @@ public class MainController {
     private void initialiseNotificationPane() {
         notificationCount = 0;
         overflowLabel = new Label();
-        overflowLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
+        overflowLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheets/notification.css")).toExternalForm());
         overflowLabel.setMinWidth(300);
         overflowLabel.setMinHeight(30);
         overflowLabel.setText("Too many notifications!");
@@ -139,7 +140,7 @@ public class MainController {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
             tableViewParent = tableViewLoader.load();
             tableViewController = tableViewLoader.getController();
-            mainWindow.getStylesheets().add(getClass().getResource("/stylesheets/table.css").toExternalForm());
+            mainWindow.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheets/table.css")).toExternalForm());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -213,7 +214,7 @@ public class MainController {
         }
         notificationCount++;
         Label notifLabel = new Label(text);
-        notifLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
+        notifLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheets/notification.css")).toExternalForm());
         notifLabel.setMinWidth(300);
         notifLabel.setMaxWidth(300);
         notifLabel.setWrapText(true);
