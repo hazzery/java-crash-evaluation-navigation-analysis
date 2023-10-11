@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class MainController {
     private int currentView;
     private final Duration tooltipDelaySec = Duration.seconds(1);
 
-    public void init(Stage stage) {
+    public void init() {
         initialiseLoadingView();
 
         initialiseTableView();
@@ -50,8 +49,6 @@ public class MainController {
         displayMenuBar();
 
         displayLoadingView("Loading crash data onto the map...");
-
-        stage.sizeToScene();
     }
 
     private void initialiseLoadingView() {

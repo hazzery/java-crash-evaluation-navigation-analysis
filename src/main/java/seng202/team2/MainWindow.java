@@ -1,6 +1,5 @@
 package seng202.team2;
 
-import com.sun.tools.javac.Main;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,8 +20,8 @@ public class MainWindow extends Application {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Parent root = baseLoader.load();
         MainController baseController = baseLoader.getController();
-        baseController.init(primaryStage);
-
+        baseController.init();
+        primaryStage.sizeToScene();
         primaryStage.setTitle("JCENA");
         primaryStage.setScene(new Scene(root, 1100, 800));
         primaryStage.show();
