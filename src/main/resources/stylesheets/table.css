@@ -51,10 +51,6 @@ Author: Isaac Ure
     -fx-table-cell-border-color: transparent;
 }
 
-#tableButtonsPane {
-    -fx-background-color: white;
-}
-
 #menuPane {
     -fx-font-family: 'ABeeZee';
     -fx-background-color: #487eb0;
