@@ -109,7 +109,7 @@ public class ButtonBarController {
         for (Severity severity : Severity.severities()) {
             CustomMenuItem severityItem = new CustomMenuItem(new CheckBox(severity.displayValue()), false);
             severityItem.setId(severity.name());
-            severityItem.setOnAction(this::notifSeverity);
+            severityItem.setOnAction(this::notificationSeverity);
             severities.getItems().add(severityItem);
         }
         consumeAction = false;
@@ -122,7 +122,7 @@ public class ButtonBarController {
         for (Region region : Region.regions()) {
             CustomMenuItem regionItem = new CustomMenuItem(new CheckBox(region.displayValue()), false);
             regionItem.setId(region.name());
-            regionItem.setOnAction(this::notifRegion);
+            regionItem.setOnAction(this::notificationRegion);
             regions.getItems().add(regionItem);
         }
     }
@@ -217,7 +217,7 @@ public class ButtonBarController {
      * @param event An event representing some type of action
      */
     @FXML
-    public void notifToggle(ActionEvent event) {
+    public void notificationToggle(ActionEvent event) {
         ToggleButton eventOrigin = (ToggleButton) event.getSource();
         if (!pedestrian.isSelected() & !bicycle.isSelected() & !car.isSelected() & !bus.isSelected()) {
             mainController.showNotification("Filtering crashes by all vehicle types");
@@ -243,7 +243,7 @@ public class ButtonBarController {
      *
      * @param event An event representing some type of action
      */
-    public void notifSeverity(ActionEvent event) {
+    public void notificationSeverity(ActionEvent event) {
         if (consumeAction) {
             consumeAction = false;
             return;
@@ -279,7 +279,7 @@ public class ButtonBarController {
      *
      * @param event An event representing some type of action
      */
-    public void notifRegion(ActionEvent event) {
+    public void notificationRegion(ActionEvent event) {
         if (consumeAction) {
             consumeAction = false;
             return;

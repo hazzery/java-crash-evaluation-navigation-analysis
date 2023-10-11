@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import org.controlsfx.control.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.controlsfx.control.RangeSlider?>
 <?import java.lang.Integer?>
-
 <ButtonBar fx:id="buttonBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
            nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="1000.0"
            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
@@ -15,13 +15,14 @@
         <Integer fx:id="MAX_YEAR" fx:value="2023"/>
     </fx:define>
     <buttons>
-        <ToggleButton fx:id="pedestrian" maxWidth="5" mnemonicParsing="false" onAction="#notifToggle"/>
-        <ToggleButton fx:id="bicycle" maxWidth="5.0" mnemonicParsing="false" onAction="#notifToggle"/>
-        <ToggleButton fx:id="car" maxWidth="5.0" mnemonicParsing="false" onAction="#notifToggle"/>
-        <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false" onAction="#notifToggle"/>
+        <ToggleButton fx:id="pedestrian" maxWidth="5" mnemonicParsing="false" onAction="#notificationToggle"/>
+        <ToggleButton fx:id="bicycle" maxWidth="5.0" mnemonicParsing="false" onAction="#notificationToggle"/>
+        <ToggleButton fx:id="car" maxWidth="5.0" mnemonicParsing="false" onAction="#notificationToggle"/>
+        <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false" onAction="#notificationToggle"/>
         <MenuButton fx:id="severities" mnemonicParsing="false" text="Severity"/>
         <MenuButton fx:id="regions" mnemonicParsing="false" text="Region"/>
-        <Text fx:id="yearSelectLeftLabel" layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="$MIN_YEAR">
+        <Text fx:id="yearSelectLeftLabel" layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="$MIN_YEAR">
             <font>
                 <Font size="11.0"/>
             </font>
