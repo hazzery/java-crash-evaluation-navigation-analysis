@@ -61,6 +61,7 @@ public class MainController {
         displayMenuBar();
 
         initialiseNotificationPane();
+        initialiseLoadingScreen();
 
         stage.sizeToScene();
     }
@@ -92,6 +93,20 @@ public class MainController {
         notificationLayoutPane.setRight(notificationPane);
 
         overlayPane.getChildren().add(notificationLayoutPane);
+    }
+
+    private void initialiseLoadingScreen() {
+        try {
+            FXMLLoader loadingScreenLoader = new FXMLLoader(getClass().getResource("/fxml/loading_screen.fxml"));
+            Parent loadingScreenParent = loadingScreenLoader.load();
+            loadingScreenParent.setPickOnBounds(false);
+            loadingScreenParent.getStylesheets().add(getClass().getResource("/stylesheets/table.css").toExternalForm());
+            LoadingScreenController loadingScreenController = loadingScreenLoader.getController();
+            loadingScreenController.init();
+            overlayPane.getChildren().add(loadingScreenParent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayTableButtonsPane() {
