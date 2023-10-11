@@ -228,17 +228,14 @@ public class MainController {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        ft.play();
-                        ft.setOnFinished(e -> notificationPane.getChildren().remove(notifLabel));
-                        notificationCount--;
-                        if (notificationCount <= 5) {
-                            notificationPane.getChildren().remove(overflowLabel);
-                        }
-                        cancel();
+                Platform.runLater(() -> {
+                    ft.play();
+                    ft.setOnFinished(e -> notificationPane.getChildren().remove(notifLabel));
+                    notificationCount--;
+                    if (notificationCount <= 5) {
+                        notificationPane.getChildren().remove(overflowLabel);
                     }
+                    cancel();
                 });
             }
         }, 2000);
