@@ -1,15 +1,23 @@
 package seng202.team2.controller;
 
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Main controller class for the application window.
@@ -26,6 +34,8 @@ public class MainController {
     @FXML
     private BorderPane mainWindow;
     private BorderPane tableButtonsPane;
+    private FlowPane notificationPane;
+    private StackPane overlayPane;
 
     private Parent mapViewParent;
     private Parent tableViewParent;
@@ -34,8 +44,11 @@ public class MainController {
     private MapViewController mapViewController;
 
     private Label loadingLabel;
+    private Label overflowLabel;
     private int currentView;
-    private final Duration tooltipDelaySec = Duration.seconds(1);
+    private int notificationCount;
+
+    private final Duration tooltipDelaySec = Duration.millis(300);
 
     public void init(Stage stage) {
         initialiseLoadingView();
@@ -47,7 +60,7 @@ public class MainController {
         displayButtonBar();
         displayMenuBar();
 
-        displayLoadingView("Loading crash data onto the map...");
+        initialiseNotificationPane();
 
         stage.sizeToScene();
     }
@@ -57,10 +70,37 @@ public class MainController {
         currentView = 1;
     }
 
+    /**
+     * Puts a flowpane on the right side of a
+     * borderpane and overlays it over the map and
+     * table view
+     */
+    private void initialiseNotificationPane() {
+        notificationCount = 0;
+        overflowLabel = new Label();
+        overflowLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
+        overflowLabel.setMinWidth(300);
+        overflowLabel.setMinHeight(30);
+        overflowLabel.setText("Too many notifications!");
+
+        BorderPane notificationLayoutPane = new BorderPane();
+        notificationPane = new FlowPane(Orientation.VERTICAL);
+        notificationPane.setMaxWidth(400);
+        notificationPane.setAlignment(Pos.BOTTOM_LEFT);
+        notificationPane.setPickOnBounds(false);
+        notificationLayoutPane.setPickOnBounds(false);
+        notificationLayoutPane.setRight(notificationPane);
+
+        overlayPane.getChildren().add(notificationLayoutPane);
+    }
+
     private void displayTableButtonsPane() {
         tableButtonsPane = new BorderPane();
+        overlayPane = new StackPane();
         tableButtonsPane.setId("tableButtonsPane");
-        mainWindow.setCenter(tableButtonsPane);
+        displayLoadingView("Loading crash data onto the map...");
+        overlayPane.getChildren().add(tableButtonsPane);
+        mainWindow.setCenter(overlayPane);
     }
 
     private void displayButtonBar() {
@@ -141,6 +181,7 @@ public class MainController {
 
     /**
      * A helper function to condense making new tooltips for all the buttons
+     *
      * @param tooltipText The text for the tooltip to display
      * @return new tooltip with specified text and the specific tooltip show delay time.
      */
@@ -149,5 +190,52 @@ public class MainController {
         newTooltip.setShowDelay(tooltipDelaySec);
         newTooltip.setText(tooltipText);
         return newTooltip;
+    }
+
+    /**
+     * Notification builder
+     * Creates a 'notification' as a label and
+     * uses timer on a separate thread to delete notification
+     * after 3 seconds
+     *
+     * @param text text for the notification to show
+     */
+    public void showNotification(String text) {
+        if (notificationCount > 5) {
+            if (!notificationPane.getChildren().contains(overflowLabel)) {
+                notificationPane.getChildren().add(overflowLabel);
+            }
+            return;
+        }
+        notificationCount++;
+        Label notifLabel = new Label(text);
+        notifLabel.getStylesheets().add(getClass().getResource("/stylesheets/notification.css").toExternalForm());
+        notifLabel.setMinWidth(300);
+        notifLabel.setMaxWidth(300);
+        notifLabel.setWrapText(true);
+        notifLabel.setMinHeight(30);
+        notifLabel.setAlignment(Pos.BOTTOM_RIGHT);
+        notificationPane.getChildren().add(notifLabel);
+        FadeTransition ft = new FadeTransition(Duration.seconds(1), notifLabel);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        Timer timer = new Timer(true);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        ft.play();
+                        ft.setOnFinished(e -> notificationPane.getChildren().remove(notifLabel));
+                        notificationCount--;
+                        if (notificationCount <= 5) {
+                            notificationPane.getChildren().remove(overflowLabel);
+                        }
+                        cancel();
+                    }
+                });
+            }
+        }, 2000);
     }
 }

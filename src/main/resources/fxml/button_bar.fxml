@@ -15,10 +15,10 @@
         <Integer fx:id="MAX_YEAR" fx:value="2023"/>
     </fx:define>
     <buttons>
-        <ToggleButton fx:id="pedestrian" maxWidth="5" mnemonicParsing="false"/>
-        <ToggleButton fx:id="bicycle" maxWidth="5.0" mnemonicParsing="false"/>
-        <ToggleButton fx:id="car" maxWidth="5.0" mnemonicParsing="false"/>
-        <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false"/>
+        <ToggleButton fx:id="pedestrian" maxWidth="5" mnemonicParsing="false" onAction="#notifToggle"/>
+        <ToggleButton fx:id="bicycle" maxWidth="5.0" mnemonicParsing="false" onAction="#notifToggle"/>
+        <ToggleButton fx:id="car" maxWidth="5.0" mnemonicParsing="false" onAction="#notifToggle"/>
+        <ToggleButton fx:id="bus" maxWidth="5.0" mnemonicParsing="false" onAction="#notifToggle"/>
         <MenuButton fx:id="severities" mnemonicParsing="false" text="Severity"/>
         <MenuButton fx:id="regions" mnemonicParsing="false" text="Region"/>
         <Text fx:id="yearSelectLeftLabel" layoutX="840.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="$MIN_YEAR">
