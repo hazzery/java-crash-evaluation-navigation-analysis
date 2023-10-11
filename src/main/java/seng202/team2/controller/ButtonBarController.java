@@ -200,14 +200,14 @@ public class ButtonBarController {
      * using the helper function in MainController
      */
     private void setTooltips() {
-        pedestrian.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving pedestrians"));
-        bicycle.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving bicycles"));
-        car.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving cars"));
-        bus.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving heavy vehicles"));
-        severities.setTooltip(this.mainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
-        regions.setTooltip(this.mainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
-        yearSelect.setTooltip(this.mainController.makeTooltip("Slider: Limit crashes to specific range of years"));
-        confirmSelection.setTooltip(this.mainController.makeTooltip("Apply all the selected filters (May take time to load)"));
+        pedestrian.setTooltip(MainController.makeTooltip("Toggle: include crashes involving pedestrians"));
+        bicycle.setTooltip(MainController.makeTooltip("Toggle: include crashes involving bicycles"));
+        car.setTooltip(MainController.makeTooltip("Toggle: include crashes involving cars"));
+        bus.setTooltip(MainController.makeTooltip("Toggle: include crashes involving heavy vehicles"));
+        severities.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
+        regions.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
+        yearSelect.setTooltip(MainController.makeTooltip("Slider: Limit crashes to specific range of years"));
+        confirmSelection.setTooltip(MainController.makeTooltip("Apply all the selected filters (May take time to load)"));
     }
 
     /**

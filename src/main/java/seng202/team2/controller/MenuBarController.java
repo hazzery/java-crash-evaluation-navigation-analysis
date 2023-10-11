@@ -47,9 +47,9 @@ public class MenuBarController {
      * using the helper function in MainController
      */
     private void addTooltips() {
-        mapViewButton.setTooltip(this.mainController.makeTooltip("Show the map view"));
-        tableViewButton.setTooltip(this.mainController.makeTooltip("Show the table view"));
-        menuButton.setTooltip(this.mainController.makeTooltip("Expand/Collapse the menu side bar"));
+        mapViewButton.setTooltip(MainController.makeTooltip("Show the map view"));
+        tableViewButton.setTooltip(MainController.makeTooltip("Show the table view"));
+        menuButton.setTooltip(MainController.makeTooltip("Expand/Collapse the menu side bar"));
     }
 
     /**

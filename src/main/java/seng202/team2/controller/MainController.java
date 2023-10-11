@@ -48,7 +48,7 @@ public class MainController {
     private int currentView;
     private int notificationCount;
 
-    private final Duration tooltipDelaySec = Duration.millis(300);
+    private static final Duration tooltipDelaySec = Duration.millis(300);
 
     /**
      * Initialises the main window by displaying button bar, menu bar, and loading view
@@ -222,10 +222,9 @@ public class MainController {
      * @param tooltipText The text for the tooltip to display
      * @return new tooltip with specified text and the specific tooltip show delay time.
      */
-    public Tooltip makeTooltip(String tooltipText) {
-        Tooltip newTooltip = new Tooltip();
-        newTooltip.setShowDelay(tooltipDelaySec);
-        newTooltip.setText(tooltipText);
+    public static Tooltip makeTooltip(String tooltipText) {
+        Tooltip newTooltip = new Tooltip(tooltipText);
+        newTooltip.setShowDelay(MainController.tooltipDelaySec);
         return newTooltip;
     }
 
