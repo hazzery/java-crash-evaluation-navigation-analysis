@@ -49,29 +49,35 @@ public class MainController {
 
     private final Duration tooltipDelaySec = Duration.millis(300);
 
+    /**
+     * Initialises the main window by displaying button bar, menu bar, and loading view
+     * and preparing the table view and map view and notification pane.
+     */
     @FXML
     void initialize() {
-        initialiseLoadingView();
         initialiseMainViewPane();
+        initialiseLoadingView();
         initialiseTableView();
         initialiseMapView();
+        initialiseNotificationPane();
 
         displayLoadingView();
         displayButtonBar();
         displayMenuBar();
-
-        initialiseNotificationPane();
     }
 
+    /**
+     * Initialises the loading view by setting its text
+     */
     private void initialiseLoadingView() {
         loadingLabel = new Label("Loading full CAS data onto the map...");
         currentView = 1;
     }
 
     /**
-     * Puts a flowpane on the right side of a
-     * borderpane and overlays it over the map and
-     * table view
+     * Initialises The notification pane by
+     * nesting a flow pane inside a border pane
+     * and overlaying it over the map and table view
      */
     private void initialiseNotificationPane() {
         notificationCount = 0;
