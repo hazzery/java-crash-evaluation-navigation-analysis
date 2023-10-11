@@ -42,6 +42,7 @@ public class MainController {
 
     private TableViewController tableViewController;
     private MapViewController mapViewController;
+    private LoadingScreenController loadingScreenController;
 
     private Label loadingLabel;
     private Label overflowLabel;
@@ -51,8 +52,6 @@ public class MainController {
     private final Duration tooltipDelaySec = Duration.millis(300);
 
     public void init(Stage stage) {
-        initialiseLoadingView();
-
         initialiseTableView();
         initialiseMapView();
 
@@ -63,12 +62,10 @@ public class MainController {
         initialiseNotificationPane();
         initialiseLoadingScreen();
 
-        stage.sizeToScene();
-    }
+        getLoadingScreen().show("Filtering crash data...");
+        displayMapView();
 
-    private void initialiseLoadingView() {
-        loadingLabel = new Label();
-        currentView = 1;
+        stage.sizeToScene();
     }
 
     /**
@@ -101,7 +98,7 @@ public class MainController {
             Parent loadingScreenParent = loadingScreenLoader.load();
             loadingScreenParent.setPickOnBounds(false);
             loadingScreenParent.getStylesheets().add(getClass().getResource("/stylesheets/table.css").toExternalForm());
-            LoadingScreenController loadingScreenController = loadingScreenLoader.getController();
+            loadingScreenController = loadingScreenLoader.getController();
             loadingScreenController.init();
             overlayPane.getChildren().add(loadingScreenParent);
         } catch (IOException e) {
@@ -113,7 +110,6 @@ public class MainController {
         tableButtonsPane = new BorderPane();
         overlayPane = new StackPane();
         tableButtonsPane.setId("tableButtonsPane");
-        displayLoadingView("Loading crash data onto the map...");
         overlayPane.getChildren().add(tableButtonsPane);
         mainWindow.setCenter(overlayPane);
     }
@@ -166,19 +162,6 @@ public class MainController {
         }
     }
 
-    public void displayLoadingView(String text) {
-        loadingLabel.setText(text);
-        tableButtonsPane.setCenter(loadingLabel);
-    }
-
-    public void hideLoadingView() {
-        if (currentView == 1) {
-            displayMapView();
-        } else {
-            displayTableView();
-        }
-    }
-
     public void displayTableView() {
         tableButtonsPane.setCenter(tableViewParent);
         currentView = 0;
@@ -192,6 +175,10 @@ public class MainController {
     public void updateViews() {
         mapViewController.addAllCrashMarkers();
         tableViewController.updateCrashes();
+    }
+
+    public LoadingScreenController getLoadingScreen() {
+        return loadingScreenController;
     }
 
     /**

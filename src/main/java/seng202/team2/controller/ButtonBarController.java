@@ -205,10 +205,13 @@ public class ButtonBarController {
             }
         };
         // After the before task has completed, run the after task in the main JavaFX thread
-        beforeTask.setOnSucceeded(event -> after.run());
+        beforeTask.setOnSucceeded(event -> {
+            after.run();
+            mainController.getLoadingScreen().hide();
+        });
 
         new Thread(beforeTask).start();
-        mainController.displayLoadingView("before");
+        mainController.getLoadingScreen().show("Filtering crash data...");
     }
 
     /**

@@ -51,7 +51,6 @@ public class MapViewController {
      * Adds all the crashes into the heatmap layer
      */
     public void addAllCrashMarkers()  {
-        mainController.displayLoadingView("Loading crash data onto the map...");
         clearMarkers();
 
         // load the crashes onto the map
@@ -69,7 +68,6 @@ public class MapViewController {
         webEngine.executeScript(markerString.toString());
 
         postMarkers();
-        mainController.hideLoadingView();
     }
 
     /**
