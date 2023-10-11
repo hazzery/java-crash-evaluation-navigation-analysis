@@ -99,6 +99,10 @@ public class MainController {
         overlayPane.getChildren().add(notificationLayoutPane);
     }
 
+    /**
+     * The main view pane holds both the map and table views.
+     * It sits inside a stack pane so that we can overlay items on top of the table/map
+     */
     private void initialiseMainViewPane() {
         overlayPane = new StackPane();
 
@@ -109,6 +113,9 @@ public class MainController {
         mainWindow.setCenter(overlayPane);
     }
 
+    /**
+     * Initialises the button bar from its FXML file
+     */
     private void displayButtonBar() {
         try {
             FXMLLoader buttonBarLoader = new FXMLLoader(getClass().getResource("/fxml/button_bar.fxml"));
@@ -122,6 +129,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Initialises the menu bar from its FXML file
+     */
     private void displayMenuBar() {
         try {
             FXMLLoader menuBarLoader = new FXMLLoader(getClass().getResource("/fxml/menu_bar.fxml"));
@@ -135,6 +145,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Initialises the table view from its FXML file
+     * and applies the stylesheet.
+     */
     private void initialiseTableView() {
         try {
             FXMLLoader tableViewLoader = new FXMLLoader(getClass().getResource("/fxml/table_view.fxml"));
@@ -146,6 +160,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Initialises the map view from its FXML file.
+     */
     private void initialiseMapView() {
         try {
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/map_view.fxml"));
@@ -157,10 +174,16 @@ public class MainController {
         }
     }
 
+    /**
+     * Displays the loading text on the screen
+     */
     public void displayLoadingView() {
         mainViewPane.setCenter(loadingLabel);
     }
 
+    /**
+     * Hides the loading text, showing the map or table view
+     */
     public void hideLoadingView() {
         if (currentView == 1) {
             displayMapView();
@@ -169,16 +192,25 @@ public class MainController {
         }
     }
 
+    /**
+     * Swaps out the current view for the table view
+     */
     public void displayTableView() {
         mainViewPane.setCenter(tableViewParent);
         currentView = 0;
     }
 
+    /**
+     * Swaps out the current view for the map view
+     */
     public void displayMapView() {
         mainViewPane.setCenter(mapViewParent);
         currentView = 1;
     }
 
+    /**
+     * Updates the map and table views to reflect new changes in filter options
+     */
     public void updateViews() {
         mapViewController.addAllCrashMarkers();
         tableViewController.updateCrashes();
