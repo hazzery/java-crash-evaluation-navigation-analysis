@@ -51,7 +51,7 @@ public class MapViewController {
      * Adds all the crashes into the heatmap layer
      */
     public void addAllCrashMarkers()  {
-        mainController.displayLoadingView("Loading crash data onto the map...");
+        mainController.displayLoadingView();
         clearMarkers();
 
         // load the crashes onto the map
