@@ -12,7 +12,11 @@ import seng202.team2.models.*;
 
 import java.util.List;
 
-
+/**
+ * Tests for CrashDao
+ * @author James Lanigan
+ * @author Harrison Parkes
+ */
 class CrashDaoTest {
     CrashDao crashDao;
 
