@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Skeleton for what will become the Query tests
+ * Definitions for testing query outputs
  * @author Ben Moore
  * @author James Lanigan
  */
@@ -30,10 +30,14 @@ public class QueryStepDefs {
     public void setupQuery() {queryTester = new QueryBuilder();}
 
     @Given("I have no filters selected")
-    public void noFilters() {
+    public void noFilters() {}
 
+    @Given("I have pedestrian selected")
+    public void addPedestrian() {
+        ArrayList<DbAttributes> pedestrianTest = new ArrayList<>();
+        pedestrianTest.add(DbAttributes.PEDESTRIAN);
+        queryTester.orVehicle(pedestrianTest);
     }
-
     @When("I press apply")
     public void applyQuery() {
         queryResult = testDao.queryDatabase(queryTester.getQuery());
@@ -44,15 +48,11 @@ public class QueryStepDefs {
         Assertions.assertEquals(820467,queryResult.size());
     }
 
-    @Given("I have person and fatal severity selected")
-    public void fatalPersonFilter() {
+    @Given("I have fatal severity selected")
+    public void fatalSeverityFilter() {
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("FATAL");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
-
-        ArrayList<DbAttributes> pedestrianTest = new ArrayList<>();
-        pedestrianTest.add(DbAttributes.PEDESTRIAN);
-        queryTester.orVehicle(pedestrianTest);
     }
     @Then("All results shown involve a pedestrian and a fatality")
     public void allFatalPedestrianResults() {

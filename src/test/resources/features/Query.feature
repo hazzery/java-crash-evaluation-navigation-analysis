@@ -5,7 +5,8 @@ Feature: Query Test
     Then All results in database are shown
 
   Scenario: Filter with Pedestrian with fatal severity
-    Given I have person and fatal severity selected
+    Given I have pedestrian selected
+    And I have fatal severity selected
     When I press apply
     Then All results shown involve a pedestrian and a fatality
 
