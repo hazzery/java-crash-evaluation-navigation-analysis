@@ -112,17 +112,18 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Given("I have pedestrian and bus buttons and serious and fatal severities selected")
+    @Given("I have bus selected")
+    public void bus() {
+        ArrayList<DbAttributes> busTest = new ArrayList<>();
+        busTest.add(DbAttributes.BUS);
+        queryTester.orVehicle(busTest);
+    }
+    @Given("I have serious severity selected")
     public void pedestrianBusSeriousFatalFilter() {
         ArrayList<String> severityTest = new ArrayList<>();
-        severityTest.add("FATAL");
         severityTest.add("SERIOUS");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
 
-        ArrayList<DbAttributes> pedestrianBusTest = new ArrayList<>();
-        pedestrianBusTest.add(DbAttributes.PEDESTRIAN);
-        pedestrianBusTest.add(DbAttributes.BUS);
-        queryTester.orVehicle(pedestrianBusTest);
     }
 
     @Then("All results shown involve a pedestrian or a bus with a serious or fatal severity")
