@@ -37,15 +37,6 @@ public class QueryStepDefs {
         queryTester.betweenValues(lowBound, highBound, DbAttributes.YEAR);
     }
 
-    @When("I press apply")
-    public void applyQuery() {
-        queryResult = testDao.queryDatabase(queryTester.getQuery());
-    }
-
-    @Then("All results in database are shown")
-    public void allRowsShown() {
-        Assertions.assertEquals(820467,queryResult.size());
-    }
     @Given("I have pedestrian selected")
     public void pedestrianFilter() {
         ArrayList<DbAttributes> pedestrianTest = new ArrayList<>();
@@ -59,18 +50,6 @@ public class QueryStepDefs {
         severityTest.add("FATAL");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
     }
-    @Then("All results shown involve a pedestrian and a fatality")
-    public void allFatalPedestrianResults() {
-        boolean valid = true;
-        for (Crash crash: queryResult) {
-            if (!(crash.severity().equals(Severity.FATAL)) ||
-                    !(crash.vehicles().containsKey(Vehicle.PEDESTRIAN))) {
-                valid = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(valid);
-    }
 
     @Given("I have cyclist selected")
     public void cyclistFilter() {
@@ -78,25 +57,12 @@ public class QueryStepDefs {
         cyclistTest.add(DbAttributes.BICYCLE);
         queryTester.orVehicle(cyclistTest);
     }
+
     @Given("I have Bay of plenty region selected")
     public void BayofplentyFilter() {
         ArrayList<String> regionTest = new ArrayList<>();
         regionTest.add("BAY_OF_PLENTY");
         queryTester.orString(regionTest, DbAttributes.REGION);
-
-    }
-
-    @Then("All results shown involve a cyclist in the Bay of plenty")
-    public void allBayofplentyCyclistResults() {
-        boolean valid = true;
-        for (Crash crash: queryResult) {
-            if (!(crash.region().equals(Region.BAY_OF_PLENTY)) ||
-                    !(crash.vehicles().containsKey(Vehicle.BICYCLE))) {
-                valid = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(valid);
     }
 
     @Given("I have bus selected")
@@ -106,21 +72,6 @@ public class QueryStepDefs {
         queryTester.orVehicle(busTest);
     }
 
-
-
-    @Then("All results shown involve a bus between 2006 and 2016")
-    public void allBusYearResults() {
-        boolean valid = true;
-        for (Crash crash: queryResult) {
-            if (!((crash.year() <= 2016) && (crash.year() >= 2006)) ||
-                    !(crash.vehicles().containsKey(Vehicle.BUS))) {
-                valid = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(valid);
-    }
-
     @Given("I have pedestrian and bus selected")
     public void pedestrianBusFilter() {
         ArrayList<DbAttributes> pedestrianBusTest = new ArrayList<>();
@@ -128,28 +79,13 @@ public class QueryStepDefs {
         pedestrianBusTest.add(DbAttributes.BUS);
         queryTester.orVehicle(pedestrianBusTest);
     }
+
     @Given("I have serious and fatal severities selected")
     public void seriousFatalFilter() {
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("FATAL");
         severityTest.add("SERIOUS");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
-
-    }
-
-    @Then("All results shown involve a pedestrian or a bus with a serious or fatal severity")
-    public void allPedestrianBusSeriousFatalResults() {
-        boolean valid = true;
-        for (Crash crash: queryResult) {
-            if (!((crash.severity().equals(Severity.SERIOUS)) ||
-                    (crash.severity().equals(Severity.FATAL))) ||
-                    !((crash.vehicles().containsKey(Vehicle.BUS)) ||
-                            (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
-                valid = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(valid);
     }
 
     @Given("I have bicycle and car selected")
@@ -176,6 +112,69 @@ public class QueryStepDefs {
         queryTester.orString(regionTest, DbAttributes.REGION);
     }
 
+    @When("I press apply")
+    public void applyQuery() {
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+    }
+
+    @Then("All results in database are shown")
+    public void allRowsShown() {
+        Assertions.assertEquals(820467,queryResult.size());
+    }
+
+    @Then("All results shown involve a pedestrian and a fatality")
+    public void allFatalPedestrianResults() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!(crash.severity().equals(Severity.FATAL)) ||
+                    !(crash.vehicles().containsKey(Vehicle.PEDESTRIAN))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown involve a cyclist in the Bay of plenty")
+    public void allBayofplentyCyclistResults() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!(crash.region().equals(Region.BAY_OF_PLENTY)) ||
+                    !(crash.vehicles().containsKey(Vehicle.BICYCLE))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown involve a bus between 2006 and 2016")
+    public void allBusYearResults() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.year() <= 2016) && (crash.year() >= 2006)) ||
+                    !(crash.vehicles().containsKey(Vehicle.BUS))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown involve a pedestrian or a bus with a serious or fatal severity")
+    public void allPedestrianBusSeriousFatalResults() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.severity().equals(Severity.SERIOUS)) ||
+                    (crash.severity().equals(Severity.FATAL))) ||
+                    !((crash.vehicles().containsKey(Vehicle.BUS)) ||
+                            (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
 
     @Then("All results shown involve a bicycle or car, with no injury or minor, in the Auckland or Northland" +
             " regions between the years 2018 and 2023")
