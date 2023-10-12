@@ -1,21 +1,19 @@
 package seng202.team2.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.controlsfx.control.RangeSlider;
 import seng202.team2.database.DbAttributes;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.models.Crashes;
 import seng202.team2.models.Region;
 import seng202.team2.models.Severity;
-
-import org.controlsfx.control.RangeSlider;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.util.*;
 
@@ -66,8 +64,6 @@ public class ButtonBarController {
     @FXML
     private Text yearSelectRightLabel;
 
-    private Boolean consumeAction;
-
     /**
      * Map used to convert the IDs of a button into their respective enum values
      */
@@ -82,7 +78,7 @@ public class ButtonBarController {
     private MainController mainController;
 
     /**
-     * Set the icons on the vehicle filter buttons by using included images
+     * Set the icons on the vehicle filter buttons
      */
     private void setIcons() {
         Image personIMG = null;
@@ -105,33 +101,34 @@ public class ButtonBarController {
     }
 
     /**
-     * Set the severity values in the severities drop-down from the pre-defined severities list
+     * Set the severity checkboxes in the severities drop-down from the pre-defined severities list
      */
     private void setSeverityValues() {
         for (Severity severity : Severity.severities()) {
-            CustomMenuItem severityItem = new CustomMenuItem(new CheckBox(severity.displayValue()), false);
+            CheckBox checkBox = new CheckBox(severity.displayValue());
+            checkBox.setOnAction(this::notificationSeverity);
+            CustomMenuItem severityItem = new CustomMenuItem(checkBox, false);
             severityItem.setId(severity.name());
-            severityItem.setOnAction(this::notifSeverity);
             severities.getItems().add(severityItem);
         }
-        consumeAction = false;
     }
 
     /**
-     * Sets the regions in the regions drop-down from the pre-defined region list
+     * Sets the regions checkboxes in the regions drop-down from the pre-defined region list
      */
     private void setRegions() {
         for (Region region : Region.regions()) {
-            CustomMenuItem regionItem = new CustomMenuItem(new CheckBox(region.displayValue()), false);
+            CheckBox checkBox = new CheckBox(region.displayValue());
+            checkBox.setOnAction(this::notificationRegion);
+            CustomMenuItem regionItem = new CustomMenuItem(checkBox, false);
             regionItem.setId(region.name());
-            regionItem.setOnAction(this::notifRegion);
             regions.getItems().add(regionItem);
         }
     }
 
     /**
-     * Default behaviour of rangeSlider does not correctly set default values,
-     * this method overrides the default values with the correct ones
+     * Sets the year range slider to have place its handles at the min and max values.
+     * Without this both handles are places at the minimum value.
      */
     private void setRangeSliderValues() {
         yearSelect.setLowValue(MIN_YEAR);
@@ -192,9 +189,9 @@ public class ButtonBarController {
         yearSelectRightLabel.setWrappingWidth(30);
 
         yearSelect.lowValueProperty().addListener((observable, oldValue, newValue) ->
-                        yearSelectLeftLabel.setText(Integer.toString((int) yearSelect.getLowValue())));
+                yearSelectLeftLabel.setText(Integer.toString((int) yearSelect.getLowValue())));
         yearSelect.highValueProperty().addListener((observable, oldValue, newValue) ->
-                        yearSelectRightLabel.setText(Integer.toString((int) yearSelect.getHighValue())));
+                yearSelectRightLabel.setText(Integer.toString((int) yearSelect.getHighValue())));
     }
 
     /**
@@ -202,123 +199,95 @@ public class ButtonBarController {
      * using the helper function in MainController
      */
     private void setTooltips() {
-        pedestrian.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving pedestrians"));
-        bicycle.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving bicycles"));
-        car.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving cars"));
-        bus.setTooltip(this.mainController.makeTooltip("Toggle: include crashes involving heavy vehicles"));
-        severities.setTooltip(this.mainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
-        regions.setTooltip(this.mainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
-        yearSelect.setTooltip(this.mainController.makeTooltip("Slider: Limit crashes to specific range of years"));
-        confirmSelection.setTooltip(this.mainController.makeTooltip("Apply all the selected filters (May take time to load)"));
+        pedestrian.setTooltip(MainController.makeTooltip("Toggle: include crashes involving pedestrians"));
+        bicycle.setTooltip(MainController.makeTooltip("Toggle: include crashes involving bicycles"));
+        car.setTooltip(MainController.makeTooltip("Toggle: include crashes involving cars"));
+        bus.setTooltip(MainController.makeTooltip("Toggle: include crashes involving heavy vehicles"));
+        severities.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
+        regions.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
+        yearSelect.setTooltip(MainController.makeTooltip("Slider: Limit crashes to specific range of years"));
+        confirmSelection.setTooltip(MainController.makeTooltip("Apply all the selected filters (May take time to load)"));
     }
 
     /**
      * A function to generate notifications for all the toggle
      * buttons in a compact manner.
      *
-     * @param event An event representing some type of action
+     * @param event A vehicle button click event requiring a notification to be shown
      */
     @FXML
-    public void notifToggle(ActionEvent event) {
+    public void notificationToggle(ActionEvent event) {
         ToggleButton eventOrigin = (ToggleButton) event.getSource();
         if (!pedestrian.isSelected() & !bicycle.isSelected() & !car.isSelected() & !bus.isSelected()) {
             mainController.showNotification("Filtering crashes by all vehicle types");
             return;
         }
         switch (eventOrigin.getId()) {
-            case "pedestrian":
-                mainController.showNotification(pedestrian.isSelected() ?
-                        "Crashes involving pedestrians have been added to the filter" : "Crashes involving pedestrians have been removed from the filter");
-                break;
-            case "bicycle":
-                mainController.showNotification(bicycle.isSelected() ?
-                        "Crashes involving bikes have been added to the filter" : "Crashes involving bikes have been removed from the filter");
-                break;
-            case "car":
-                mainController.showNotification(car.isSelected() ?
-                        "Crashes involving cars have been added to the filter" : "Crashes involving cars have been removed from the filter");
-                break;
-            case "bus":
-                mainController.showNotification(bus.isSelected() ?
-                        "Crashes involving heavy vehicles have been added to the filter" : "Crashes involving heavy vehicles have been removed from the filter");
-                break;
+            case "pedestrian" -> mainController.showNotification(pedestrian.isSelected() ?
+                    "Crashes involving pedestrians have been added to the filter" : "Crashes involving pedestrians have been removed from the filter");
+            case "bicycle" -> mainController.showNotification(bicycle.isSelected() ?
+                    "Crashes involving bikes have been added to the filter" : "Crashes involving bikes have been removed from the filter");
+            case "car" -> mainController.showNotification(car.isSelected() ?
+                    "Crashes involving cars have been added to the filter" : "Crashes involving cars have been removed from the filter");
+            case "bus" -> mainController.showNotification(bus.isSelected() ?
+                    "Crashes involving heavy vehicles have been added to the filter" : "Crashes involving heavy vehicles have been removed from the filter");
         }
 
     }
 
     /**
-     * Generates notifications on severity selections
-     * gets called twice per action so every second one is ignored
-     * uses functions in {@link Severity} to get nicely formatted strings
+     * Event handler to generate notification when the user clicks a severity checkbox.
      *
-     * @param event An event representing some type of action
+     * @param event A severity checkbox click event requiring a notification to be shown
      */
-    public void notifSeverity(ActionEvent event) {
-        if (consumeAction) {
-            consumeAction = false;
-            return;
-        }
-        Boolean anySelected = false;
-        for (Object option : severities.getItems()) {
+    public void notificationSeverity(ActionEvent event) {
+        boolean anySelected = false;
+        for (MenuItem option : severities.getItems()) {
             if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
                 anySelected = true;
             }
         }
         if (!anySelected) {
             mainController.showNotification("Filtering crashes by all severities");
-            consumeAction = true;
             return;
         }
-        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
-        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
-        Severity checkedSeverity = Severity.fromString(customActionOrigin.getId());
+        CheckBox actionOrigin = (CheckBox) event.getSource();
+        Severity checkedSeverity = Severity.fromString(actionOrigin.getParent().getId());
         String actionString = checkedSeverity.displayValue().toLowerCase();
         if (actionOrigin.isSelected()) {
             mainController.showNotification("Adding all " + actionString + " crashes to the filter.");
         } else {
             mainController.showNotification("Removing all " + actionString + " crashes from the filter.");
         }
-        consumeAction = true;
     }
 
 
     /**
-     * Generates notifications on region selections
-     * gets called twice per action so every second one is ignored
-     * uses functions in {@link Region} to get nicely formatted strings
+     * Event handler to generate notification when the user clicks a region checkbox.
      *
-     * @param event An event representing some type of action
+     * @param event A region checkbox click event requiring a notification to be shown
      */
-    public void notifRegion(ActionEvent event) {
-        if (consumeAction) {
-            consumeAction = false;
-            return;
-        }
-        Boolean anySelected = false;
-        for (Object option : regions.getItems()) {
+    public void notificationRegion(ActionEvent event) {
+        boolean anySelected = false;
+        for (MenuItem option : regions.getItems()) {
             if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
                 anySelected = true;
             }
         }
         if (!anySelected) {
             mainController.showNotification("Filtering crashes by all regions");
-            consumeAction = true;
             return;
         }
-        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
-        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
-        Region checkedRegion = Region.fromString(customActionOrigin.getId());
+
+        CheckBox actionOrigin = (CheckBox) event.getSource();
+        Region checkedRegion = Region.fromString(actionOrigin.getParent().getId());
         String actionString = checkedRegion.displayValue();
         if (actionOrigin.isSelected()) {
             mainController.showNotification("Adding all crashes in " + actionString + " to the filter");
         } else {
             mainController.showNotification("Removing all crashes in " + actionString + " from the filter.");
         }
-        consumeAction = true;
     }
-
-
-
 
     /**
      * Gives the button bar access to the main controller.
@@ -331,9 +300,13 @@ public class ButtonBarController {
     }
 
     /**
-     * Initialises the button bar.
+     * Initialises the button bar by setting the button icons,
+     * preparing the filter drop down menus,
+     * setting up the tool tips,
+     * and initialising the year slider
      */
-    void init() {
+    @FXML
+    void initialize() {
         setIcons();
         setSeverityValues();
         setRegions();

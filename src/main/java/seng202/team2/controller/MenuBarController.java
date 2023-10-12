@@ -4,22 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
 
-import javax.swing.*;
-import java.io.FileNotFoundException;
-import java.util.ResourceBundle;
+import java.util.Objects;
 
 public class MenuBarController {
     @FXML
     private Button menuButton;
-
-    @FXML
-    private Button helpButton;
 
     @FXML
     private Button tableViewButton;
@@ -35,9 +28,14 @@ public class MenuBarController {
     private MainController mainController;
 
 
+    /**
+     * Initialises the menu bar controller.
+     * Set the icons, tooltips and expands the menu bar
+     *
+     * @param mainController A reference to the main controller
+     */
     void init(MainController mainController) {
         this.mainController = mainController;
-        helpButton.setVisible(false);
         mapViewButton.setStyle("-fx-background-color: white;");
         displayIcons();
         addTooltips();
@@ -49,29 +47,24 @@ public class MenuBarController {
      * using the helper function in MainController
      */
     private void addTooltips() {
-        mapViewButton.setTooltip(this.mainController.makeTooltip("Show the map view"));
-        tableViewButton.setTooltip(this.mainController.makeTooltip("Show the table view"));
-        menuButton.setTooltip(this.mainController.makeTooltip("Expand/Collapse the menu side bar"));
+        mapViewButton.setTooltip(MainController.makeTooltip("Show the map view"));
+        tableViewButton.setTooltip(MainController.makeTooltip("Show the table view"));
+        menuButton.setTooltip(MainController.makeTooltip("Expand/Collapse the menu side bar"));
     }
-
-    public void menuButtonClicked() {
-        toggleMenuBar();
-    }
-
 
     /**
-     * Inits the icon images for the menu bar and places them on their
-     * respective buttons
+     * Initialises the icon images for the menu bar
+     * and places them on their respective buttons
      */
     private void displayIcons() {
         Image mapIMG = null;
         Image tableIMG = null;
         Image closeIMG = null;
         try {
-            mapIMG = new Image(getClass().getResourceAsStream("/icons/map.png"), 20, 20, true, true);
-            tableIMG = new Image(getClass().getResourceAsStream("/icons/table.png"), 20, 20, true, true);
+            mapIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/map.png")), 20, 20, true, true);
+            tableIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/table.png")), 20, 20, true, true);
 
-            closeIMG = new Image(getClass().getResourceAsStream("/icons/close.png"), 12, 12, true, true);
+            closeIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/close.png")), 12, 12, true, true);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -84,23 +77,29 @@ public class MenuBarController {
 
     }
 
+    /**
+     * Replaces the menu button icon with a close icon
+     */
     private void displayClose() {
         Image menuIMG = null;
         try {
-            menuIMG = new Image(getClass().getResourceAsStream("/icons/menu.png"), 12, 12, true, true);
+            menuIMG = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/menu.png")), 12, 12, true, true);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
         menuButton.setGraphic(new ImageView(menuIMG));
     }
 
+    /**
+     * Toggles the menu bar between expanded and collapsed
+     */
+    @FXML
     private void toggleMenuBar() {
         if (expanded) {
             menuPane.setPrefWidth(40);
 
             menuButton.setText("");
             displayClose();
-            helpButton.setText("?");
             tableViewButton.setText("");
             mapViewButton.setText("");
         } else {
@@ -108,25 +107,33 @@ public class MenuBarController {
 
             menuButton.setText("Close");
             displayIcons();
-            helpButton.setText("Help ?");
             tableViewButton.setText("Table");
             mapViewButton.setText("Map");
         }
         expanded = !expanded;
     }
 
-    public void tableViewButtonClicked(ActionEvent actionEvent) {
+    /**
+     * Event handler for the table view button.
+     * Displays the table view and toggles the button colours to reflect their new states.
+     *
+     * @param ignoredActionEvent The event that triggered the handler. (Not used)
+     */
+    public void tableViewButtonClicked(ActionEvent ignoredActionEvent) {
         tableViewButton.setStyle("-fx-background-color: white");
         mapViewButton.setStyle("-fx-background-color: transparent");
         mainController.displayTableView();
     }
 
-    public void mapViewButtonClicked(ActionEvent actionEvent) {
+    /**
+     * Event handler for the map view button.
+     * Displays the map view and toggles the button colours to reflect their new states.
+     *
+     * @param ignoredActionEvent The event that triggered the handler. (Not used)
+     */
+    public void mapViewButtonClicked(ActionEvent ignoredActionEvent) {
         tableViewButton.setStyle("-fx-background-color: transparent");
         mapViewButton.setStyle("-fx-background-color: white");
         mainController.displayMapView();
-    }
-
-    public void helpButtonClicked(ActionEvent actionEvent) {
     }
 }

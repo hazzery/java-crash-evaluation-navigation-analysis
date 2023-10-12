@@ -16,16 +16,18 @@ import java.util.Objects;
  *
  * @author Louis Hobson
  * @author Findlay Royds
+ * @see <a href="https://learn.canterbury.ac.nz/pluginfile.php/6629561/mod_folder/content/0/Resource-for-maps-APIs.pdf">
+ * SENG202 Resources for working with Interactive Map APIs</a>
  */
 public class MapViewController {
 
     @FXML
     private WebView webView;
-    
+
     private WebEngine webEngine;
 
     private MainController mainController;
-    
+
     /**
      * Initialises the WebView loading in the appropriate html and initialising important communicator
      * objects between Java and Javascript
@@ -34,14 +36,12 @@ public class MapViewController {
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.load(Objects.requireNonNull(MapViewController.class.getResource("/map/map.html")).toExternalForm());
-        
+
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
                     // if javascript loads successfully
                     if (newState == Worker.State.SUCCEEDED) {
-                        webEngine.executeScript(
-                                "initHeatmap();"
-                        );
+                        webEngine.executeScript("initHeatmap();");
                         addAllCrashMarkers();
                     }
                 });
@@ -50,8 +50,8 @@ public class MapViewController {
     /**
      * Adds all the crashes into the heatmap layer
      */
-    public void addAllCrashMarkers()  {
-        mainController.displayLoadingView("Loading crash data onto the map...");
+    public void addAllCrashMarkers() {
+        mainController.displayLoadingView();
         clearMarkers();
 
         // load the crashes onto the map
@@ -73,14 +73,14 @@ public class MapViewController {
     }
 
     /**
-     * Tells the WebEngine to clear all the markers
+     * Tells the WebEngine to clear all points from the heatmap
      */
     private void clearMarkers() {
         webEngine.executeScript("clearMarkers();");
     }
-    
+
     /**
-     * Tells javascript to sort through all the regions
+     * Tells the WebEngine to update the intensity of the heatmap
      */
     private void postMarkers() {
         webEngine.executeScript("postMarkers();");
@@ -89,8 +89,7 @@ public class MapViewController {
     /**
      * Initialise the map
      *
-     * @param mainController The mainController of the application
-     *                       Used to display the loading screen
+     * @param mainController The mainController of the application. Needed to display the loading screen
      */
     void init(MainController mainController) {
         initMap();
