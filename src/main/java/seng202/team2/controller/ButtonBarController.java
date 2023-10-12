@@ -213,7 +213,7 @@ public class ButtonBarController {
      * A function to generate notifications for all the toggle
      * buttons in a compact manner.
      *
-     * @param event A button click event requiring a notification to be shown
+     * @param event A vehicle button click event requiring a notification to be shown
      */
     @FXML
     public void notificationToggle(ActionEvent event) {
@@ -238,7 +238,7 @@ public class ButtonBarController {
     /**
      * Event handler to generate notification when the user clicks a severity checkbox.
      *
-     * @param event An event representing some type of action
+     * @param event A severity checkbox click event requiring a notification to be shown
      */
     public void notificationSeverity(ActionEvent event) {
         boolean anySelected = false;
@@ -265,7 +265,7 @@ public class ButtonBarController {
     /**
      * Event handler to generate notification when the user clicks a region checkbox.
      *
-     * @param event An event representing some type of action
+     * @param event A region checkbox click event requiring a notification to be shown
      */
     public void notificationRegion(ActionEvent event) {
         boolean anySelected = false;
