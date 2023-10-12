@@ -80,7 +80,7 @@ public class ButtonBarController {
     private MainController mainController;
 
     /**
-     * Set the icons on the vehicle filter buttons by using included images
+     * Set the icons on the vehicle filter buttons
      */
     private void setIcons() {
         Image personIMG = null;
@@ -103,7 +103,7 @@ public class ButtonBarController {
     }
 
     /**
-     * Set the severity values in the severities drop-down from the pre-defined severities list
+     * Set the severity checkboxes in the severities drop-down from the pre-defined severities list
      */
     private void setSeverityValues() {
         for (Severity severity : Severity.severities()) {
@@ -116,7 +116,7 @@ public class ButtonBarController {
     }
 
     /**
-     * Sets the regions in the regions drop-down from the pre-defined region list
+     * Sets the regions checkboxes in the regions drop-down from the pre-defined region list
      */
     private void setRegions() {
         for (Region region : Region.regions()) {
@@ -128,8 +128,8 @@ public class ButtonBarController {
     }
 
     /**
-     * Default behaviour of rangeSlider does not correctly set default values,
-     * this method overrides the default values with the correct ones
+     * Sets the year range slider to have place its handles at the min and max values.
+     * Without this both handles are places at the minimum value.
      */
     private void setRangeSliderValues() {
         yearSelect.setLowValue(MIN_YEAR);
@@ -214,7 +214,7 @@ public class ButtonBarController {
      * A function to generate notifications for all the toggle
      * buttons in a compact manner.
      *
-     * @param event An event representing some type of action
+     * @param event A button click event requiring a notification to be shown
      */
     @FXML
     public void notificationToggle(ActionEvent event) {
@@ -237,9 +237,9 @@ public class ButtonBarController {
     }
 
     /**
-     * Generates notifications on severity selections
-     * gets called twice per action so every second one is ignored
-     * uses functions in {@link Severity} to get nicely formatted strings
+     * Generates notifications on severity selections.
+     * Gets called twice per action so every second one is ignored.
+     * Uses functions in {@link Severity} to get nicely formatted strings
      *
      * @param event An event representing some type of action
      */
@@ -273,9 +273,9 @@ public class ButtonBarController {
 
 
     /**
-     * Generates notifications on region selections
-     * gets called twice per action so every second one is ignored
-     * uses functions in {@link Region} to get nicely formatted strings
+     * Generates notifications on region selections.
+     * Gets called twice per action so every second one is ignored.
+     * Uses functions in {@link Region} to get nicely formatted strings
      *
      * @param event An event representing some type of action
      */
@@ -306,9 +306,6 @@ public class ButtonBarController {
         }
         consumeAction = true;
     }
-
-
-
 
     /**
      * Gives the button bar access to the main controller.
