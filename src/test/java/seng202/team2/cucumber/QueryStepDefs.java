@@ -79,7 +79,7 @@ public class QueryStepDefs {
         queryTester.orVehicle(cyclistTest);
     }
     @Given("I have Bay of plenty region selected")
-    public void BayofplentytFilter() {
+    public void BayofplentyFilter() {
         ArrayList<String> regionTest = new ArrayList<>();
         regionTest.add("BAY_OF_PLENTY");
         queryTester.orString(regionTest, DbAttributes.REGION);
