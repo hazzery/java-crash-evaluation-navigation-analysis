@@ -57,6 +57,15 @@ public class QueryBuilderTest {
     }
 
     @Test
+    void orVehicleTest() {
+        ArrayList<DbAttributes> testVehicles = new ArrayList<>();
+        testVehicles.add(DbAttributes.BICYCLE);
+        testVehicles.add(DbAttributes.BUS);
+        queryBuilderTester.orVehicle(testVehicles);
+        assertEquals("SELECT * FROM crashes WHERE ((BICYCLE > 0) OR (BUS > 0));", queryBuilderTester.getQuery());
+    }
+
+    @Test
     void emptyOrStringTest() {
         ArrayList<String> testStrings = new ArrayList<>();
         queryBuilderTester.orString(testStrings, DbAttributes.REGION);
