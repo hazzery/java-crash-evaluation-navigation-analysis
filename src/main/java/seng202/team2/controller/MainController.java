@@ -21,8 +21,7 @@ import java.util.TimerTask;
 
 /**
  * Main controller class for the application window.
- * Handles displaying the top bar and navigation bar as well as swapping between the map and
- * table view.
+ * Handles displaying the top filter button bar, side navigation bar, and swapping between the map and table view.
  * Adapted from "<a href="https://eng-git.canterbury.ac.nz/men63/seng202-advanced-fx-public">advanced JavaFX lab</a>"
  *
  * @author Findlay Royds
@@ -216,7 +215,7 @@ public class MainController {
     }
 
     /**
-     * A helper function to condense making new tooltips for all the buttons
+     * Tooltip factory to ensure they all have the same delay time.
      *
      * @param tooltipText The text for the tooltip to display
      * @return new tooltip with specified text and the specific tooltip show delay time.
@@ -229,11 +228,11 @@ public class MainController {
 
     /**
      * Notification builder
-     * Creates a 'notification' as a label and
+     * Creates a notification as a label and
      * uses timer on a separate thread to delete notification
      * after 3 seconds
      *
-     * @param text text for the notification to show
+     * @param text Text for the notification to show
      */
     public void showNotification(String text) {
         if (notificationCount > 5) {
