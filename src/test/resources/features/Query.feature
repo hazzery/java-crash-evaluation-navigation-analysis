@@ -18,7 +18,7 @@ Feature: Query Test
 
   Scenario: Filter with Buses between 2006 and 2016
     Given I have bus selected
-    And I have the year slider set between 2006 and 2016
+    And I have the year slider set to 2006-2016
     When I press apply
     Then All results shown involve a bus between 2006 and 2016
 
@@ -32,7 +32,7 @@ Feature: Query Test
     Given I have bicycle and car selected
     And I have non injury and minor severities selected
     And I have Auckland and Northland regions selected
-    And I have the year range set to 2018-2023
+    And I have the year slider set to 2018-2023
     When I press apply
     Then All results shown involve a bicycle or car, with no injury or minor, in the Auckland or Northland regions between the years 2018 and 2023
 
@@ -43,7 +43,7 @@ Feature: Query Test
     And I have bicycle and car selected
     And I have non injury and minor severities selected
     And I have Auckland and Northland regions selected
-    And I have the year range set to 2018-2023
+    And I have the year slider set to 2018-2023
     When I press apply
     Then All results shown involve a bicycle or car, with no injury or minor, in the Auckland or Northland regions between the years 2018 and 2023
 

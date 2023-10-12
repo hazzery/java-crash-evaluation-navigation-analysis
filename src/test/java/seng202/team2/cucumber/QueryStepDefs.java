@@ -30,8 +30,11 @@ public class QueryStepDefs {
     public void setupQuery() {queryTester = new QueryBuilder();}
 
     @Given("I have no filters selected")
-    public void noFilters() {
+    public void noFilters() {}
 
+    @Given("I have the year slider set to {int}-{int}")
+    public void yearRange(Integer lowBound, Integer highBound) {
+        queryTester.betweenValues(lowBound, highBound, DbAttributes.YEAR);
     }
 
     @When("I press apply")
@@ -103,10 +106,7 @@ public class QueryStepDefs {
         queryTester.orVehicle(busTest);
     }
 
-    @Given("I have the year slider set between 2006 and 2016")
-    public void yearFilter2006_2016() {
-        queryTester.betweenValues(2006, 2016, DbAttributes.YEAR);
-    }
+
 
     @Then("All results shown involve a bus between 2006 and 2016")
     public void allBusYearResults() {
@@ -174,11 +174,6 @@ public class QueryStepDefs {
         regionTest.add("AUCKLAND");
         regionTest.add("NORTHLAND");
         queryTester.orString(regionTest, DbAttributes.REGION);
-    }
-
-    @Given("I have the year range set to 2018-2023")
-    public void year2018_2023Filter() {
-        queryTester.betweenValues(2018, 2023, DbAttributes.YEAR);
     }
 
 
