@@ -30,14 +30,10 @@ public class QueryStepDefs {
     public void setupQuery() {queryTester = new QueryBuilder();}
 
     @Given("I have no filters selected")
-    public void noFilters() {}
+    public void noFilters() {
 
-    @Given("I have pedestrian selected")
-    public void addPedestrian() {
-        ArrayList<DbAttributes> pedestrianTest = new ArrayList<>();
-        pedestrianTest.add(DbAttributes.PEDESTRIAN);
-        queryTester.orVehicle(pedestrianTest);
     }
+
     @When("I press apply")
     public void applyQuery() {
         queryResult = testDao.queryDatabase(queryTester.getQuery());
@@ -47,9 +43,15 @@ public class QueryStepDefs {
     public void allRowsShown() {
         Assertions.assertEquals(820467,queryResult.size());
     }
+    @Given("I have pedestrian selected")
+    public void pedestrianFilter() {
+        ArrayList<DbAttributes> pedestrianTest = new ArrayList<>();
+        pedestrianTest.add(DbAttributes.PEDESTRIAN);
+        queryTester.orVehicle(pedestrianTest);
+    }
 
     @Given("I have fatal severity selected")
-    public void fatalSeverityFilter() {
+    public void fatalFilter() {
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("FATAL");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
@@ -67,11 +69,18 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
+    @Given("I have cyclist selected")
+    public void cyclistFilter() {
+        ArrayList<DbAttributes> cyclistTest = new ArrayList<>();
+        cyclistTest.add(DbAttributes.BICYCLE);
+        queryTester.orVehicle(cyclistTest);
+    }
     @Given("I have Bay of plenty region selected")
-    public void BayofplentyFilter() {
+    public void BayofplentytFilter() {
         ArrayList<String> regionTest = new ArrayList<>();
         regionTest.add("BAY_OF_PLENTY");
         queryTester.orString(regionTest, DbAttributes.REGION);
+
     }
 
     @Then("All results shown involve a cyclist in the Bay of plenty")
@@ -87,12 +96,16 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Given("I have bus selected with the year slider set between 2006 and 2016")
-    public void BusYearFilter() {
-        queryTester.betweenValues(2006, 2016, DbAttributes.YEAR);
+    @Given("I have bus selected")
+    public void busFilter() {
         ArrayList<DbAttributes> busTest = new ArrayList<>();
         busTest.add(DbAttributes.BUS);
         queryTester.orVehicle(busTest);
+    }
+
+    @Given("I have the year slider set between 2006 and 2016")
+    public void yearFilter2006_2016() {
+        queryTester.betweenValues(2006, 2016, DbAttributes.YEAR);
     }
 
     @Then("All results shown involve a bus between 2006 and 2016")
@@ -108,23 +121,17 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Given("I have bus selected")
-    public void bus() {
-        ArrayList<DbAttributes> busTest = new ArrayList<>();
-        busTest.add(DbAttributes.BUS);
-        queryTester.orVehicle(busTest);
+    @Given("I have pedestrian and bus selected")
+    public void pedestrianBusFilter() {
+        ArrayList<DbAttributes> pedestrianBusTest = new ArrayList<>();
+        pedestrianBusTest.add(DbAttributes.PEDESTRIAN);
+        pedestrianBusTest.add(DbAttributes.BUS);
+        queryTester.orVehicle(pedestrianBusTest);
     }
-
-    @Given("I have cyclist selected")
-    public void cyclist() {
-        ArrayList<DbAttributes> bicycleTest = new ArrayList<>();
-        bicycleTest.add(DbAttributes.BICYCLE);
-        queryTester.orVehicle(bicycleTest);
-    }
-
-    @Given("I have serious severity selected")
-    public void pedestrianBusSeriousFatalFilter() {
+    @Given("I have serious and fatal severities selected")
+    public void seriousFatalFilter() {
         ArrayList<String> severityTest = new ArrayList<>();
+        severityTest.add("FATAL");
         severityTest.add("SERIOUS");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
 
@@ -137,7 +144,7 @@ public class QueryStepDefs {
             if (!((crash.severity().equals(Severity.SERIOUS)) ||
                     (crash.severity().equals(Severity.FATAL))) ||
                     !((crash.vehicles().containsKey(Vehicle.BUS)) ||
-                    (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
+                            (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
                 valid = false;
                 break;
             }
@@ -145,26 +152,35 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Given("I have bicycle and car buttons and non injury and minor severities and Auckland and Northland regions" +
-            " selected with the year range set to 2018-2023")
-    public void everythingFilter() {
-        ArrayList<String> severityTest = new ArrayList<>();
-        severityTest.add("NON_INJURY");
-        severityTest.add("MINOR");
-        queryTester.orString(severityTest, DbAttributes.SEVERITY);
-
+    @Given("I have bicycle and car selected")
+    public void bicycleCarFilter() {
         ArrayList<DbAttributes> bikeCarTest = new ArrayList<>();
         bikeCarTest.add(DbAttributes.BICYCLE);
         bikeCarTest.add(DbAttributes.CAR_OR_STATION_WAGON);
         queryTester.orVehicle(bikeCarTest);
+    }
 
-        queryTester.betweenValues(2018, 2023, DbAttributes.YEAR);
+    @Given("I have non injury and minor severities selected")
+    public void minorSeriousFilter() {
+        ArrayList<String> severityTest = new ArrayList<>();
+        severityTest.add("NON_INJURY");
+        severityTest.add("MINOR");
+        queryTester.orString(severityTest, DbAttributes.SEVERITY);
+    }
 
+    @Given("I have Auckland and Northland regions selected")
+    public void aucklandNorthlandFilter() {
         ArrayList<String> regionTest = new ArrayList<>();
         regionTest.add("AUCKLAND");
         regionTest.add("NORTHLAND");
         queryTester.orString(regionTest, DbAttributes.REGION);
     }
+
+    @Given("I have the year range set to 2018-2023")
+    public void year2018_2023Filter() {
+        queryTester.betweenValues(2018, 2023, DbAttributes.YEAR);
+    }
+
 
     @Then("All results shown involve a bicycle or car, with no injury or minor, in the Auckland or Northland" +
             " regions between the years 2018 and 2023")
@@ -174,7 +190,7 @@ public class QueryStepDefs {
             if (!((crash.severity().equals(Severity.NON_INJURY)) ||
                     (crash.severity().equals(Severity.MINOR))) ||
                     !((crash.vehicles().containsKey(Vehicle.BICYCLE)) ||
-                    (crash.vehicles().containsKey(Vehicle.CAR_OR_STATION_WAGON))) ||
+                            (crash.vehicles().containsKey(Vehicle.CAR_OR_STATION_WAGON))) ||
                     !((crash.region().equals(Region.AUCKLAND)) || (crash.region().equals(Region.NORTHLAND))) ||
                     !((crash.year() <= 2023) && (crash.year() >= 2018))) {
                 valid = false;
@@ -184,3 +200,5 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 }
+
+
