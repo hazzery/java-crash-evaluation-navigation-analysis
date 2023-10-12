@@ -67,15 +67,11 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Given("I have cyclist and Bay of plenty region selected")
-    public void BayofplentyCyclistFilter() {
+    @Given("I have Bay of plenty region selected")
+    public void BayofplentyFilter() {
         ArrayList<String> regionTest = new ArrayList<>();
         regionTest.add("BAY_OF_PLENTY");
         queryTester.orString(regionTest, DbAttributes.REGION);
-
-        ArrayList<DbAttributes> cyclistTest = new ArrayList<>();
-        cyclistTest.add(DbAttributes.BICYCLE);
-        queryTester.orVehicle(cyclistTest);
     }
 
     @Then("All results shown involve a cyclist in the Bay of plenty")
@@ -118,6 +114,14 @@ public class QueryStepDefs {
         busTest.add(DbAttributes.BUS);
         queryTester.orVehicle(busTest);
     }
+
+    @Given("I have cyclist selected")
+    public void cyclist() {
+        ArrayList<DbAttributes> bicycleTest = new ArrayList<>();
+        bicycleTest.add(DbAttributes.BICYCLE);
+        queryTester.orVehicle(bicycleTest);
+    }
+
     @Given("I have serious severity selected")
     public void pedestrianBusSeriousFatalFilter() {
         ArrayList<String> severityTest = new ArrayList<>();
