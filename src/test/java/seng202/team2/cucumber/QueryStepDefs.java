@@ -1,5 +1,6 @@
 package seng202.team2.cucumber;
 
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -25,9 +26,12 @@ public class QueryStepDefs {
     List<Crash> queryResult;
     CrashDao testDao = new CrashDao();
 
+    @Before
+    public void setupQuery() {queryTester = new QueryBuilder();}
+
     @Given("I have no filters selected")
     public void noFilters() {
-        queryTester = new QueryBuilder();
+
     }
 
     @When("I press apply")
@@ -42,7 +46,6 @@ public class QueryStepDefs {
 
     @Given("I have person and fatal severity selected")
     public void fatalPersonFilter() {
-        queryTester = new QueryBuilder();
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("FATAL");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
@@ -66,7 +69,6 @@ public class QueryStepDefs {
 
     @Given("I have cyclist and Bay of plenty region selected")
     public void BayofplentyCyclistFilter() {
-        queryTester = new QueryBuilder();
         ArrayList<String> regionTest = new ArrayList<>();
         regionTest.add("BAY_OF_PLENTY");
         queryTester.orString(regionTest, DbAttributes.REGION);
@@ -91,7 +93,6 @@ public class QueryStepDefs {
 
     @Given("I have bus selected with the year slider set between 2006 and 2016")
     public void BusYearFilter() {
-        queryTester = new QueryBuilder();
         queryTester.betweenValues(2006, 2016, DbAttributes.YEAR);
         ArrayList<DbAttributes> busTest = new ArrayList<>();
         busTest.add(DbAttributes.BUS);
@@ -113,7 +114,6 @@ public class QueryStepDefs {
 
     @Given("I have pedestrian and bus buttons and serious and fatal severities selected")
     public void pedestrianBusSeriousFatalFilter() {
-        queryTester = new QueryBuilder();
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("FATAL");
         severityTest.add("SERIOUS");
@@ -143,7 +143,6 @@ public class QueryStepDefs {
     @Given("I have bicycle and car buttons and non injury and minor severities and Auckland and Northland regions" +
             " selected with the year range set to 2018-2023")
     public void everythingFilter() {
-        queryTester = new QueryBuilder();
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("NON_INJURY");
         severityTest.add("MINOR");
