@@ -64,8 +64,6 @@ public class ButtonBarController {
     @FXML
     private Text yearSelectRightLabel;
 
-    private Boolean consumeAction;
-
     /**
      * Map used to convert the IDs of a button into their respective enum values
      */
@@ -107,12 +105,12 @@ public class ButtonBarController {
      */
     private void setSeverityValues() {
         for (Severity severity : Severity.severities()) {
-            CustomMenuItem severityItem = new CustomMenuItem(new CheckBox(severity.displayValue()), false);
+            CheckBox checkBox = new CheckBox(severity.displayValue());
+            checkBox.setOnAction(this::notificationSeverity);
+            CustomMenuItem severityItem = new CustomMenuItem(checkBox, false);
             severityItem.setId(severity.name());
-            severityItem.setOnAction(this::notificationSeverity);
             severities.getItems().add(severityItem);
         }
-        consumeAction = false;
     }
 
     /**
@@ -120,9 +118,10 @@ public class ButtonBarController {
      */
     private void setRegions() {
         for (Region region : Region.regions()) {
-            CustomMenuItem regionItem = new CustomMenuItem(new CheckBox(region.displayValue()), false);
+            CheckBox checkBox = new CheckBox(region.displayValue());
+            checkBox.setOnAction(this::notificationRegion);
+            CustomMenuItem regionItem = new CustomMenuItem(checkBox, false);
             regionItem.setId(region.name());
-            regionItem.setOnAction(this::notificationRegion);
             regions.getItems().add(regionItem);
         }
     }
@@ -237,17 +236,11 @@ public class ButtonBarController {
     }
 
     /**
-     * Generates notifications on severity selections.
-     * Gets called twice per action so every second one is ignored.
-     * Uses functions in {@link Severity} to get nicely formatted strings
+     * Event handler to generate notification when the user clicks a severity checkbox.
      *
      * @param event An event representing some type of action
      */
     public void notificationSeverity(ActionEvent event) {
-        if (consumeAction) {
-            consumeAction = false;
-            return;
-        }
         boolean anySelected = false;
         for (MenuItem option : severities.getItems()) {
             if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
@@ -256,34 +249,25 @@ public class ButtonBarController {
         }
         if (!anySelected) {
             mainController.showNotification("Filtering crashes by all severities");
-            consumeAction = true;
             return;
         }
-        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
-        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
-        Severity checkedSeverity = Severity.fromString(customActionOrigin.getId());
+        CheckBox actionOrigin = (CheckBox) event.getSource();
+        Severity checkedSeverity = Severity.fromString(actionOrigin.getParent().getId());
         String actionString = checkedSeverity.displayValue().toLowerCase();
         if (actionOrigin.isSelected()) {
             mainController.showNotification("Adding all " + actionString + " crashes to the filter.");
         } else {
             mainController.showNotification("Removing all " + actionString + " crashes from the filter.");
         }
-        consumeAction = true;
     }
 
 
     /**
-     * Generates notifications on region selections.
-     * Gets called twice per action so every second one is ignored.
-     * Uses functions in {@link Region} to get nicely formatted strings
+     * Event handler to generate notification when the user clicks a region checkbox.
      *
      * @param event An event representing some type of action
      */
     public void notificationRegion(ActionEvent event) {
-        if (consumeAction) {
-            consumeAction = false;
-            return;
-        }
         boolean anySelected = false;
         for (MenuItem option : regions.getItems()) {
             if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
@@ -292,19 +276,17 @@ public class ButtonBarController {
         }
         if (!anySelected) {
             mainController.showNotification("Filtering crashes by all regions");
-            consumeAction = true;
             return;
         }
-        CustomMenuItem customActionOrigin = (CustomMenuItem) event.getSource();
-        CheckBox actionOrigin = ((CheckBox) customActionOrigin.getContent());
-        Region checkedRegion = Region.fromString(customActionOrigin.getId());
+
+        CheckBox actionOrigin = (CheckBox) event.getSource();
+        Region checkedRegion = Region.fromString(actionOrigin.getParent().getId());
         String actionString = checkedRegion.displayValue();
         if (actionOrigin.isSelected()) {
             mainController.showNotification("Adding all crashes in " + actionString + " to the filter");
         } else {
             mainController.showNotification("Removing all crashes in " + actionString + " from the filter.");
         }
-        consumeAction = true;
     }
 
     /**
