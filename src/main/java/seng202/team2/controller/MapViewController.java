@@ -43,6 +43,7 @@ public class MapViewController {
                     if (newState == Worker.State.SUCCEEDED) {
                         webEngine.executeScript("initHeatmap();");
                         addAllCrashMarkers();
+                        mainController.getLoadingScreen().hide();
                     }
                 });
     }
@@ -50,8 +51,7 @@ public class MapViewController {
     /**
      * Adds all the crashes into the heatmap layer
      */
-    public void addAllCrashMarkers() {
-        mainController.displayLoadingView();
+    public void addAllCrashMarkers()  {
         clearMarkers();
 
         // load the crashes onto the map
@@ -69,7 +69,6 @@ public class MapViewController {
         webEngine.executeScript(markerString.toString());
 
         postMarkers();
-        mainController.hideLoadingView();
     }
 
     /**

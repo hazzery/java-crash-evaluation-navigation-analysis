@@ -1,5 +1,6 @@
 package seng202.team2.controller;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -136,14 +137,11 @@ public class ButtonBarController {
     }
 
     /**
-     * Builds a query based on which filters are selected:
-     * Checks which toggle buttons are selected and adds them to the orVehicle method of QueryBuilder
-     * Then checks which severities are selected and adds them to the orString method of QueryBuilder
-     * Then checks the year range defined by the slider and runs the betweenValues method if the slider has been changed
-     * Finally checks the selected regions and queries them using another QueryBuilder orString.
-     * This query is then run and the view is updated to show the new data.
+     * Build a query builder based on the filter selected in the top bar
+     *
+     * @return the query builder used to query the database
      */
-    public void filterTable() {
+    private QueryBuilder buildQuery() {
         QueryBuilder queryBuilder = new QueryBuilder();
         List<DbAttributes> vehiclesToQuery = new ArrayList<>();
 
@@ -175,9 +173,54 @@ public class ButtonBarController {
 
         queryBuilder.orString(selectedRegions, DbAttributes.REGION);
 
-        Crashes.setQuery(queryBuilder);
+        return queryBuilder;
+    }
 
-        mainController.updateViews();
+    /**
+     * Builds a query based on which filters are selected:
+     * Checks which toggle buttons are selected and adds them to the orVehicle method of QueryBuilder
+     * Then checks which severities are selected and adds them to the orString method of QueryBuilder
+     * Then checks the year range defined by the slider and runs the betweenValues method if the slider has been changed
+     * Finally checks the selected regions and queries them using another QueryBuilder orString.
+     * This query is then run and the view is updated to show the new data.
+     */
+    public void filterTable() {
+        // Disable apply button when a filter is being applied already
+        confirmSelection.setDisable(true);
+
+        QueryBuilder queryBuilder = buildQuery();
+
+        // Query the database in a separate thread and then update the table and map once complete
+        runAfter(() -> Crashes.setQuery(queryBuilder), () -> {
+            mainController.updateViews();
+            confirmSelection.setDisable(false);
+        });
+    }
+
+    /**
+     * Runs a task on a different thread and then continues with the after runnable once execution is complete.
+     * Allows a task to be run without interrupting the main application thread, keeping the application responsive.
+     *
+     * @param before The runnable to run on a new thread
+     * @param after The runnable to run on the main thread after before has finished executing
+     */
+    private void runAfter(Runnable before, Runnable after) {
+        // Run before task in separate thread to allow JavaFX application to update
+        Task<Void> beforeTask = new Task<>() {
+            @Override
+            protected Void call() {
+                before.run();
+                return null;
+            }
+        };
+        // After the before task has completed, run the after task in the main JavaFX thread
+        beforeTask.setOnSucceeded(event -> {
+            after.run();
+            mainController.getLoadingScreen().hide();
+        });
+
+        new Thread(beforeTask).start();
+        mainController.getLoadingScreen().show("Filtering crash data...");
     }
 
     /**
