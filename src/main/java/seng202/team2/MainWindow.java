@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import seng202.team2.controller.MainController;
 
 import java.io.IOException;
 
@@ -19,7 +18,6 @@ public class MainWindow extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Parent root = baseLoader.load();
-        MainController baseController = baseLoader.getController();
         primaryStage.sizeToScene();
         primaryStage.setTitle("JCENA");
         primaryStage.setScene(new Scene(root, 1100, 800));
