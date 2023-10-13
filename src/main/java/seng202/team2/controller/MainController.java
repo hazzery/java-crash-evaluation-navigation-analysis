@@ -43,7 +43,6 @@ public class MainController {
     private MapViewController mapViewController;
     private LoadingScreenController loadingScreenController;
 
-    private Label loadingLabel;
     private Label overflowLabel;
     private int currentView;
     private int notificationCount;
@@ -201,10 +200,10 @@ public class MainController {
         mapViewController.addAllCrashMarkers();
 
         if (currentView == 0)
-            tableButtonsPane.setCenter(mapViewParent);
+            mainViewPane.setCenter(mapViewParent);
         tableViewController.updateCrashes();
         if (currentView == 0)
-            tableButtonsPane.setCenter(tableViewParent);
+            mainViewPane.setCenter(tableViewParent);
     }
 
     public LoadingScreenController getLoadingScreen() {
