@@ -188,11 +188,25 @@ public class ButtonBarController {
      * This query is then run and the view is updated to show the new data.
      */
     public void filterTable() {
+        // Disable apply button when a filter is being applied already
+        confirmSelection.setDisable(true);
+
         QueryBuilder queryBuilder = buildQuery();
 
-        runAfter(() -> Crashes.setQuery(queryBuilder), () -> mainController.updateViews());
+        // Query the database in a separate thread and then update the table and map once complete
+        runAfter(() -> Crashes.setQuery(queryBuilder), () -> {
+            mainController.updateViews();
+            confirmSelection.setDisable(false);
+        });
     }
 
+    /**
+     * Runs a task on a different thread and then continues with the after runnable once execution is complete.
+     * Allows a task to be run without interrupting the main application thread, keeping the application responsive.
+     *
+     * @param before The runnable to run on a new thread
+     * @param after The runnable to run on the main thread after before has finished executing
+     */
     private void runAfter(Runnable before, Runnable after) {
         // Run before task in separate thread to allow JavaFX application to update
         Task<Void> beforeTask = new Task<>() {
@@ -345,9 +359,6 @@ public class ButtonBarController {
         }
         consumeAction = true;
     }
-
-
-
 
     /**
      * Gives the button bar access to the main controller.
