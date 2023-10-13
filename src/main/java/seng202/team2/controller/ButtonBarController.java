@@ -24,22 +24,14 @@ import java.util.*;
  * @author Ben Moore
  */
 public class ButtonBarController {
-
     @FXML
-    public ButtonBar buttonBar;
-
+    private ButtonBar buttonBar;
     @FXML
-    public MenuButton regions;
-
+    private MenuButton regions;
+    @FXML
+    private MenuButton severities;
     @FXML
     private RangeSlider yearSelect;
-
-    @FXML
-    public MenuButton severities;
-
-    @FXML
-    public Button confirmSelection;
-
     @FXML
     private ToggleButton pedestrian;
 
