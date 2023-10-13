@@ -23,6 +23,11 @@ public class MainWindow extends Application {
         primaryStage.sizeToScene();
         primaryStage.setTitle("JCENA");
         primaryStage.setScene(new Scene(root, 1100, 800));
+
+        // Limit minimum size of application
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(500);
+
         primaryStage.show();
     }
 
