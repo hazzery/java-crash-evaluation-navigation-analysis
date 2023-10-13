@@ -42,7 +42,6 @@ public class Crashes {
      * @param query A QueryBuilder containing the query for the database.
      */
     public static void setQuery(QueryBuilder query) {
-        crashes.clear();
-        crashes.addAll(crashDao.queryDatabase(query.getQuery()));
+        crashes = FXCollections.observableList(crashDao.queryDatabase(query.getQuery()));
     }
 }
