@@ -55,6 +55,29 @@ public class QueryBuilderTest {
         queryBuilderTester.orString(testStrings, DbAttributes.REGION);
         assertEquals("SELECT * FROM crashes WHERE (REGION = \"Auckland\" OR REGION = \"Tasman\");", queryBuilderTester.getQuery());
     }
+
+    @Test
+    void orVehicleTest() {
+        ArrayList<DbAttributes> testVehicles = new ArrayList<>();
+        testVehicles.add(DbAttributes.BICYCLE);
+        testVehicles.add(DbAttributes.BUS);
+        queryBuilderTester.orVehicle(testVehicles);
+        assertEquals("SELECT * FROM crashes WHERE ((BICYCLE > 0) OR (BUS > 0));", queryBuilderTester.getQuery());
+    }
+
+    @Test
+    void emptyOrStringTest() {
+        ArrayList<String> testStrings = new ArrayList<>();
+        queryBuilderTester.orString(testStrings, DbAttributes.REGION);
+        assertEquals("SELECT * FROM crashes;", queryBuilderTester.getQuery());
+    }
+
+    @Test
+    void emptyVehicleTest() {
+        ArrayList<DbAttributes> testVehicles = new ArrayList<>();
+        queryBuilderTester.orVehicle(testVehicles);
+        assertEquals("SELECT * FROM crashes;", queryBuilderTester.getQuery());
+    }
     
     @Test
     void combinationTest() {
@@ -66,4 +89,6 @@ public class QueryBuilderTest {
         queryBuilderTester.greaterThan(2002, DbAttributes.YEAR);
         assertEquals("SELECT * FROM crashes WHERE (REGION = \"Auckland\" OR REGION = \"Tasman\" OR REGION = \"Nelson\") AND (YEAR > 2002);", queryBuilderTester.getQuery());
     }
+
+
 }

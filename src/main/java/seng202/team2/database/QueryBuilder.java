@@ -76,12 +76,12 @@ public class QueryBuilder {
         if (queryVehicles.isEmpty()) {
             return;
         }
-
+        sql.append("(");
         for (DbAttributes vehicle : queryVehicles) {
             sql.append("(").append(vehicle).append(" > 0)").append(" OR ");
         }
-        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing " OR "
-        sql.append(" AND ");
+        sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
+        sql.append(") AND ");
         noConditions = false;
 
     }
