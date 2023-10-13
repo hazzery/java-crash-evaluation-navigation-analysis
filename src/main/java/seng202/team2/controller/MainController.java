@@ -41,8 +41,8 @@ public class MainController {
 
     private TableViewController tableViewController;
     private MapViewController mapViewController;
+    private LoadingScreenController loadingScreenController;
 
-    private Label loadingLabel;
     private Label overflowLabel;
     private int currentView;
     private int notificationCount;
@@ -56,22 +56,16 @@ public class MainController {
     @FXML
     void initialize() {
         initialiseMainViewPane();
-        initialiseLoadingView();
         initialiseTableView();
         initialiseMapView();
         initialiseNotificationPane();
+        initialiseLoadingScreen();
 
-        displayLoadingView();
         displayButtonBar();
         displayMenuBar();
-    }
 
-    /**
-     * Initialises the loading view by setting its text
-     */
-    private void initialiseLoadingView() {
-        loadingLabel = new Label("Loading full CAS data onto the map...");
-        currentView = 1;
+        getLoadingScreen().show("Filtering crash data...");
+        displayMapView();
     }
 
     /**
@@ -96,6 +90,20 @@ public class MainController {
         notificationLayoutPane.setRight(notificationPane);
 
         overlayPane.getChildren().add(notificationLayoutPane);
+    }
+
+    private void initialiseLoadingScreen() {
+        try {
+            FXMLLoader loadingScreenLoader = new FXMLLoader(getClass().getResource("/fxml/loading_screen.fxml"));
+            Parent loadingScreenParent = loadingScreenLoader.load();
+            loadingScreenParent.setPickOnBounds(false);
+            loadingScreenParent.getStylesheets().add(getClass().getResource("/stylesheets/table.css").toExternalForm());
+            loadingScreenController = loadingScreenLoader.getController();
+            loadingScreenController.init();
+            overlayPane.getChildren().add(loadingScreenParent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -172,27 +180,6 @@ public class MainController {
         }
     }
 
-    /**
-     * Displays the loading text on the screen
-     */
-    public void displayLoadingView() {
-        mainViewPane.setCenter(loadingLabel);
-    }
-
-    /**
-     * Hides the loading text, showing the map or table view
-     */
-    public void hideLoadingView() {
-        if (currentView == 1) {
-            displayMapView();
-        } else {
-            displayTableView();
-        }
-    }
-
-    /**
-     * Swaps out the current view for the table view
-     */
     public void displayTableView() {
         mainViewPane.setCenter(tableViewParent);
         currentView = 0;
@@ -211,7 +198,16 @@ public class MainController {
      */
     public void updateViews() {
         mapViewController.addAllCrashMarkers();
+
+        if (currentView == 0)
+            mainViewPane.setCenter(mapViewParent);
         tableViewController.updateCrashes();
+        if (currentView == 0)
+            mainViewPane.setCenter(tableViewParent);
+    }
+
+    public LoadingScreenController getLoadingScreen() {
+        return loadingScreenController;
     }
 
     /**
