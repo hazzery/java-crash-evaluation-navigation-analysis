@@ -34,25 +34,18 @@ public class ButtonBarController {
     private RangeSlider yearSelect;
     @FXML
     private ToggleButton pedestrian;
-
     @FXML
     private ToggleButton bicycle;
-
     @FXML
     private ToggleButton car;
-
     @FXML
     private ToggleButton bus;
-
     @FXML
     private Integer MIN_YEAR;
-
     @FXML
     private Integer MAX_YEAR;
-
     @FXML
     private Text yearSelectLeftLabel;
-
     @FXML
     private Text yearSelectRightLabel;
 
