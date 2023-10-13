@@ -22,6 +22,9 @@ build/
 bin/
 out/
 
+# JavaDoc
+doc/
+
 # Gradle
 .gradle/
 
