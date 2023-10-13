@@ -1,8 +1,9 @@
 package seng202.team2.controller;
 
-import javafx.concurrent.Task;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -58,6 +59,8 @@ public class ButtonBarController {
         put("car", DbAttributes.CAR_OR_STATION_WAGON);
         put("bus", DbAttributes.BUS);
     }};
+
+    private List<String> openingState;
 
     private static final Logger log = LogManager.getLogger(ButtonBarController.class);
     private MainController mainController;
@@ -122,7 +125,8 @@ public class ButtonBarController {
             severities.getItems().add(severityItem);
         }
 
-        severities.setOnHiding(event -> filterTable());
+        severities.setOnShowing(this::captureDropdownState);
+        severities.setOnHiding(this::applyDropdownFilter);
     }
 
     /**
@@ -137,7 +141,28 @@ public class ButtonBarController {
             regions.getItems().add(regionItem);
         }
 
-        regions.setOnHiding(event -> filterTable());
+        regions.setOnShowing(this::captureDropdownState);
+        regions.setOnHiding(this::applyDropdownFilter);
+    }
+
+    private void captureDropdownState(Event event) {
+        MenuButton menuButton = (MenuButton) event.getSource();
+        openingState = menuButton.getItems().stream()
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
+    }
+
+    private void applyDropdownFilter(Event event) {
+        MenuButton menuButton = (MenuButton) event.getSource();
+        List<String> closingState = menuButton.getItems().stream()
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
+
+        if (!openingState.equals(closingState)) {
+            filterTable();
+        }
     }
 
     /**
