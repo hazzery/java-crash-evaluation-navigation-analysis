@@ -211,9 +211,9 @@ public class ButtonBarController {
                 .anyMatch(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected());
 
         if (anySelected) {
-            severities.setStyle("-fx-background-color: #A1A1A1");
+            severities.arm();
         } else {
-            severities.setStyle("-fx-background-color: #DDDDDD");
+            severities.disarm();
         }
     }
 
@@ -227,9 +227,9 @@ public class ButtonBarController {
                 .anyMatch(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected());
 
         if (anySelected) {
-            regions.setStyle("-fx-background-color: #A1A1A1");
+            regions.arm();
         } else {
-            regions.setStyle("-fx-background-color: #DDDDDD");
+            regions.disarm();
         }
     }
 
