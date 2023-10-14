@@ -63,6 +63,7 @@ public class TableViewController {
      * Updates the page count to reflect the new number of results for the last query
      */
     public void updateCrashes() {
+        setPage(0);
         pagination.setPageCount(Crashes.getCrashes().size() / ROWS_PER_PAGE + 1);
     }
 }
