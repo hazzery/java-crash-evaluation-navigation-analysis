@@ -123,12 +123,11 @@ public class QueryStepDefs {
         Assertions.assertEquals(820467,queryResult.size());
     }
 
-    @Then("All results shown involve a pedestrian and a fatality")
-    public void allFatalPedestrianResults() {
+    @Then("All results shown involve a pedestrian")
+    public void pedestrianInCrash() {
         boolean valid = true;
         for (Crash crash: queryResult) {
-            if (!(crash.severity().equals(Severity.FATAL)) ||
-                    !(crash.vehicles().containsKey(Vehicle.PEDESTRIAN))) {
+            if (!(crash.vehicles().containsKey(Vehicle.PEDESTRIAN))) {
                 valid = false;
                 break;
             }
@@ -136,12 +135,11 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Then("All results shown involve a cyclist in the Bay of plenty")
-    public void allBayofplentyCyclistResults() {
+    @Then("All results shown are of fatal severity")
+    public void fatalSeverity() {
         boolean valid = true;
         for (Crash crash: queryResult) {
-            if (!(crash.region().equals(Region.BAY_OF_PLENTY)) ||
-                    !(crash.vehicles().containsKey(Vehicle.BICYCLE))) {
+            if (!(crash.severity().equals(Severity.FATAL))) {
                 valid = false;
                 break;
             }
@@ -149,12 +147,11 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Then("All results shown involve a bus between 2006 and 2016")
-    public void allBusYearResults() {
+    @Then("All results shown involve a cyclist")
+    public void cyclistInCrash() {
         boolean valid = true;
         for (Crash crash: queryResult) {
-            if (!((crash.year() <= 2016) && (crash.year() >= 2006)) ||
-                    !(crash.vehicles().containsKey(Vehicle.BUS))) {
+            if (!(crash.vehicles().containsKey(Vehicle.BICYCLE))) {
                 valid = false;
                 break;
             }
@@ -162,14 +159,97 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Then("All results shown involve a pedestrian or a bus with a serious or fatal severity")
-    public void allPedestrianBusSeriousFatalResults() {
+    @Then("All results shown occurred in the Bay of Plenty")
+    public void bopInCrash() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!(crash.region().equals(Region.BAY_OF_PLENTY))) {
+                valid = false;
+                break;
+            }
+        }
+    }
+    @Then("All results shown involve a bus")
+    public void busInCrash() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!(crash.vehicles().containsKey(Vehicle.BUS))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown occurred between {int}-{int}")
+    public void inYearRange(Integer lowBound, Integer highBound) {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.year() <= highBound) && (crash.year() >= lowBound))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown involve a pedestrian or a bus")
+    public void pedestrianOrBus() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.vehicles().containsKey(Vehicle.BUS)) ||
+                            (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then ("All results shown are of serious or fatal severity")
+    public void fatalOrSerious() {
         boolean valid = true;
         for (Crash crash: queryResult) {
             if (!((crash.severity().equals(Severity.SERIOUS)) ||
-                    (crash.severity().equals(Severity.FATAL))) ||
-                    !((crash.vehicles().containsKey(Vehicle.BUS)) ||
-                            (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
+                    (crash.severity().equals(Severity.FATAL)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown involve a bicycle or car")
+    public void bikeOrCar() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.vehicles().containsKey(Vehicle.BICYCLE)) ||
+                            (crash.vehicles().containsKey(Vehicle.CAR_OR_STATION_WAGON)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown are of non-injury or minor severity")
+    public void notSeriousSeverity() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.severity().equals(Severity.NON_INJURY)) ||
+                    (crash.severity().equals(Severity.MINOR)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown occurred in either Auckland or Northland")
+    public void aucklandOrNorthland() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.region().equals(Region.AUCKLAND)) || (crash.region().equals(Region.NORTHLAND)))) {
                 valid = false;
                 break;
             }
