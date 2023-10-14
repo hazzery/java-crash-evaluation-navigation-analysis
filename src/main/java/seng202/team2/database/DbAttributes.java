@@ -33,6 +33,11 @@ public enum DbAttributes {
     TRAIN,
     OTHER;
 
+    /**
+     * Gets the column within the database this attribute resides.
+     *
+     * @return The attribute's column in the database.
+     */
     public int dbColumn() {
         return ordinal() + 1;
     }
