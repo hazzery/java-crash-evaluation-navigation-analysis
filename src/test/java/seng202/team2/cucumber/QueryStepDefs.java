@@ -115,6 +115,7 @@ public class QueryStepDefs {
     @When("I press apply")
     public void applyQuery() {
         queryResult = testDao.queryDatabase(queryTester.getQuery());
+        queryTester = new QueryBuilder();
     }
 
     @Then("All results in database are shown")
