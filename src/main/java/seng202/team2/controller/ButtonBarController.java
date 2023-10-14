@@ -2,7 +2,6 @@ package seng202.team2.controller;
 
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -119,7 +118,6 @@ public class ButtonBarController {
     private void setSeverities() {
         for (Severity severity : Severity.severities()) {
             CheckBox checkBox = new CheckBox(severity.displayValue());
-            checkBox.setOnAction(this::severityButtonStyle);
             CustomMenuItem severityItem = new CustomMenuItem(checkBox, false);
             severityItem.setId(severity.name());
             severities.getItems().add(severityItem);
@@ -135,7 +133,6 @@ public class ButtonBarController {
     private void setRegions() {
         for (Region region : Region.regions()) {
             CheckBox checkBox = new CheckBox(region.displayValue());
-            checkBox.setOnAction(this::regionButtonStyle);
             CustomMenuItem regionItem = new CustomMenuItem(checkBox, false);
             regionItem.setId(region.name());
             regions.getItems().add(regionItem);
@@ -199,38 +196,6 @@ public class ButtonBarController {
         severities.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
         regions.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
         yearSelect.setTooltip(MainController.makeTooltip("Slider: Limit crashes to specific range of years"));
-    }
-
-    /**
-     * Event handler to update the appearance of the severity button when a severity checkbox is clicked.
-     *
-     * @param event A severity checkbox click event
-     */
-    public void severityButtonStyle(ActionEvent event) {
-        boolean anySelected = severities.getItems().stream()
-                .anyMatch(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected());
-
-        if (anySelected) {
-            severities.arm();
-        } else {
-            severities.disarm();
-        }
-    }
-
-    /**
-     * Event handler to update the appearance of the region button when a region checkbox is clicked.
-     *
-     * @param event A region checkbox click event
-     */
-    public void regionButtonStyle(ActionEvent event) {
-        boolean anySelected = regions.getItems().stream()
-                .anyMatch(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected());
-
-        if (anySelected) {
-            regions.arm();
-        } else {
-            regions.disarm();
-        }
     }
 
     /**
