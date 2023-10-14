@@ -93,6 +93,7 @@ public class DatabaseManager implements AutoCloseable {
      * Get a connection to the database.
      *
      * @return A database connection.
+     * @throws SQLException if a connection cannot be made
      */
     public Connection getConnection() throws SQLException {
         Connection con;
