@@ -303,11 +303,26 @@ public class ButtonBarController {
     }
 
     /**
+     * Disables all buttons on the filter bar
+     *
+     * @param disabled Whether the buttons should be disabled or not
+     */
+    private void setButtonsDisabled(boolean disabled) {
+        pedestrian.setDisable(disabled);
+        bicycle.setDisable(disabled);
+        car.setDisable(disabled);
+        bus.setDisable(disabled);
+        severities.setDisable(disabled);
+        regions.setDisable(disabled);
+        yearSelect.setDisable(disabled);
+    }
+
+    /**
      * Runs a task on a different thread and then continues with the after runnable once execution is complete.
      * Allows a task to be run without interrupting the main application thread, keeping the application responsive.
      *
      * @param before The runnable to run on a new thread
-     * @param after The runnable to run on the main thread after before has finished executing
+     * @param after  The runnable to run on the main thread after before has finished executing
      */
     private void runAfter(Runnable before, Runnable after) {
         // Run before task in separate thread to allow JavaFX application to update
@@ -322,9 +337,11 @@ public class ButtonBarController {
         beforeTask.setOnSucceeded(event -> {
             after.run();
             mainController.getLoadingScreen().hide();
+            setButtonsDisabled(false);
         });
 
         new Thread(beforeTask).start();
+        setButtonsDisabled(true);
         mainController.getLoadingScreen().show("Filtering crash data...");
     }
 }
