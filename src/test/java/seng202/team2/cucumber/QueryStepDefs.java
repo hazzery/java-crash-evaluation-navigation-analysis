@@ -147,7 +147,7 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Then("All results shown involve a cyclist")
+    @Then("All results shown involve a bicycle")
     public void cyclistInCrash() {
         boolean valid = true;
         for (Crash crash: queryResult) {

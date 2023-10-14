@@ -4,6 +4,21 @@ Feature: Query Test
     When I press apply
     Then All results in database are shown
 
+  Scenario: Filter by year
+    Given I have the year slider set to 2005-2009
+    When I press apply
+    Then All results shown occurred between 2005-2009
+
+  Scenario: Filter cyclist
+    Given I have cyclist selected
+    When I press apply
+    Then All results shown involve a bicycle
+
+  Scenario: Filter region
+    Given I have Auckland and Northland regions selected
+    When I press apply
+    Then All results shown occurred in either Auckland or Northland
+
   Scenario: Filter with Pedestrian with fatal severity
     Given I have pedestrian selected
     And I have fatal severity selected
@@ -15,7 +30,7 @@ Feature: Query Test
     Given I have cyclist selected
     And I have Bay of plenty region selected
     When I press apply
-    Then All results shown involve a cyclist
+    Then All results shown involve a bicycle
     And All results shown occurred in the Bay of Plenty
 
   Scenario: Filter with Buses between 2006 and 2016
