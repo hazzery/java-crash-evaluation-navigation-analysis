@@ -11,10 +11,6 @@ Author: Isaac Ure
     -fx-background-color: transparent;
 }
 
-.tool-bar {
-    -fx-background-color: linear-gradient(#40739e, #487eb0);
-}
-
 .table-view .corner {
     -fx-background-color: transparent;
 }
@@ -56,15 +52,22 @@ Author: Isaac Ure
     -fx-background-color: #487eb0;
 }
 
-#tableViewButton, #menuButton, #mapViewButton  {
-    -fx-background-color: transparent;
+#tableViewButton, #menuButton, #mapViewButton {
     -fx-width: 100%;
     -fx-background-radius: 0;
 }
 
-#menuButton:hover, #helpButton:hover {
+#menuButton:hover, #tableViewButton:hover, #mapViewButton:hover {
     -fx-background-radius: 0;
-    -fx-background-color: #40739e;
+    -fx-background-color: #bbeeff;
+}
+
+.menu-butons {
+    -fx-background-color: transparent;
+}
+
+.selected {
+    -fx-background-color: #ffffff;
 }
 
 #buttonBar .toggle-button, .button, .menu-button {
