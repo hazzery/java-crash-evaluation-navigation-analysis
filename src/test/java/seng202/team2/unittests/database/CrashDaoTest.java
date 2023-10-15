@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import seng202.team2.database.CrashDao;
 import seng202.team2.database.DatabaseManager;
-import seng202.team2.exceptions.InstanceAlreadyExistsException;
 import seng202.team2.io.CsvReader;
 import seng202.team2.models.*;
 
@@ -21,7 +20,7 @@ class CrashDaoTest {
     CrashDao crashDao;
 
     @BeforeEach
-    void setup() throws InstanceAlreadyExistsException {
+    void setup() {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         databaseManager.resetDB();
 

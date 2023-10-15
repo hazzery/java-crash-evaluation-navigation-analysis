@@ -2,7 +2,6 @@ package seng202.team2.database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team2.exceptions.InstanceAlreadyExistsException;
 
 import java.io.*;
 import java.net.URLDecoder;
@@ -61,32 +60,6 @@ public class DatabaseManager implements AutoCloseable {
             instance = new DatabaseManager(null);
 
         return instance;
-    }
-
-    /**
-     * WARNING: Allows for setting specific database url.
-     * Currently only needed for test databases, but may be useful in the future.
-     * USE WITH CAUTION.
-     * This does not override the current singleton instance so must be the first call.
-     *
-     * @param url string url of a database to load (this needs to be full url e.g. "jdbc:sqlite:...")
-     * @return current singleton instance
-     * @throws InstanceAlreadyExistsException if there is already a singleton instance
-     */
-    public static DatabaseManager initialiseInstanceWithUrl(String url) throws InstanceAlreadyExistsException {
-        if (instance == null)
-            instance = new DatabaseManager(url);
-        else
-            throw new InstanceAlreadyExistsException("Database Manager instance already exists, cannot create with url: " + url);
-
-        return instance;
-    }
-
-    /**
-     * WARNING: Sets the current singleton instance to null.
-     */
-    public static void REMOVE_INSTANCE() {
-        instance = null;
     }
 
     /**
