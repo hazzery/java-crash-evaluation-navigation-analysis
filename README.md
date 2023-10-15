@@ -14,7 +14,7 @@ This application is created for users to view New Zealand crash data provided by
 - Matthew Lang
 
 ## Prerequisites
-- JDK >= 17 [click here to get the latest stable OpenJDK release (as of writing this README)](https://jdk.java.net/18/)
+- JDK >= 17 [click here to get the latest stable OpenJDK release](https://jdk.java.net/)
 - Gradle [Download](https://gradle.org/releases/) and [Install](https://gradle.org/install/)
 
 ## What's Included
