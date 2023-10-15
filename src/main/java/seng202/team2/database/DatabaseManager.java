@@ -2,7 +2,6 @@ package seng202.team2.database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team2.exceptions.InstanceAlreadyExistsException;
 
 import java.io.*;
 import java.net.URLDecoder;
@@ -17,11 +16,10 @@ import java.sql.*;
  * @see <a href="https://docs.google.com/document/d/1OzJJYrHxHRYVzx_MKjC2XPGS8_arDKSxYD4NhDN37_E/edit">
  * SENG202 Advanced Applications with JavaFX</a>
  */
-public class DatabaseManager implements AutoCloseable {
+public class DatabaseManager {
     private static DatabaseManager instance = null;
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
     private final String url;
-    Connection connection;
 
     /**
      * The constructor is private as this is a singleton class.
@@ -41,12 +39,6 @@ public class DatabaseManager implements AutoCloseable {
             createDatabaseFile(url);
             resetDB();
         }
-
-        try {
-            getConnection();
-        } catch (SQLException exception) {
-            log.warn("Unable to get connection to database while constructing instance", exception);
-        }
     }
 
     /**
@@ -55,38 +47,11 @@ public class DatabaseManager implements AutoCloseable {
      * @return The single instance of DatabaseManager.
      */
     public static DatabaseManager getInstance() {
-        if (instance == null)
-            // todo find a way to actually get db within jar
-            // The following line can be used to reach a db file within the jar, however this will not be modifiable
+        if (instance == null) {
             instance = new DatabaseManager(null);
+        }
 
         return instance;
-    }
-
-    /**
-     * WARNING: Allows for setting specific database url.
-     * Currently only needed for test databases, but may be useful in the future.
-     * USE WITH CAUTION.
-     * This does not override the current singleton instance so must be the first call.
-     *
-     * @param url string url of a database to load (this needs to be full url e.g. "jdbc:sqlite:...")
-     * @return current singleton instance
-     * @throws InstanceAlreadyExistsException if there is already a singleton instance
-     */
-    public static DatabaseManager initialiseInstanceWithUrl(String url) throws InstanceAlreadyExistsException {
-        if (instance == null)
-            instance = new DatabaseManager(url);
-        else
-            throw new InstanceAlreadyExistsException("Database Manager instance already exists, cannot create with url: " + url);
-
-        return instance;
-    }
-
-    /**
-     * WARNING: Sets the current singleton instance to null.
-     */
-    public static void REMOVE_INSTANCE() {
-        instance = null;
     }
 
     /**
@@ -96,15 +61,15 @@ public class DatabaseManager implements AutoCloseable {
      * @throws SQLException if a connection cannot be made
      */
     public Connection getConnection() throws SQLException {
-        Connection con;
+        Connection connection;
         try {
-            con = DriverManager.getConnection(this.url);
+            connection = DriverManager.getConnection(this.url);
         } catch (SQLException exception) {
             log.error(exception);
             throw exception;
         }
 
-        return con;
+        return connection;
     }
 
     /**
@@ -188,15 +153,5 @@ public class DatabaseManager implements AutoCloseable {
         } catch (SQLException exception) {
             log.error("Error executing sql statements in database initialisation file", exception);
         }
-    }
-
-    /**
-     * Closes the database connection
-     *
-     * @throws SQLException if connection cannot be closed
-     */
-    @Override
-    public void close() throws SQLException {
-        this.connection.close();
     }
 }
