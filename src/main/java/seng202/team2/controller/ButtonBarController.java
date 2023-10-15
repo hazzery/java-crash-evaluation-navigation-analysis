@@ -232,9 +232,13 @@ public class ButtonBarController {
         List<DbAttributes> vehiclesToQuery = new ArrayList<>();
 
         for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
+            button.getStyleClass().remove("used");
             if (button.isSelected()) {
                 DbAttributes vehicle = buttonIdToVehicle.get(button.getId());
                 vehiclesToQuery.add(vehicle);
+                if (!button.getStyleClass().contains("used")) {
+                    button.getStyleClass().add("used");
+                }
             }
         }
         queryBuilder.orVehicle(vehiclesToQuery);
