@@ -22,7 +22,7 @@ Author: Isaac Ure
 }
 
 .table-view .column-header-background {
-    -fx-background-color: #ff55ff;
+    -fx-background-color: #96b5b8;
     -fx-border-color: black;
     -fx-border-weight: 5;
     -fx-padding: 0px;
@@ -49,7 +49,7 @@ Author: Isaac Ure
 
 #menuPane {
     -fx-font-family: 'ABeeZee';
-    -fx-background-color: linear-gradient(#ff5555, #ffff55, #55ff55, #55ffff, #5555ff, #ff55ff);
+    -fx-background-color: #96b5b8;
 }
 
 #tableViewButton, #menuButton, #mapViewButton {
@@ -73,17 +73,4 @@ Author: Isaac Ure
 #buttonBar .toggle-button, .button, .menu-button {
     -fx-background-radius: 15;
 }
-
-#buttonBar {
-    -fx-background-color: #ff5555;
-}
-
-#mainWindow {
-    -fx-background-color: #ff5555;
-}
-
-#yearSelect .range-bar {
-    -fx-background-color: #ff55ff;
-}
-
 

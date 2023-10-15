@@ -39,6 +39,7 @@ public class MenuBarController {
         displayIcons();
         addTooltips();
         toggleMenuBar();
+        mapViewButton.getStyleClass().add("selected");
     }
 
     /**
