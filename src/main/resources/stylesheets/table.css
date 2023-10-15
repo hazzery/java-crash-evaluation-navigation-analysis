@@ -22,7 +22,7 @@ Author: Isaac Ure
 }
 
 .table-view .column-header-background {
-    -fx-background-color: #96b5b8;
+    -fx-background-color: #487eb0;
     -fx-border-color: black;
     -fx-border-weight: 5;
     -fx-padding: 0px;
@@ -49,7 +49,7 @@ Author: Isaac Ure
 
 #menuPane {
     -fx-font-family: 'ABeeZee';
-    -fx-background-color: #96b5b8;
+    -fx-background-color: #487eb0;
 }
 
 #tableViewButton, #menuButton, #mapViewButton {
