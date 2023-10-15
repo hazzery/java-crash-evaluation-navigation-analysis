@@ -73,3 +73,8 @@ Feature: Query Test
     And All results shown occurred in either Auckland or Northland
     And All results shown occurred between 2018-2023
 
+  Scenario:
+    Given I have Bay of plenty region selected
+    When I click away from the dropdown menu
+    Then All results shown occurred in the Bay of Plenty
+
