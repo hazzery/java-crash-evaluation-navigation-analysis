@@ -14,6 +14,14 @@ import java.io.IOException;
  * @author Findlay Royds
  */
 public class MainWindow extends Application {
+    /**
+     * Initialises the main window of JCENA
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     * @throws IOException if the FXML file cannot be loaded
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
@@ -29,8 +37,11 @@ public class MainWindow extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Opens the main window of JCENA
+     * @param args Command line arguments
+     */
     public static void main(String[] args) {
-
         launch(args);
     }
 }
