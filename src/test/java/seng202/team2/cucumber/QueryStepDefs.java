@@ -30,11 +30,13 @@ public class QueryStepDefs {
     public void setupQuery() {queryTester = new QueryBuilder();}
 
     @Given("I have no filters selected")
-    public void noFilters() {}
+    public void noFilters() {queryResult = testDao.queryDatabase(queryTester.getQuery());}
 
     @Given("I have the year slider set to {int}-{int}")
     public void yearRange(Integer lowBound, Integer highBound) {
         queryTester.betweenValues(lowBound, highBound, DbAttributes.YEAR);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have pedestrian selected")
@@ -42,13 +44,8 @@ public class QueryStepDefs {
         ArrayList<DbAttributes> pedestrianTest = new ArrayList<>();
         pedestrianTest.add(DbAttributes.PEDESTRIAN);
         queryTester.orVehicle(pedestrianTest);
-    }
 
-    @Given("I have fatal severity selected")
-    public void fatalFilter() {
-        ArrayList<String> severityTest = new ArrayList<>();
-        severityTest.add("FATAL");
-        queryTester.orString(severityTest, DbAttributes.SEVERITY);
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have cyclist selected")
@@ -56,13 +53,8 @@ public class QueryStepDefs {
         ArrayList<DbAttributes> cyclistTest = new ArrayList<>();
         cyclistTest.add(DbAttributes.BICYCLE);
         queryTester.orVehicle(cyclistTest);
-    }
 
-    @Given("I have Bay of plenty region selected")
-    public void BayofplentyFilter() {
-        ArrayList<String> regionTest = new ArrayList<>();
-        regionTest.add("BAY_OF_PLENTY");
-        queryTester.orString(regionTest, DbAttributes.REGION);
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have bus selected")
@@ -70,6 +62,8 @@ public class QueryStepDefs {
         ArrayList<DbAttributes> busTest = new ArrayList<>();
         busTest.add(DbAttributes.BUS);
         queryTester.orVehicle(busTest);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have pedestrian and bus selected")
@@ -78,14 +72,8 @@ public class QueryStepDefs {
         pedestrianBusTest.add(DbAttributes.PEDESTRIAN);
         pedestrianBusTest.add(DbAttributes.BUS);
         queryTester.orVehicle(pedestrianBusTest);
-    }
 
-    @Given("I have serious and fatal severities selected")
-    public void seriousFatalFilter() {
-        ArrayList<String> severityTest = new ArrayList<>();
-        severityTest.add("FATAL");
-        severityTest.add("SERIOUS");
-        queryTester.orString(severityTest, DbAttributes.SEVERITY);
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have bicycle and car selected")
@@ -94,6 +82,26 @@ public class QueryStepDefs {
         bikeCarTest.add(DbAttributes.BICYCLE);
         bikeCarTest.add(DbAttributes.CAR_OR_STATION_WAGON);
         queryTester.orVehicle(bikeCarTest);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+    }
+    @Given("I have fatal severity selected")
+    public void fatalFilter() {
+        ArrayList<String> severityTest = new ArrayList<>();
+        severityTest.add("FATAL");
+        queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+    }
+
+    @Given("I have serious and fatal severities selected")
+    public void seriousFatalFilter() {
+        ArrayList<String> severityTest = new ArrayList<>();
+        severityTest.add("FATAL");
+        severityTest.add("SERIOUS");
+        queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have non injury and minor severities selected")
@@ -102,6 +110,17 @@ public class QueryStepDefs {
         severityTest.add("NON_INJURY");
         severityTest.add("MINOR");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+    }
+
+    @Given("I have Bay of plenty region selected")
+    public void BayofplentyFilter() {
+        ArrayList<String> regionTest = new ArrayList<>();
+        regionTest.add("BAY_OF_PLENTY");
+        queryTester.orString(regionTest, DbAttributes.REGION);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have Auckland and Northland regions selected")
@@ -110,25 +129,30 @@ public class QueryStepDefs {
         regionTest.add("AUCKLAND");
         regionTest.add("NORTHLAND");
         queryTester.orString(regionTest, DbAttributes.REGION);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+
     }
 
-    @When("I press apply")
-    public void applyQuery() {
-        queryResult = testDao.queryDatabase(queryTester.getQuery());
-        queryTester = new QueryBuilder();
-    }
+    @When("Results are displayed")
+    public void applyQueryGeneral() {}
+
+    @When("I release the year slider")
+    public void releaseYear() {}
+
+    @When("I click away from the dropdown menu")
+    public void clickAway() {}
 
     @Then("All results in database are shown")
     public void allRowsShown() {
         Assertions.assertEquals(820467,queryResult.size());
     }
 
-    @Then("All results shown involve a pedestrian and a fatality")
-    public void allFatalPedestrianResults() {
+    @Then("All results shown involve a pedestrian")
+    public void pedestrianInCrash() {
         boolean valid = true;
         for (Crash crash: queryResult) {
-            if (!(crash.severity().equals(Severity.FATAL)) ||
-                    !(crash.vehicles().containsKey(Vehicle.PEDESTRIAN))) {
+            if (!(crash.vehicles().containsKey(Vehicle.PEDESTRIAN))) {
                 valid = false;
                 break;
             }
@@ -136,12 +160,11 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Then("All results shown involve a cyclist in the Bay of plenty")
-    public void allBayofplentyCyclistResults() {
+    @Then("All results shown are of fatal severity")
+    public void fatalSeverity() {
         boolean valid = true;
         for (Crash crash: queryResult) {
-            if (!(crash.region().equals(Region.BAY_OF_PLENTY)) ||
-                    !(crash.vehicles().containsKey(Vehicle.BICYCLE))) {
+            if (!(crash.severity().equals(Severity.FATAL))) {
                 valid = false;
                 break;
             }
@@ -149,12 +172,11 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Then("All results shown involve a bus between 2006 and 2016")
-    public void allBusYearResults() {
+    @Then("All results shown involve a bicycle")
+    public void cyclistInCrash() {
         boolean valid = true;
         for (Crash crash: queryResult) {
-            if (!((crash.year() <= 2016) && (crash.year() >= 2006)) ||
-                    !(crash.vehicles().containsKey(Vehicle.BUS))) {
+            if (!(crash.vehicles().containsKey(Vehicle.BICYCLE))) {
                 valid = false;
                 break;
             }
@@ -162,14 +184,98 @@ public class QueryStepDefs {
         Assertions.assertTrue(valid);
     }
 
-    @Then("All results shown involve a pedestrian or a bus with a serious or fatal severity")
-    public void allPedestrianBusSeriousFatalResults() {
+    @Then("All results shown occurred in the Bay of Plenty")
+    public void bopInCrash() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!(crash.region().equals(Region.BAY_OF_PLENTY))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+    @Then("All results shown involve a bus")
+    public void busInCrash() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!(crash.vehicles().containsKey(Vehicle.BUS))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown occurred between {int}-{int}")
+    public void inYearRange(Integer lowBound, Integer highBound) {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.year() <= highBound) && (crash.year() >= lowBound))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown involve a pedestrian or a bus")
+    public void pedestrianOrBus() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.vehicles().containsKey(Vehicle.BUS)) ||
+                            (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then ("All results shown are of serious or fatal severity")
+    public void fatalOrSerious() {
         boolean valid = true;
         for (Crash crash: queryResult) {
             if (!((crash.severity().equals(Severity.SERIOUS)) ||
-                    (crash.severity().equals(Severity.FATAL))) ||
-                    !((crash.vehicles().containsKey(Vehicle.BUS)) ||
-                            (crash.vehicles().containsKey(Vehicle.PEDESTRIAN)))) {
+                    (crash.severity().equals(Severity.FATAL)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown involve a bicycle or car")
+    public void bikeOrCar() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.vehicles().containsKey(Vehicle.BICYCLE)) ||
+                            (crash.vehicles().containsKey(Vehicle.CAR_OR_STATION_WAGON)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown are of non-injury or minor severity")
+    public void notSeriousSeverity() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.severity().equals(Severity.NON_INJURY)) ||
+                    (crash.severity().equals(Severity.MINOR)))) {
+                valid = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(valid);
+    }
+
+    @Then("All results shown occurred in either Auckland or Northland")
+    public void aucklandOrNorthland() {
+        boolean valid = true;
+        for (Crash crash: queryResult) {
+            if (!((crash.region().equals(Region.AUCKLAND)) || (crash.region().equals(Region.NORTHLAND)))) {
                 valid = false;
                 break;
             }
