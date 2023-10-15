@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class QueryStepDefs {
     QueryBuilder queryTester;
-    QueryBuilder tempQueryTester;
     List<Crash> queryResult;
     CrashDao testDao = new CrashDao();
 
@@ -31,7 +30,7 @@ public class QueryStepDefs {
     public void setupQuery() {queryTester = new QueryBuilder();}
 
     @Given("I have no filters selected")
-    public void noFilters() {}
+    public void noFilters() {queryResult = testDao.queryDatabase(queryTester.getQuery());}
 
     @Given("I have the year slider set to {int}-{int}")
     public void yearRange(Integer lowBound, Integer highBound) {
@@ -130,15 +129,18 @@ public class QueryStepDefs {
         regionTest.add("NORTHLAND");
         queryTester.orString(regionTest, DbAttributes.REGION);
 
-        tempQueryTester = queryTester;
-        queryResult = testDao.queryDatabase(tempQueryTester.getQuery());
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+
     }
 
-    @When("I press apply")
-    public void applyQuery() {
-        queryResult = testDao.queryDatabase(queryTester.getQuery());
-        queryTester = new QueryBuilder();
-    }
+    @When("Results are displayed")
+    public void applyQueryGeneral() {}
+
+    @When("I release the year slider")
+    public void releaseYear() {}
+
+    @When("I click away from the dropdown menu")
+    public void clickAway() {}
 
     @Then("All results in database are shown")
     public void allRowsShown() {
