@@ -1,5 +1,7 @@
 package seng202.team2.controller;
 
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
@@ -14,6 +16,8 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Main controller class for the application window.
@@ -29,7 +33,7 @@ public class MainController {
     @FXML
     private BorderPane mainWindow;
     private BorderPane mainViewPane;
-
+    private FlowPane notificationPane;
     private StackPane overlayPane;
 
     private Parent mapViewParent;
@@ -39,7 +43,9 @@ public class MainController {
     private MapViewController mapViewController;
     private LoadingScreenController loadingScreenController;
 
+    private Label overflowLabel;
     private int currentView;
+    private int notificationCount;
 
     private static final Duration tooltipDelaySec = Duration.millis(300);
 
@@ -68,14 +74,15 @@ public class MainController {
      * and overlaying it over the map and table view
      */
     private void initialiseNotificationPane() {
-        Label overflowLabel = new Label();
+        notificationCount = 0;
+        overflowLabel = new Label();
         overflowLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheets/notification.css")).toExternalForm());
         overflowLabel.setMinWidth(300);
         overflowLabel.setMinHeight(30);
         overflowLabel.setText("Too many notifications!");
 
         BorderPane notificationLayoutPane = new BorderPane();
-        FlowPane notificationPane = new FlowPane(Orientation.VERTICAL);
+        notificationPane = new FlowPane(Orientation.VERTICAL);
         notificationPane.setMaxWidth(400);
         notificationPane.setAlignment(Pos.BOTTOM_LEFT);
         notificationPane.setPickOnBounds(false);
@@ -219,5 +226,49 @@ public class MainController {
         Tooltip newTooltip = new Tooltip(tooltipText);
         newTooltip.setShowDelay(MainController.tooltipDelaySec);
         return newTooltip;
+    }
+
+    /**
+     * Notification builder
+     * Creates a notification as a label and
+     * uses timer on a separate thread to delete notification
+     * after 3 seconds
+     *
+     * @param text Text for the notification to show
+     */
+    public void showNotification(String text) {
+        if (notificationCount > 5) {
+            if (!notificationPane.getChildren().contains(overflowLabel)) {
+                notificationPane.getChildren().add(overflowLabel);
+            }
+            return;
+        }
+        notificationCount++;
+        Label notifLabel = new Label(text);
+        notifLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheets/notification.css")).toExternalForm());
+        notifLabel.setMinWidth(300);
+        notifLabel.setMaxWidth(300);
+        notifLabel.setWrapText(true);
+        notifLabel.setMinHeight(30);
+        notifLabel.setAlignment(Pos.BOTTOM_RIGHT);
+        notificationPane.getChildren().add(notifLabel);
+        FadeTransition ft = new FadeTransition(Duration.seconds(1), notifLabel);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        Timer timer = new Timer(true);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    ft.play();
+                    ft.setOnFinished(e -> notificationPane.getChildren().remove(notifLabel));
+                    notificationCount--;
+                    if (notificationCount <= 5) {
+                        notificationPane.getChildren().remove(overflowLabel);
+                    }
+                    cancel();
+                });
+            }
+        }, 2000);
     }
 }
