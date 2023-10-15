@@ -4,9 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Creates the main FXML window to start the application
@@ -28,6 +30,11 @@ public class MainWindow extends Application {
         Parent root = baseLoader.load();
         primaryStage.sizeToScene();
         primaryStage.setTitle("JCENA");
+        try {
+            primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/icon.png"))));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         primaryStage.setScene(new Scene(root, 1100, 800));
 
         // Limit minimum size of application
