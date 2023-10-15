@@ -232,9 +232,13 @@ public class ButtonBarController {
         List<DbAttributes> vehiclesToQuery = new ArrayList<>();
 
         for (ToggleButton button : List.of(pedestrian, bicycle, car, bus)) {
+            button.getStyleClass().remove("used");
             if (button.isSelected()) {
                 DbAttributes vehicle = buttonIdToVehicle.get(button.getId());
                 vehiclesToQuery.add(vehicle);
+                if (!button.getStyleClass().contains("used")) {
+                    button.getStyleClass().add("used");
+                }
             }
         }
         queryBuilder.orVehicle(vehiclesToQuery);
@@ -258,7 +262,22 @@ public class ButtonBarController {
                 .toList();
 
         queryBuilder.orString(selectedRegions, DbAttributes.REGION);
-
+        
+        
+        regions.getStyleClass().remove("used");
+        if (selectedRegions.size() > 0) {
+            if (!regions.getStyleClass().contains("used")) {
+                regions.getStyleClass().add("used");
+            }
+        }
+        
+        severities.getStyleClass().remove("used");
+        if (selectedSeverities.size() > 0) {
+            if (!severities.getStyleClass().contains("used")) {
+                severities.getStyleClass().add("used");
+            }
+        }
+        
         return queryBuilder;
     }
 

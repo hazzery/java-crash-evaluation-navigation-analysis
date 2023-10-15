@@ -14,22 +14,23 @@ import java.util.List;
  */
 public enum Region {
     AUCKLAND,
-    NORTHLAND,
-    WAIKATO,
     BAY_OF_PLENTY,
-    HAWKES_BAY,
-    WELLINGTON,
-    OTAGO,
-    MANAWATŪ_WHANGANUI,
-    TARANAKI,
     CANTERBURY,
     GISBORNE,
-    SOUTHLAND,
-    WEST_COAST,
-    NELSON,
-    TASMAN,
+    HAWKES_BAY,
+    MANAWATŪ_WHANGANUI,
     MARLBOROUGH,
-    UNKNOWN;
+    NELSON,
+    NORTHLAND,
+    OTAGO,
+    SOUTHLAND,
+    TARANAKI,
+    TASMAN,
+    UNKNOWN,
+    WAIKATO,
+    WELLINGTON,
+    WEST_COAST;
+
 
     /**
      * Converts a string to a Region enum value.
@@ -66,21 +67,21 @@ public enum Region {
     public static List<Region> regions() {
         return List.of(
                         AUCKLAND,
-                        NORTHLAND,
-                        WAIKATO,
                         BAY_OF_PLENTY,
-                        HAWKES_BAY,
-                        WELLINGTON,
-                        OTAGO,
-                        MANAWATŪ_WHANGANUI,
-                        TARANAKI,
                         CANTERBURY,
                         GISBORNE,
-                        SOUTHLAND,
-                        WEST_COAST,
+                        HAWKES_BAY,
+                        MANAWATŪ_WHANGANUI,
+                        MARLBOROUGH,
                         NELSON,
+                        NORTHLAND,
+                        OTAGO,
+                        SOUTHLAND,
+                        TARANAKI,
                         TASMAN,
-                        MARLBOROUGH
+                        WAIKATO,
+                        WELLINGTON,
+                        WEST_COAST
         );
     }
 }
