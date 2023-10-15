@@ -9,7 +9,7 @@ import seng202.team2.models.Crashes;
 public class App {
     /**
      * Entry point which runs the javaFX application
-     * Also shows off some different logging levels
+     *
      * @param args program arguments from command line
      */
     public static void main(String[] args) {
