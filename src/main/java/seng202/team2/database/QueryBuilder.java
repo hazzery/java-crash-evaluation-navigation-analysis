@@ -87,18 +87,6 @@ public class QueryBuilder {
     }
 
     /**
-     * Filters out all tuples which do not have a value of `queryField` similar to `searchString`.
-     * NOTE: Current implementation functions only as direct match, not matching similar string.
-     *
-     * @param searchString String input by user to search for.
-     * @param queryField   The particular crash attribute to filter by.
-     */
-    public void likeString(String searchString, DbAttributes queryField) {
-        sql.append("(").append(queryField).append(" LIKE ").append(searchString).append(") AND ");
-        noConditions = false;
-    }
-
-    /**
      * Filters out all tuples which do not have a value of `queryField`
      * that is equal to one of the values in `conditionList`.
      *
@@ -130,10 +118,10 @@ public class QueryBuilder {
         if (noConditions) {
             amountToRemove = 7; // Remove trailing " WHERE "
         }
-        sql = new StringBuilder(sql.substring(0, sql.length() - amountToRemove));
-        sql.append(";");
-        log.info(sql.toString());
-        return sql.toString();
+        StringBuilder sql_temp = new StringBuilder(sql.substring(0, sql.length() - amountToRemove));
+        sql_temp.append(";");
+        log.info(sql_temp.toString());
+        return sql_temp.toString();
     }
 
 }

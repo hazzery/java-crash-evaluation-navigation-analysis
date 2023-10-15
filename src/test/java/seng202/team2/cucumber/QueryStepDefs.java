@@ -54,7 +54,6 @@ public class QueryStepDefs {
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("FATAL");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
-
         queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
@@ -63,7 +62,6 @@ public class QueryStepDefs {
         ArrayList<DbAttributes> cyclistTest = new ArrayList<>();
         cyclistTest.add(DbAttributes.BICYCLE);
         queryTester.orVehicle(cyclistTest);
-
         queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
@@ -192,6 +190,7 @@ public class QueryStepDefs {
                 break;
             }
         }
+        Assertions.assertTrue(valid);
     }
     @Then("All results shown involve a bus")
     public void busInCrash() {
