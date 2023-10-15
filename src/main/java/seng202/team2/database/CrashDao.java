@@ -39,7 +39,8 @@ public class CrashDao {
     public List<Crash> queryDatabase(String sql) {
         List<Crash> crashes = new ArrayList<>();
 
-        try (Statement statement = databaseManager.getConnection().createStatement();
+        try (Connection connection = databaseManager.getConnection();
+             Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             log.info("Queried " + sql);
 
