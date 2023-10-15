@@ -48,27 +48,11 @@ public class QueryStepDefs {
         queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
-    @Given("I have fatal severity selected")
-    public void fatalFilter() {
-        ArrayList<String> severityTest = new ArrayList<>();
-        severityTest.add("FATAL");
-        queryTester.orString(severityTest, DbAttributes.SEVERITY);
-        queryResult = testDao.queryDatabase(queryTester.getQuery());
-    }
-
     @Given("I have cyclist selected")
     public void cyclistFilter() {
         ArrayList<DbAttributes> cyclistTest = new ArrayList<>();
         cyclistTest.add(DbAttributes.BICYCLE);
         queryTester.orVehicle(cyclistTest);
-        queryResult = testDao.queryDatabase(queryTester.getQuery());
-    }
-
-    @Given("I have Bay of plenty region selected")
-    public void BayofplentyFilter() {
-        ArrayList<String> regionTest = new ArrayList<>();
-        regionTest.add("BAY_OF_PLENTY");
-        queryTester.orString(regionTest, DbAttributes.REGION);
 
         queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
@@ -92,6 +76,24 @@ public class QueryStepDefs {
         queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
+    @Given("I have bicycle and car selected")
+    public void bicycleCarFilter() {
+        ArrayList<DbAttributes> bikeCarTest = new ArrayList<>();
+        bikeCarTest.add(DbAttributes.BICYCLE);
+        bikeCarTest.add(DbAttributes.CAR_OR_STATION_WAGON);
+        queryTester.orVehicle(bikeCarTest);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+    }
+    @Given("I have fatal severity selected")
+    public void fatalFilter() {
+        ArrayList<String> severityTest = new ArrayList<>();
+        severityTest.add("FATAL");
+        queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+    }
+
     @Given("I have serious and fatal severities selected")
     public void seriousFatalFilter() {
         ArrayList<String> severityTest = new ArrayList<>();
@@ -102,22 +104,21 @@ public class QueryStepDefs {
         queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
-    @Given("I have bicycle and car selected")
-    public void bicycleCarFilter() {
-        ArrayList<DbAttributes> bikeCarTest = new ArrayList<>();
-        bikeCarTest.add(DbAttributes.BICYCLE);
-        bikeCarTest.add(DbAttributes.CAR_OR_STATION_WAGON);
-        queryTester.orVehicle(bikeCarTest);
-
-        queryResult = testDao.queryDatabase(queryTester.getQuery());
-    }
-
     @Given("I have non injury and minor severities selected")
     public void minorSeriousFilter() {
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("NON_INJURY");
         severityTest.add("MINOR");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
+    }
+
+    @Given("I have Bay of plenty region selected")
+    public void BayofplentyFilter() {
+        ArrayList<String> regionTest = new ArrayList<>();
+        regionTest.add("BAY_OF_PLENTY");
+        queryTester.orString(regionTest, DbAttributes.REGION);
 
         queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
