@@ -1,8 +1,5 @@
 package seng202.team2.models;
 
-
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Enum listing all possible weather conditions.
  *
@@ -30,16 +27,5 @@ public enum Weather {
         } catch (IllegalArgumentException e) {
             return Weather.UNKNOWN;
         }
-    }
-
-    /**
-     * Gets a displayable string representation of the enum value
-     * e.g. HEAVY_RAIN -> "Heavy Rain".
-     *
-     * @return Nicely formatted string of enum value.
-     */
-    public String displayValue() {
-        String display = name().toLowerCase().replaceAll("_", " ");
-        return StringUtils.capitalize(display);
     }
 }

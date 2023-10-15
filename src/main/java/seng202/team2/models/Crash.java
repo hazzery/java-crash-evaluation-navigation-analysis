@@ -1,7 +1,5 @@
 package seng202.team2.models;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Map;
 
 
@@ -19,49 +17,12 @@ public record Crash(int id, int year, int fatalities, int seriousInjuries, int m
         return year;
     }
 
-    public int getFatalities() {
-        return fatalities;
-    }
-
-    public int getSeriousInjuries() {
-        return seriousInjuries;
-    }
-
-    public int getMinorInjuries() {
-        return minorInjuries;
-    }
-
-    public String getRoadName1() {
-        return StringUtils.capitalize(roadName1.toLowerCase());
-    }
-
-    public String getRoadName2() {
-        return StringUtils.capitalize(roadName2.toLowerCase());
-    }
-
     public String getRegion() {
         return region.displayValue();
     }
 
     public String getSeverity() {
         return severity.displayValue();
-    }
-
-
-    public String getWeather() {
-        return weather.displayValue();
-    }
-
-    public String getLighting() {
-        return lighting.displayValue();
-    }
-
-    public int getNumberOfVehiclesInvolved() {
-        int total = 0;
-        for (int value : vehicles.values()) {
-            total += value;
-        }
-        return total;
     }
 
     /**
