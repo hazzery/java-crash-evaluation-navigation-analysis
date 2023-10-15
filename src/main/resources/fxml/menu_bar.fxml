@@ -14,10 +14,9 @@
         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="269.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
-    <Button fx:id="mapViewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mapViewButtonClicked" text="Map View" GridPane.rowIndex="1" />
-    <Button fx:id="tableViewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableViewButtonClicked" text="Table View" GridPane.rowIndex="2" />
-    <Button fx:id="menuButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toggleMenuBar"
-            text="Menu"/>
+    <Button fx:id="mapViewButton" styleClass="menu-butons" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mapViewButtonClicked" text="Map View" GridPane.rowIndex="1" />
+    <Button fx:id="tableViewButton" styleClass="menu-butons" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableViewButtonClicked" text="Table View" GridPane.rowIndex="2" />
+    <Button fx:id="menuButton" styleClass="menu-butons" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toggleMenuBar" text="Collapse" />
    <padding>
       <Insets bottom="3.0" top="3.0"/>
    </padding>

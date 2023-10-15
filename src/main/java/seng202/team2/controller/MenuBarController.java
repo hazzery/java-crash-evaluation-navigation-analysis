@@ -36,7 +36,6 @@ public class MenuBarController {
      */
     void init(MainController mainController) {
         this.mainController = mainController;
-        mapViewButton.setStyle("-fx-background-color: white;");
         displayIcons();
         addTooltips();
         toggleMenuBar();
@@ -105,7 +104,7 @@ public class MenuBarController {
         } else {
             menuPane.setPrefWidth(120);
 
-            menuButton.setText("Close");
+            menuButton.setText("Collapse");
             displayIcons();
             tableViewButton.setText("Table");
             mapViewButton.setText("Map");
@@ -120,8 +119,10 @@ public class MenuBarController {
      * @param ignoredActionEvent The event that triggered the handler. (Not used)
      */
     public void tableViewButtonClicked(ActionEvent ignoredActionEvent) {
-        tableViewButton.setStyle("-fx-background-color: white");
-        mapViewButton.setStyle("-fx-background-color: transparent");
+        mapViewButton.getStyleClass().remove("selected");
+        if (!tableViewButton.getStyleClass().contains("selected")) {
+            tableViewButton.getStyleClass().add("selected");
+        }
         mainController.displayTableView();
     }
 
@@ -132,8 +133,10 @@ public class MenuBarController {
      * @param ignoredActionEvent The event that triggered the handler. (Not used)
      */
     public void mapViewButtonClicked(ActionEvent ignoredActionEvent) {
-        tableViewButton.setStyle("-fx-background-color: transparent");
-        mapViewButton.setStyle("-fx-background-color: white");
+        tableViewButton.getStyleClass().remove("selected");
+        if (!mapViewButton.getStyleClass().contains("selected")) {
+            mapViewButton.getStyleClass().add("selected");
+        }
         mainController.displayMapView();
     }
 }
