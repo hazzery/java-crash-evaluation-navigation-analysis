@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class QueryStepDefs {
     QueryBuilder queryTester;
+    QueryBuilder tempQueryTester;
     List<Crash> queryResult;
     CrashDao testDao = new CrashDao();
 
@@ -35,6 +36,8 @@ public class QueryStepDefs {
     @Given("I have the year slider set to {int}-{int}")
     public void yearRange(Integer lowBound, Integer highBound) {
         queryTester.betweenValues(lowBound, highBound, DbAttributes.YEAR);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have pedestrian selected")
@@ -42,6 +45,8 @@ public class QueryStepDefs {
         ArrayList<DbAttributes> pedestrianTest = new ArrayList<>();
         pedestrianTest.add(DbAttributes.PEDESTRIAN);
         queryTester.orVehicle(pedestrianTest);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have fatal severity selected")
@@ -49,6 +54,8 @@ public class QueryStepDefs {
         ArrayList<String> severityTest = new ArrayList<>();
         severityTest.add("FATAL");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have cyclist selected")
@@ -56,6 +63,8 @@ public class QueryStepDefs {
         ArrayList<DbAttributes> cyclistTest = new ArrayList<>();
         cyclistTest.add(DbAttributes.BICYCLE);
         queryTester.orVehicle(cyclistTest);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have Bay of plenty region selected")
@@ -63,6 +72,8 @@ public class QueryStepDefs {
         ArrayList<String> regionTest = new ArrayList<>();
         regionTest.add("BAY_OF_PLENTY");
         queryTester.orString(regionTest, DbAttributes.REGION);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have bus selected")
@@ -70,6 +81,8 @@ public class QueryStepDefs {
         ArrayList<DbAttributes> busTest = new ArrayList<>();
         busTest.add(DbAttributes.BUS);
         queryTester.orVehicle(busTest);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have pedestrian and bus selected")
@@ -78,6 +91,8 @@ public class QueryStepDefs {
         pedestrianBusTest.add(DbAttributes.PEDESTRIAN);
         pedestrianBusTest.add(DbAttributes.BUS);
         queryTester.orVehicle(pedestrianBusTest);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have serious and fatal severities selected")
@@ -86,6 +101,8 @@ public class QueryStepDefs {
         severityTest.add("FATAL");
         severityTest.add("SERIOUS");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have bicycle and car selected")
@@ -94,6 +111,8 @@ public class QueryStepDefs {
         bikeCarTest.add(DbAttributes.BICYCLE);
         bikeCarTest.add(DbAttributes.CAR_OR_STATION_WAGON);
         queryTester.orVehicle(bikeCarTest);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have non injury and minor severities selected")
@@ -102,6 +121,8 @@ public class QueryStepDefs {
         severityTest.add("NON_INJURY");
         severityTest.add("MINOR");
         queryTester.orString(severityTest, DbAttributes.SEVERITY);
+
+        queryResult = testDao.queryDatabase(queryTester.getQuery());
     }
 
     @Given("I have Auckland and Northland regions selected")
@@ -110,6 +131,9 @@ public class QueryStepDefs {
         regionTest.add("AUCKLAND");
         regionTest.add("NORTHLAND");
         queryTester.orString(regionTest, DbAttributes.REGION);
+
+        tempQueryTester = queryTester;
+        queryResult = testDao.queryDatabase(tempQueryTester.getQuery());
     }
 
     @When("I press apply")

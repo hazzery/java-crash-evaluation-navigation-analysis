@@ -6,7 +6,6 @@ Feature: Query Test
 
   Scenario: Filter by year
     Given I have the year slider set to 2005-2009
-    When I press apply
     Then All results shown occurred between 2005-2009
 
   Scenario: Filter cyclist
