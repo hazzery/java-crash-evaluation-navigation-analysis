@@ -47,10 +47,9 @@ public class DatabaseManager {
      * @return The single instance of DatabaseManager.
      */
     public static DatabaseManager getInstance() {
-        if (instance == null)
-            // todo find a way to actually get db within jar
-            // The following line can be used to reach a db file within the jar, however this will not be modifiable
+        if (instance == null) {
             instance = new DatabaseManager(null);
+        }
 
         return instance;
     }
