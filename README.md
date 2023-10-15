@@ -1,5 +1,5 @@
 # SENG202 - Team 2 JCENA
-<img src="src/main/resources/images/heatmap_preview.png" alt="Preview of the heatmap view with the full dataset" width="800"/>
+<img src="src/main/resources/images/heatmap_preview.png" alt="Preview of the heatmap view with the full dataset" width="600"/>
 
 ## Overview
 This application is created for users to view New Zealand crash data provided by Waka Kotahi. It provides both a heatmap of the crash densities and a table for viewing the crashes, and the ability to filter the crashes by different properties. The primary stakeholders of the application are learner and restricted drivers, along with their supervisors.
