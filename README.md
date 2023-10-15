@@ -26,7 +26,11 @@ This project provides a heatmap view of Waka Kotahi's crash data with a number o
 And a table view to provide more detailed information about individual crashes.
 
 ## Running the Bundled Jar
-You can run the bundled .jar file by opening a terminal window in the project directory and executing `java -jar seng202_2023_team2_2.jar`
+You can run the bundled .jar file either through a file explorer or the terminal.
+
+The application can be run with a file explorer by navigating to the .jar file and double clicking on it.
+
+Alternatively you can run the bundled .jar file by opening a terminal window in the project directory and executing `java -jar seng202_2023_team2_2.jar`
 
 ## Importing Project (Using IntelliJ)
 IntelliJ has built-in support for Gradle. To import your project:
