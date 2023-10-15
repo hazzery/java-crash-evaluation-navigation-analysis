@@ -92,6 +92,9 @@ public class MainController {
         overlayPane.getChildren().add(notificationLayoutPane);
     }
 
+    /**
+     * Initialises Loading Screen pane from FXML, styles it with CSS and initialises its controller
+     */
     private void initialiseLoadingScreen() {
         try {
             FXMLLoader loadingScreenLoader = new FXMLLoader(getClass().getResource("/fxml/loading_screen.fxml"));
@@ -180,6 +183,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Swaps out the current view for the table view
+     */
     public void displayTableView() {
         mainViewPane.setCenter(tableViewParent);
         currentView = 0;

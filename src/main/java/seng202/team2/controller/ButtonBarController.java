@@ -142,6 +142,11 @@ public class ButtonBarController {
         regions.setOnHiding(this::applyDropdownFilter);
     }
 
+    /**
+     * Checks which dropdown items are selected, puts them in a list and assigns to openingState.
+     *
+     * @param event Event caused by user interacting with dropdown menu
+     */
     private void captureDropdownState(Event event) {
         MenuButton menuButton = (MenuButton) event.getSource();
         openingState = menuButton.getItems().stream()
@@ -150,6 +155,12 @@ public class ButtonBarController {
                 .toList();
     }
 
+    /**
+     * Checks which dropdown items are selected, puts them in a list and assigns to closingState.
+     * compares with openingState and only filters table if there is a change in items selected.
+     *
+     * @param event Event caused by user interacting with dropdown menu
+     */
     private void applyDropdownFilter(Event event) {
         MenuButton menuButton = (MenuButton) event.getSource();
         List<String> closingState = menuButton.getItems().stream()
