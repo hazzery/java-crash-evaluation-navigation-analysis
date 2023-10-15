@@ -1,7 +1,8 @@
 package seng202.team2.controller;
 
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -25,43 +26,26 @@ import java.util.*;
  * @author Ben Moore
  */
 public class ButtonBarController {
-
     @FXML
-    public ButtonBar buttonBar;
-
+    private MenuButton regions;
     @FXML
-    public MenuButton regions;
-
+    private MenuButton severities;
     @FXML
     private RangeSlider yearSelect;
-
-    @FXML
-    public MenuButton severities;
-
-    @FXML
-    public Button confirmSelection;
-
     @FXML
     private ToggleButton pedestrian;
-
     @FXML
     private ToggleButton bicycle;
-
     @FXML
     private ToggleButton car;
-
     @FXML
     private ToggleButton bus;
-
     @FXML
     private Integer MIN_YEAR;
-
     @FXML
     private Integer MAX_YEAR;
-
     @FXML
     private Text yearSelectLeftLabel;
-
     @FXML
     private Text yearSelectRightLabel;
 
@@ -75,8 +59,35 @@ public class ButtonBarController {
         put("bus", DbAttributes.BUS);
     }};
 
+    private List<String> openingState;
+
     private static final Logger log = LogManager.getLogger(ButtonBarController.class);
     private MainController mainController;
+
+    /**
+     * Initialises the button bar by setting the button icons,
+     * preparing the filter drop down menus,
+     * setting up the tool tips,
+     * and initialising the year slider
+     */
+    @FXML
+    void initialize() {
+        setIcons();
+        setSeverities();
+        setRegions();
+        setTooltips();
+        initYearSlider();
+    }
+
+    /**
+     * Gives the button bar access to the main controller.
+     * This allows for the button bar to update the table and map views.
+     *
+     * @param mainController The main JavaFX controller.
+     */
+    public void giveMainControl(MainController mainController) {
+        this.mainController = mainController;
+    }
 
     /**
      * Set the icons on the vehicle filter buttons
@@ -104,14 +115,16 @@ public class ButtonBarController {
     /**
      * Set the severity checkboxes in the severities drop-down from the pre-defined severities list
      */
-    private void setSeverityValues() {
+    private void setSeverities() {
         for (Severity severity : Severity.severities()) {
             CheckBox checkBox = new CheckBox(severity.displayValue());
-            checkBox.setOnAction(this::notificationSeverity);
             CustomMenuItem severityItem = new CustomMenuItem(checkBox, false);
             severityItem.setId(severity.name());
             severities.getItems().add(severityItem);
         }
+
+        severities.setOnShowing(this::captureDropdownState);
+        severities.setOnHiding(this::applyDropdownFilter);
     }
 
     /**
@@ -120,20 +133,82 @@ public class ButtonBarController {
     private void setRegions() {
         for (Region region : Region.regions()) {
             CheckBox checkBox = new CheckBox(region.displayValue());
-            checkBox.setOnAction(this::notificationRegion);
             CustomMenuItem regionItem = new CustomMenuItem(checkBox, false);
             regionItem.setId(region.name());
             regions.getItems().add(regionItem);
         }
+
+        regions.setOnShowing(this::captureDropdownState);
+        regions.setOnHiding(this::applyDropdownFilter);
+    }
+
+    private void captureDropdownState(Event event) {
+        MenuButton menuButton = (MenuButton) event.getSource();
+        openingState = menuButton.getItems().stream()
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
+    }
+
+    private void applyDropdownFilter(Event event) {
+        MenuButton menuButton = (MenuButton) event.getSource();
+        List<String> closingState = menuButton.getItems().stream()
+                .filter(item -> ((CheckBox) ((CustomMenuItem) item).getContent()).isSelected())
+                .map(MenuItem::getId)
+                .toList();
+
+        if (!openingState.equals(closingState)) {
+            filterTable();
+        }
     }
 
     /**
-     * Sets the year range slider to have place its handles at the min and max values.
-     * Without this both handles are places at the minimum value.
+     * Initialises the year range slider:
+     * Places the thumbs of the range slider at the min and max values.
+     * Creates listeners for both thumbs on the year selector to update the values of the slider labels.
+     * Creates listeners for both thumbs to query when they're let go.
      */
-    private void setRangeSliderValues() {
+    private void initYearSlider() {
         yearSelect.setLowValue(MIN_YEAR);
         yearSelect.setHighValue(MAX_YEAR);
+
+        yearSelectLeftLabel.setWrappingWidth(30);
+        yearSelectRightLabel.setWrappingWidth(30);
+
+        yearSelect.lowValueProperty().addListener((observable, oldValue, newValue) ->
+                yearSelectLeftLabel.setText(Integer.toString((int) yearSelect.getLowValue())));
+        yearSelect.highValueProperty().addListener((observable, oldValue, newValue) ->
+                yearSelectRightLabel.setText(Integer.toString((int) yearSelect.getHighValue())));
+
+        yearSelect.lowValueChangingProperty().addListener(this::sliderThumbChange);
+        yearSelect.highValueChangingProperty().addListener(this::sliderThumbChange);
+    }
+
+    /**
+     * Sets tooltips for all the buttons on the filter bar
+     * using the helper function in MainController
+     */
+    private void setTooltips() {
+        pedestrian.setTooltip(MainController.makeTooltip("Toggle: include crashes involving pedestrians"));
+        bicycle.setTooltip(MainController.makeTooltip("Toggle: include crashes involving bicycles"));
+        car.setTooltip(MainController.makeTooltip("Toggle: include crashes involving cars"));
+        bus.setTooltip(MainController.makeTooltip("Toggle: include crashes involving heavy vehicles"));
+        severities.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
+        regions.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
+        yearSelect.setTooltip(MainController.makeTooltip("Slider: Limit crashes to specific range of years"));
+    }
+
+    /**
+     * Event handler for change in the year slider
+     *
+     * @param observable Boolean property describing whether the slider thumb is changing
+     * @param oldValue   Previous value of the boolean property
+     * @param newValue   New value of the boolean property, true if the thumb is changing, false if it has stopped
+     */
+    private void sliderThumbChange(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+        if (!newValue) {
+            filterTable();
+        }
     }
 
     /**
@@ -186,15 +261,25 @@ public class ButtonBarController {
      */
     public void filterTable() {
         // Disable apply button when a filter is being applied already
-        confirmSelection.setDisable(true);
-
         QueryBuilder queryBuilder = buildQuery();
 
         // Query the database in a separate thread and then update the table and map once complete
-        runAfter(() -> Crashes.setQuery(queryBuilder), () -> {
-            mainController.updateViews();
-            confirmSelection.setDisable(false);
-        });
+        runAfter(() -> Crashes.setQuery(queryBuilder), () -> mainController.updateViews());
+    }
+
+    /**
+     * Disables all buttons on the filter bar
+     *
+     * @param disabled Whether the buttons should be disabled or not
+     */
+    private void setButtonsDisabled(boolean disabled) {
+        pedestrian.setDisable(disabled);
+        bicycle.setDisable(disabled);
+        car.setDisable(disabled);
+        bus.setDisable(disabled);
+        severities.setDisable(disabled);
+        regions.setDisable(disabled);
+        yearSelect.setDisable(disabled);
     }
 
     /**
@@ -202,7 +287,7 @@ public class ButtonBarController {
      * Allows a task to be run without interrupting the main application thread, keeping the application responsive.
      *
      * @param before The runnable to run on a new thread
-     * @param after The runnable to run on the main thread after before has finished executing
+     * @param after  The runnable to run on the main thread after before has finished executing
      */
     private void runAfter(Runnable before, Runnable after) {
         // Run before task in separate thread to allow JavaFX application to update
@@ -217,145 +302,12 @@ public class ButtonBarController {
         beforeTask.setOnSucceeded(event -> {
             after.run();
             mainController.getLoadingScreen().hide();
+            setButtonsDisabled(false);
         });
 
         new Thread(beforeTask).start();
+        setButtonsDisabled(true);
         mainController.getLoadingScreen().show("Filtering crash data...");
-    }
-
-    /**
-     * Creates listeners for both handles on the year selector.
-     * These update the values of the slider labels to show the current values of the year filter.
-     */
-    private void initYearSelectListeners() {
-        yearSelectLeftLabel.setWrappingWidth(30);
-        yearSelectRightLabel.setWrappingWidth(30);
-
-        yearSelect.lowValueProperty().addListener((observable, oldValue, newValue) ->
-                yearSelectLeftLabel.setText(Integer.toString((int) yearSelect.getLowValue())));
-        yearSelect.highValueProperty().addListener((observable, oldValue, newValue) ->
-                yearSelectRightLabel.setText(Integer.toString((int) yearSelect.getHighValue())));
-    }
-
-    /**
-     * Sets tooltips for all the buttons on the filter bar
-     * using the helper function in MainController
-     */
-    private void setTooltips() {
-        pedestrian.setTooltip(MainController.makeTooltip("Toggle: include crashes involving pedestrians"));
-        bicycle.setTooltip(MainController.makeTooltip("Toggle: include crashes involving bicycles"));
-        car.setTooltip(MainController.makeTooltip("Toggle: include crashes involving cars"));
-        bus.setTooltip(MainController.makeTooltip("Toggle: include crashes involving heavy vehicles"));
-        severities.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
-        regions.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
-        yearSelect.setTooltip(MainController.makeTooltip("Slider: Limit crashes to specific range of years"));
-        confirmSelection.setTooltip(MainController.makeTooltip("Apply all the selected filters (May take time to load)"));
-    }
-
-    /**
-     * A function to generate notifications for all the toggle
-     * buttons in a compact manner.
-     *
-     * @param event A vehicle button click event requiring a notification to be shown
-     */
-    @FXML
-    public void notificationToggle(ActionEvent event) {
-        ToggleButton eventOrigin = (ToggleButton) event.getSource();
-        if (!pedestrian.isSelected() & !bicycle.isSelected() & !car.isSelected() & !bus.isSelected()) {
-            mainController.showNotification("Filtering crashes by all vehicle types");
-            return;
-        }
-        switch (eventOrigin.getId()) {
-            case "pedestrian" -> mainController.showNotification(pedestrian.isSelected() ?
-                    "Crashes involving pedestrians have been added to the filter" : "Crashes involving pedestrians have been removed from the filter");
-            case "bicycle" -> mainController.showNotification(bicycle.isSelected() ?
-                    "Crashes involving bikes have been added to the filter" : "Crashes involving bikes have been removed from the filter");
-            case "car" -> mainController.showNotification(car.isSelected() ?
-                    "Crashes involving cars have been added to the filter" : "Crashes involving cars have been removed from the filter");
-            case "bus" -> mainController.showNotification(bus.isSelected() ?
-                    "Crashes involving heavy vehicles have been added to the filter" : "Crashes involving heavy vehicles have been removed from the filter");
-        }
-
-    }
-
-    /**
-     * Event handler to generate notification when the user clicks a severity checkbox.
-     *
-     * @param event A severity checkbox click event requiring a notification to be shown
-     */
-    public void notificationSeverity(ActionEvent event) {
-        boolean anySelected = false;
-        for (MenuItem option : severities.getItems()) {
-            if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
-                anySelected = true;
-            }
-        }
-        if (!anySelected) {
-            mainController.showNotification("Filtering crashes by all severities");
-            return;
-        }
-        CheckBox actionOrigin = (CheckBox) event.getSource();
-        Severity checkedSeverity = Severity.fromString(actionOrigin.getParent().getId());
-        String actionString = checkedSeverity.displayValue().toLowerCase();
-        if (actionOrigin.isSelected()) {
-            mainController.showNotification("Adding all " + actionString + " crashes to the filter.");
-        } else {
-            mainController.showNotification("Removing all " + actionString + " crashes from the filter.");
-        }
-    }
-
-
-    /**
-     * Event handler to generate notification when the user clicks a region checkbox.
-     *
-     * @param event A region checkbox click event requiring a notification to be shown
-     */
-    public void notificationRegion(ActionEvent event) {
-        boolean anySelected = false;
-        for (MenuItem option : regions.getItems()) {
-            if (((CheckBox) (((CustomMenuItem) option).getContent())).isSelected()) {
-                anySelected = true;
-            }
-        }
-        if (!anySelected) {
-            mainController.showNotification("Filtering crashes by all regions");
-            return;
-        }
-
-        CheckBox actionOrigin = (CheckBox) event.getSource();
-        Region checkedRegion = Region.fromString(actionOrigin.getParent().getId());
-        String actionString = checkedRegion.displayValue();
-        if (actionOrigin.isSelected()) {
-            mainController.showNotification("Adding all crashes in " + actionString + " to the filter");
-        } else {
-            mainController.showNotification("Removing all crashes in " + actionString + " from the filter.");
-        }
-    }
-
-    /**
-     * Gives the button bar access to the main controller.
-     * This allows for the button bar to update the table and map views.
-     *
-     * @param mainController The main JavaFX controller.
-     */
-    public void giveMainControl(MainController mainController) {
-        this.mainController = mainController;
-    }
-
-    /**
-     * Initialises the button bar by setting the button icons,
-     * preparing the filter drop down menus,
-     * setting up the tool tips,
-     * and initialising the year slider
-     */
-    @FXML
-    void initialize() {
-        setIcons();
-        setSeverityValues();
-        setRegions();
-        setRangeSliderValues();
-        setTooltips();
-        initYearSelectListeners();
     }
 }
 
