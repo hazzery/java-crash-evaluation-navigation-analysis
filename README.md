@@ -14,7 +14,7 @@ This application is created for users to view New Zealand crash data provided by
 - Matthew Lang
 
 ## Prerequisites
-- JDK >= 17 [click here to get the latest stable OpenJDK release (as of writing this README)](https://jdk.java.net/18/)
+- JDK >= 17 [click here to get the latest stable OpenJDK release](https://jdk.java.net/)
 - Gradle [Download](https://gradle.org/releases/) and [Install](https://gradle.org/install/)
 
 ## What's Included
@@ -27,7 +27,7 @@ This application is created for users to view New Zealand crash data provided by
     - Vehicle type involved in the crash with toggle buttons.
 
 ## Running the Bundled Jar
-You can run the bundled .jar file by opening a terminal window in the project directory and executing `java -jar seng202_2023_team2_2.jar`
+You can run the bundled .jar file by opening a terminal window in the project directory and executing `java -jar seng202_2023_team2_3.jar`
 
 ## Importing Project (Using IntelliJ)
 IntelliJ has built-in support for Gradle. To import your project:
@@ -42,7 +42,7 @@ IntelliJ has built-in support for Gradle. To import your project:
 - *The .jar packaged for public release includes the crash data. Only the developers and teaching team are expected to import the project into IntelliJ from source.*
 
 ## Build Project
-1. Open a command line interface inside the project directory and run `./gradlew jar` to build a .jar file. The file is located at `build/libs/seng202_team2-1.0-SNAPSHOT.jar`
+1. Open a command line interface inside the project directory and run `./gradlew jar` to build a .jar file. The file is located at `build/libs/seng202_team2-1.0.jar`
 
 ## Additional Documentation
 Additional documentation of the project, including policies and team documentation can be found in the project's [GitLab Wiki](https://eng-git.canterbury.ac.nz/seng202-2023/team-2/-/wikis/home).
