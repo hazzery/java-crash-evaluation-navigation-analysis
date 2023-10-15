@@ -18,13 +18,13 @@ This application is created for users to view New Zealand crash data provided by
 - Gradle [Download](https://gradle.org/releases/) and [Install](https://gradle.org/install/)
 
 ## What's Included
-This project provides a heatmap view of Waka Kotahi's crash data with a number of querying options including:
-- Year sort
-- Region sort
-- Severity sort
-- Vehicle sort
-
-And a table view to provide more detailed information about individual crashes.
+- This project includes two main ways of viewing the crash data; a heatmap overlayed on a map of new zealand, and a paginated table view.
+- A collapsable side bar to switch between the heatmap and table view.
+- A top bar with options for filtering the crashes by the following properties:
+    - Year of the crash as a double ended slider.
+    - Region the crash occured in as a drop down menu.
+    - Severity of the crash as a drop down menu.
+    - Vehicle type involved in the crash with toggle buttons.
 
 ## Running the Bundled Jar
 You can run the bundled .jar file by opening a terminal window in the project directory and executing `java -jar seng202_2023_team2_2.jar`
