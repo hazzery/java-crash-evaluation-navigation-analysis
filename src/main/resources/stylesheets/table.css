@@ -74,3 +74,6 @@ Author: Isaac Ure
     -fx-background-radius: 15;
 }
 
+.used {
+    -fx-background-color: #487eb0;
+}
