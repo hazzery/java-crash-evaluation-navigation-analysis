@@ -27,7 +27,9 @@ This application is created for users to view New Zealand crash data provided by
     - Vehicle type involved in the crash with toggle buttons.
 
 ## Running the Bundled Jar
-You can run the bundled .jar file by opening a terminal window in the project directory and executing `java -jar seng202_2023_team2_3.jar`
+There are two ways to run the bundled .jar file.
+1. Open a terminal window in the project directory and execute `java -jar seng202_2023_team2_3.jar`
+2. Navigate to the .jar file in the "files" application and double click on it. If this step does not work, right click on the file and select "properties". Then navigate to the "Permissions" tab and ensure "Allow executing file as program" is checked. The application should now run when double clicked, otherwise, use method 1.
 
 ## Importing Project (Using IntelliJ)
 IntelliJ has built-in support for Gradle. To import your project:
