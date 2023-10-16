@@ -44,5 +44,8 @@ IntelliJ has built-in support for Gradle. To import your project:
 ## Build Project
 1. Open a command line interface inside the project directory and run `./gradlew jar` to build a .jar file. The file is located at `build/libs/seng202_team2-1.0.jar`
 
+## Supporting Files
+No supporting files are required to run the .jar file, however some are generated automatically. These are the "database.db" file, which is generated when the application is first run (or no database file is already available), and the "logs" directory, which contains logging for the application.
+
 ## Additional Documentation
 Additional documentation of the project, including policies and team documentation can be found in the project's [GitLab Wiki](https://eng-git.canterbury.ac.nz/seng202-2023/team-2/-/wikis/home).
