@@ -203,7 +203,7 @@ public class ButtonBarController {
         pedestrian.setTooltip(MainController.makeTooltip("Toggle: include crashes involving pedestrians"));
         bicycle.setTooltip(MainController.makeTooltip("Toggle: include crashes involving bicycles"));
         car.setTooltip(MainController.makeTooltip("Toggle: include crashes involving cars"));
-        bus.setTooltip(MainController.makeTooltip("Toggle: include crashes involving busses"));
+        bus.setTooltip(MainController.makeTooltip("Toggle: include crashes involving buses"));
         severities.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific severities"));
         regions.setTooltip(MainController.makeTooltip("Dropdown: Limit crashes to specific regions"));
         yearSelect.setTooltip(MainController.makeTooltip("Slider: Limit crashes to specific range of years"));
