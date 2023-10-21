@@ -18,7 +18,7 @@ This application is created for users to view New Zealand crash data provided by
 - Gradle [Download](https://gradle.org/releases/) and [Install](https://gradle.org/install/)
 
 ## What's Included
-- This project includes two main ways of viewing the crash data; a heatmap overlayed on a map of new zealand, and a paginated table view.
+- This project includes two main ways of viewing the crash data; a heatmap overlayed on a map of New Zealand, and a paginated table view.
 - A collapsable side bar to switch between the heatmap and table view.
 - A top bar with options for filtering the crashes by the following properties:
     - Year of the crash as a double ended slider.
