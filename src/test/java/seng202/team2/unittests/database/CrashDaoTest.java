@@ -32,7 +32,7 @@ class CrashDaoTest {
 
     @Test
     void queryDatabase() {
-        List<Crash> crashes = crashDao.queryDatabase("SELECT * FROM crashes WHERE ID < 11");
+        List<Crash> crashes = crashDao.getSubset("id < 11");
         assertEquals(10, crashes.size());
     }
 }
