@@ -1,6 +1,5 @@
 package seng202.team2.controller;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -8,9 +7,9 @@ import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.team2.models.Crash;
-import seng202.team2.models.Crashes;
-import seng202.team2.models.TableAttribute;
+import seng202.team2.models.*;
+
+import java.util.List;
 
 /**
  * Table view controller implements the initialisation of the table view
@@ -54,8 +53,9 @@ public class TableViewController {
      */
     private Node setPage(int pageIndex) {
         int indexOfFirst = pageIndex * ROWS_PER_PAGE;
-        int indexOfLast = Math.min(indexOfFirst + ROWS_PER_PAGE, Crashes.getCrashes().size());
-        tableView.setItems(FXCollections.observableList(Crashes.getCrashes().subList(indexOfFirst, indexOfLast)));
+        int indexOfLast = Math.min(indexOfFirst + ROWS_PER_PAGE, Crashes.getCrashIds().size());
+        List<Integer> ids =  Crashes.getCrashIds().subList(indexOfFirst, indexOfLast);
+        tableView.setItems(Crashes.getFromIds(ids));
         return new Label();
     }
 
@@ -64,6 +64,6 @@ public class TableViewController {
      */
     public void updateCrashes() {
         setPage(0);
-        pagination.setPageCount(Crashes.getCrashes().size() / ROWS_PER_PAGE + 1);
+        pagination.setPageCount(Crashes.getCrashIds().size() / ROWS_PER_PAGE + 1);
     }
 }
