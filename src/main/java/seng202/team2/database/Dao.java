@@ -92,6 +92,6 @@ public abstract class Dao<T> {
      * @return List of all objects type T from the database
      */
     public List<T> getAll() {
-        return getSubset("SELECT " + getColumns() + " FROM crashes");
+        return queryDatabase("SELECT " + getColumns() + " FROM crashes;");
     }
 }
