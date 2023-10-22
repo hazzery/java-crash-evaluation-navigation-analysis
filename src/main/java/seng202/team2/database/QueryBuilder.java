@@ -101,6 +101,24 @@ public class QueryBuilder {
     }
 
     /**
+     * Filters out tuples which do not have a `queryField` value in `inValues`.
+     * @param inValues list of allowable values for `queryField`.
+     * @param queryField field for filtering
+     */
+    public void intInList(List<Integer> inValues, DbAttributes queryField) {
+        if (inValues.isEmpty()) {
+            return;
+        }
+
+        sql.append(queryField).append(" IN (");
+        for (Integer value : inValues) {
+            sql.append(value).append(", ");
+        }
+        sql.delete(sql.length() - 2, sql.length());  // Remove trailing ", "
+        sql.append(") AND ");
+    }
+
+    /**
      * Return the SQL query string for the given query
      *
      * @return final concatenated query
