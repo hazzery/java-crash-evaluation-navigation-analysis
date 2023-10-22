@@ -7,6 +7,7 @@ import seng202.team2.database.DbAttributes;
 import seng202.team2.database.IdDao;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.io.CsvReader;
+import seng202.team2.models.Crash;
 
 import java.util.List;
 
@@ -29,7 +30,6 @@ public class Crashes {
         crashDao.addBatch(csvReader.generateAllCrashes());
         crashIds = FXCollections.observableList(idDao.getAll());
     }
-
 
     /**
      * Get all crashes in the current pool.
@@ -58,7 +58,12 @@ public class Crashes {
      * @param query A QueryBuilder containing the query for the database.
      */
     public static void setQuery(QueryBuilder query) {
-        crashIds = FXCollections.observableList(idDao.getSubset(query.getQuery()));
+        String sql = query.getQuery();
+        if (sql != null) {
+            crashIds = FXCollections.observableList(idDao.getSubset(sql));
+        } else {
+            resetCrashes();
+        }
     }
 
     /**
