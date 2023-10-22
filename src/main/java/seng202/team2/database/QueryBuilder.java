@@ -124,9 +124,13 @@ public class QueryBuilder {
      * @return final concatenated query
      */
     public String getQuery() {
+        if (sql.toString().isEmpty()) {
+            return null;
+        }
+
         // Remove trailing " AND "
-        StringBuilder sql_temp = new StringBuilder(sql.substring(0, sql.length() - 5));
-        log.info(sql_temp.toString());
-        return sql_temp.toString();
+        sql.delete(sql.length() - 5, sql.length());
+        log.info(sql.toString());
+        return sql.toString();
     }
 }
