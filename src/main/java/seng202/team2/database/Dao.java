@@ -67,7 +67,7 @@ public abstract class Dao<T> {
      * @return List of objects of type T that match the filter.
      */
     public List<T> getSubset(String filter) {
-        return queryDatabase("SELECT " + getColumns() + " FROM crashes WHERE " + filter);
+        return queryDatabase("SELECT " + getColumns() + " FROM crashes WHERE " + filter + ';');
     }
 
     /**
