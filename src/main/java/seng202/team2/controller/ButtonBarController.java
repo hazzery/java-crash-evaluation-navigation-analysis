@@ -66,7 +66,7 @@ public class ButtonBarController {
 
     /**
      * Initialises the button bar by setting the button icons,
-     * preparing the filter drop down menus,
+     * preparing the filter dropdown menus,
      * setting up the tool tips,
      * and initialising the year slider
      */
@@ -145,7 +145,7 @@ public class ButtonBarController {
     /**
      * Checks which dropdown items are selected, puts them in a list and assigns to openingState.
      *
-     * @param event Event caused by user interacting with dropdown menu
+     * @param event Event caused by user interacting with a dropdown menu
      */
     private void captureDropdownState(Event event) {
         MenuButton menuButton = (MenuButton) event.getSource();
@@ -157,9 +157,9 @@ public class ButtonBarController {
 
     /**
      * Checks which dropdown items are selected, puts them in a list and assigns to closingState.
-     * compares with openingState and only filters table if there is a change in items selected.
+     * Compares with openingState and only filters the table if there is a change in items selected.
      *
-     * @param event Event caused by user interacting with dropdown menu
+     * @param event Event caused by user interacting with a dropdown menu
      */
     private void applyDropdownFilter(Event event) {
         MenuButton menuButton = (MenuButton) event.getSource();
@@ -223,7 +223,7 @@ public class ButtonBarController {
     }
 
     /**
-     * Build a query builder based on the filter selected in the top bar
+     * Build a query builder based on the filters selected by the user
      *
      * @return the query builder used to query the database
      */
@@ -282,11 +282,7 @@ public class ButtonBarController {
     }
 
     /**
-     * Builds a query based on which filters are selected:
-     * Checks which toggle buttons are selected and adds them to the orVehicle method of QueryBuilder
-     * Then checks which severities are selected and adds them to the orString method of QueryBuilder
-     * Then checks the year range defined by the slider and runs the betweenValues method if the slider has been changed
-     * Finally checks the selected regions and queries them using another QueryBuilder orString.
+     * Applies the selected filters to the table and map views.
      * This query is then run and the view is updated to show the new data.
      */
     public void filterTable() {
