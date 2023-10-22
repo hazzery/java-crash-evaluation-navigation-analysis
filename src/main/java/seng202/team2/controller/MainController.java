@@ -168,12 +168,7 @@ public class MainController {
      */
     public void updateViews() {
         mapViewController.addAllCrashMarkers();
-
-        if (currentView == 0)
-            mainViewPane.setCenter(mapViewParent);
         tableViewController.updatePageCount();
-        if (currentView == 0)
-            mainViewPane.setCenter(tableViewParent);
     }
 
     public LoadingScreenController getLoadingScreen() {
