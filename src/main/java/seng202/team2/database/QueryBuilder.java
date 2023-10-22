@@ -15,8 +15,7 @@ import java.util.List;
 public class QueryBuilder {
     private static final Logger log = LogManager.getLogger(QueryBuilder.class);
 
-    private StringBuilder sql = new StringBuilder("SELECT * FROM crashes WHERE ");
-    private boolean noConditions = true; // Used to remove the WHERE of empty query
+    private StringBuilder sql = new StringBuilder();
 
     public QueryBuilder() {
     }
@@ -31,7 +30,6 @@ public class QueryBuilder {
         sql.append("(").append(queryField)
                         .append(" BETWEEN ").append(lowerBound).append(" AND ").append(upperBound)
                         .append(") AND ");
-        noConditions = false;
     }
 
     /**
@@ -42,7 +40,6 @@ public class QueryBuilder {
      */
     public void equalVal(int value, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" = ").append(value).append(") AND ");
-        noConditions = false;
     }
 
     /**
@@ -53,7 +50,6 @@ public class QueryBuilder {
      */
     public void lessThan(int upperBound, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" < ").append(upperBound).append(") AND ");
-        noConditions = false;
     }
 
     /**
@@ -64,7 +60,6 @@ public class QueryBuilder {
      */
     public void greaterThan(int lowerBound, DbAttributes queryField) {
         sql.append("(").append(queryField).append(" > ").append(lowerBound).append(") AND ");
-        noConditions = false;
     }
 
     /**
@@ -82,8 +77,6 @@ public class QueryBuilder {
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing ` OR "`
         sql.append(") AND ");
-        noConditions = false;
-
     }
 
     /**
@@ -105,7 +98,6 @@ public class QueryBuilder {
         }
         sql = new StringBuilder(sql.substring(0, sql.length() - 4));  // Remove trailing " OR "
         sql.append(") AND ");
-        noConditions = false;
     }
 
     /**
@@ -114,14 +106,9 @@ public class QueryBuilder {
      * @return final concatenated query
      */
     public String getQuery() {
-        int amountToRemove = 5; // Remove trailing " AND "
-        if (noConditions) {
-            amountToRemove = 7; // Remove trailing " WHERE "
-        }
-        StringBuilder sql_temp = new StringBuilder(sql.substring(0, sql.length() - amountToRemove));
-        sql_temp.append(";");
+        // Remove trailing " AND "
+        StringBuilder sql_temp = new StringBuilder(sql.substring(0, sql.length() - 5));
         log.info(sql_temp.toString());
         return sql_temp.toString();
     }
-
 }

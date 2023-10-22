@@ -3,9 +3,12 @@ package seng202.team2.models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.team2.database.CrashDao;
+import seng202.team2.database.DbAttributes;
 import seng202.team2.database.IdDao;
 import seng202.team2.database.QueryBuilder;
 import seng202.team2.io.CsvReader;
+
+import java.util.List;
 
 /**
  * The Crashes class acts as a pool of all crashes the met the previous query.
@@ -33,7 +36,18 @@ public class Crashes {
      *
      * @return A list of all crashes in the current pool.
      */
-    public static ObservableList<Integer> getCrashes() {
+    public static ObservableList<Crash> getFromIds(List<Integer> ids) {
+        QueryBuilder filter = new QueryBuilder();
+        filter.intInList(ids, DbAttributes.ID);
+        return FXCollections.observableList(crashDao.getSubset(filter.getQuery()));
+    }
+
+    /**
+     * Get all crashes in the current pool.
+     *
+     * @return A list of all crashes in the current pool.
+     */
+    public static ObservableList<Integer> getCrashIds() {
         return crashIds;
     }
 
@@ -45,5 +59,12 @@ public class Crashes {
      */
     public static void setQuery(QueryBuilder query) {
         crashIds = FXCollections.observableList(idDao.getSubset(query.getQuery()));
+    }
+
+    /**
+     * Reset the current pool of crashes to contain all crashes in the database.
+     */
+    public static void resetCrashes() {
+        crashIds = FXCollections.observableList(idDao.getAll());
     }
 }
