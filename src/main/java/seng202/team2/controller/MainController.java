@@ -172,7 +172,7 @@ public class MainController {
 
         if (currentView == 0)
             mainViewPane.setCenter(mapViewParent);
-        tableViewController.updateCrashes();
+        tableViewController.updatePageCount();
         if (currentView == 0)
             mainViewPane.setCenter(tableViewParent);
     }

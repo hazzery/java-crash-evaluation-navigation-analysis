@@ -41,7 +41,7 @@ public class TableViewController {
         }
 
         pagination.setPageFactory(this::setPage);
-        updateCrashes();
+        updatePageCount();
     }
 
     /**
@@ -62,8 +62,7 @@ public class TableViewController {
     /**
      * Updates the page count to reflect the new number of results for the last query
      */
-    public void updateCrashes() {
-        setPage(0);
+    public void updatePageCount() {
         pagination.setPageCount(Crashes.getCrashIds().size() / ROWS_PER_PAGE + 1);
     }
 }
