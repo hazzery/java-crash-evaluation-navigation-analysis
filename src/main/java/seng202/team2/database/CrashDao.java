@@ -17,7 +17,7 @@ import java.util.Map;
  * @see <a href="https://docs.google.com/document/d/1OzJJYrHxHRYVzx_MKjC2XPGS8_arDKSxYD4NhDN37_E/edit">
  * SENG202 Advanced Applications with JavaFX</a>
  */
-public class CrashDao {
+public class CrashDao extends Dao<Crash> {
     private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger(CrashDao.class);
 
@@ -31,37 +31,14 @@ public class CrashDao {
     }
 
     /**
-     * Get a selection of crashes from the database.
-     *
-     * @param sql An SQL query to select the crashes to return.
-     * @return A list of crashes matching the query.
-     */
-    public List<Crash> queryDatabase(String sql) {
-        List<Crash> crashes = new ArrayList<>();
-
-        try (Connection connection = databaseManager.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            log.info("Queried " + sql);
-
-            while (resultSet.next()) {
-                crashes.add(crashFromResultSet(resultSet));
-            }
-            return crashes;
-        } catch (SQLException sqlException) {
-            log.error(sqlException);
-            return new ArrayList<>();
-        }
-    }
-
-    /**
      * Convert a JDBC ResultSet to a Crash object.
      *
      * @param resultSet The result of the SQL query
      * @return A Crash object with the data from the ResultSet
      * @throws SQLException If the ResultSet is invalid
      */
-    private Crash crashFromResultSet(ResultSet resultSet) throws SQLException {
+    @Override
+    protected Crash fromResultSet(ResultSet resultSet) throws SQLException {
         Map<Vehicle, Integer> vehicles = new HashMap<>();
 
         for (Vehicle vehicle : Vehicle.values()) {
@@ -86,6 +63,16 @@ public class CrashDao {
                         Severity.fromString(resultSet.getString(DbAttributes.SEVERITY.dbColumn())),
                         vehicles
         );
+    }
+
+    /**
+     * Gets the columns of the crashes table CrashDao needs to build a Crash object
+     *
+     * @return String to use as SQL SELECT clause
+     */
+    @Override
+    protected String getColumns() {
+        return "*";
     }
 
     /**
@@ -126,15 +113,18 @@ public class CrashDao {
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             connection.setAutoCommit(false);
+
             for (Crash crash : toAdd) {
                 prepareStatementForCrash(preparedStatement, crash);
                 preparedStatement.addBatch();
             }
+
             preparedStatement.executeBatch();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             while (resultSet.next()) {
                 log.info(resultSet.getLong(1));
             }
+
             connection.commit();
         } catch (SQLException sqlException) {
             log.info(sqlException);
