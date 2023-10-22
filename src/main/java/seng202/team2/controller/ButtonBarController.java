@@ -1,7 +1,7 @@
 package seng202.team2.controller;
 
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,6 +18,7 @@ import seng202.team2.models.Region;
 import seng202.team2.models.Severity;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * JavaFX controller for the crash filter toolbar.
@@ -290,7 +291,17 @@ public class ButtonBarController {
         QueryBuilder queryBuilder = buildQuery();
 
         // Query the database in a separate thread and then update the table and map once complete
-        runAfter(() -> Crashes.setQuery(queryBuilder), () -> mainController.updateViews());
+        CompletableFuture.runAsync(() -> {
+            Crashes.setQuery(queryBuilder);
+            setButtonsDisabled(true);
+            mainController.getLoadingScreen().show("Filtering crash data...");
+
+            Platform.runLater(() -> {
+                mainController.updateViews();
+                mainController.getLoadingScreen().hide();
+                setButtonsDisabled(false);
+            });
+        });
     }
 
     /**
@@ -306,34 +317,6 @@ public class ButtonBarController {
         severities.setDisable(disabled);
         regions.setDisable(disabled);
         yearSelect.setDisable(disabled);
-    }
-
-    /**
-     * Runs a task on a different thread and then continues with the after runnable once execution is complete.
-     * Allows a task to be run without interrupting the main application thread, keeping the application responsive.
-     *
-     * @param before The runnable to run on a new thread
-     * @param after  The runnable to run on the main thread after before has finished executing
-     */
-    private void runAfter(Runnable before, Runnable after) {
-        // Run before task in separate thread to allow JavaFX application to update
-        Task<Void> beforeTask = new Task<>() {
-            @Override
-            protected Void call() {
-                before.run();
-                return null;
-            }
-        };
-        // After the before task has completed, run the after task in the main JavaFX thread
-        beforeTask.setOnSucceeded(event -> {
-            after.run();
-            mainController.getLoadingScreen().hide();
-            setButtonsDisabled(false);
-        });
-
-        new Thread(beforeTask).start();
-        setButtonsDisabled(true);
-        mainController.getLoadingScreen().show("Filtering crash data...");
     }
 }
 
