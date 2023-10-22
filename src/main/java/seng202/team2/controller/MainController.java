@@ -67,7 +67,6 @@ public class MainController {
             loadingScreenParent.setPickOnBounds(false);
             loadingScreenParent.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/stylesheets/table.css")).toExternalForm());
             loadingScreenController = loadingScreenLoader.getController();
-            loadingScreenController.init();
             overlayPane.getChildren().add(loadingScreenParent);
         } catch (IOException e) {
             e.printStackTrace();

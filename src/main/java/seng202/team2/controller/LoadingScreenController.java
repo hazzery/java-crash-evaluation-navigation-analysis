@@ -20,7 +20,8 @@ public class LoadingScreenController {
     /**
      * Initialise the loading screen. Hides the loading label by default.
      */
-    void init() {
+    @FXML
+    void initialize() {
         hide();
     }
 
