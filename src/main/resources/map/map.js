@@ -31,32 +31,15 @@ const heatmapMaxValues = {
     18: 20,
 };
 
-// Don't open context menu on right click
-document.oncontextmenu = function(event) {
-    event.preventDefault();
-}
-
-/**
- * Saves a crash location to an array of crash markers
- * @param lat latitude to place marker at
- * @param lng longitude to place marker at
- */
-function preMarker(lat, lng) {
-    heatmapData.data.push({lat: lat, lng: lng, count: 1});
-}
-
-/**
- * Clear markers from the map
- */
-function clearMarkers() {
-    heatmapData.data = [];
-}
+// Prevent the context menu from opening when the user right-clicks on the map.
+document.oncontextmenu = event => event.preventDefault();
 
 /**
  * Updates the heatmap with the new crash locations
  * @param {int[]} ids - The ids of the crashes to display
  */
-function postMarkers() {
+function displayPoints(ids) {
+    heatmapData.data = CrashManager.getFromIds(ids);
     refreshIntensity();
 }
 
