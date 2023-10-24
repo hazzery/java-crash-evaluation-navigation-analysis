@@ -26,10 +26,10 @@ public class LocationDao extends Dao<Location> {
     @Override
     protected Location fromResultSet(ResultSet resultSet) throws SQLException {
         return new Location(
-                        resultSet.getInt(DbAttributes.ID.dbColumn()),
-                        resultSet.getDouble(DbAttributes.LATITUDE.dbColumn()),
-                        resultSet.getDouble(DbAttributes.LONGITUDE.dbColumn()),
-                        Severity.fromString(resultSet.getString(DbAttributes.SEVERITY.dbColumn()))
+                        resultSet.getInt(DbAttributes.ID.dbColumnName()),
+                        resultSet.getDouble(DbAttributes.LATITUDE.dbColumnName()),
+                        resultSet.getDouble(DbAttributes.LONGITUDE.dbColumnName()),
+                        Severity.fromString(resultSet.getString(DbAttributes.SEVERITY.dbColumnName()))
         );
     }
 

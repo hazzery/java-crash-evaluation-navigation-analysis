@@ -41,4 +41,12 @@ public enum DbAttributes {
     public int dbColumn() {
         return ordinal() + 1;
     }
+
+    /**
+     * Gets the name of the column within the database this attribute resides.
+     * @return The attribute's column name in the database.
+     */
+    public String dbColumnName() {
+        return name().toLowerCase();
+    }
 }
