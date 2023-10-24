@@ -98,7 +98,6 @@ public class MapViewController {
         webEngine.executeScript("CrashManager.setAllCrashes([" + jsFunctionCall + "]);");
     }
 
-
     /**
      * Adds all the crashes into the heatmap layer
      */
@@ -108,13 +107,6 @@ public class MapViewController {
         Crashes.getCrashIds().forEach(crash -> joiner.add(String.valueOf(crash)));
 
         webEngine.executeScript("displayPoints([" + joiner + "]);");
-    }
-
-    /**
-     * Tells the WebEngine to update the intensity of the heatmap
-     */
-    private void refreshHeatmap() {
-        webEngine.executeScript("refreshIntensity();");
     }
 }
 
