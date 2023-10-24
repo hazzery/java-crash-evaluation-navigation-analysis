@@ -14,13 +14,15 @@ class CrashManager {
      * Stores the crash data in a hashmap using the crash ID as the key
      * @type {Map<int, Crash>}
      */
-    static #allCrashes = new Map();
+    static #allCrashes;
 
     /**
      * Stores the crash data in a hashmap using the crash ID as the key
      * @param {CrashEntry[]} crashData - The crash data to store
      */
     static setAllCrashes(crashData) {
+        this.#allCrashes = new Map();
+
         for (let crash of crashData) {
             this.#allCrashes.set(crash.id, new Crash(crash.latitude, crash.longitude, crash.severity));
         }
@@ -35,6 +37,3 @@ class CrashManager {
         return ids.map(id => this.#allCrashes.get(id));
     }
 }
-
-
-
