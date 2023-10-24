@@ -13,6 +13,7 @@ import seng202.team2.models.Location;
 import seng202.team2.models.Crashes;
 
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * Map view controller class for the application.
@@ -62,66 +63,58 @@ public class MapViewController {
         webEngine.setJavaScriptEnabled(true);
         webEngine.load(Objects.requireNonNull(MapViewController.class.getResource("/map/map.html")).toExternalForm());
 
-        webEngine.getLoadWorker().stateProperty().addListener(
-                (ov, oldState, newState) -> {
-                    // if javascript loads successfully
-                    if (newState == Worker.State.SUCCEEDED) {
-                        webEngine.executeScript("initHeatmap();");
-                        addAllCrashMarkers();
-                        mainController.getLoadingScreen().hide();
-                    }
-                });
+        webEngine.getLoadWorker().stateProperty().addListener((observable, oldState, newState) -> {
+            // if javascript loads successfully
+            if (newState == Worker.State.SUCCEEDED) {
                 //This redirects JavaScript's `console.log` to Java `System.out.println`
                 JSObject window = (JSObject) webEngine.executeScript("window");
                 window.setMember("java", bridge);
                 webEngine.executeScript("console.log = function(message){java.log(message);};");
+
+                webEngine.executeScript("initHeatmap();");
+                passInAllCrashes();
+                filterHeatmapPoints();
+                mainController.getLoadingScreen().hide();
+            }
+        });
     }
+
+    /**
+     * Passes in all the crashes to the heatmap layer
+     */
+    public void passInAllCrashes() {
+        Dao<Location> dao = new LocationDao();
+
+        StringJoiner jsFunctionCall = new StringJoiner(", ");
+
+        for (Location crash : dao.getAll()) {
+            double longitude = crash.longitude();
+            if (longitude < 0) {
+                longitude += 360;
+            }
+            jsFunctionCall.add(String.format("{id: %d, latitude: %f, longitude: %f, severity: %d}",
+                            crash.id(), crash.latitude(), longitude, crash.severity().ordinal()));
+        }
+        webEngine.executeScript("CrashManager.setAllCrashes([" + jsFunctionCall + "]);");
+    }
+
 
     /**
      * Adds all the crashes into the heatmap layer
      */
-    public void addAllCrashMarkers()  {
-        clearMarkers();
-
+    public void filterHeatmapPoints() {
         // load the crashes onto the map
-        StringBuilder markerString = new StringBuilder();
-        for (Crash crash : Crashes.getCrashes()) {
-            if (crash != null) {
-                float newLong = (float) crash.longitude();
-                if (newLong < 0) {
-                    newLong += 360;
-                }
-                markerString.append(String.format("preMarker(%f, %f);", (float) crash.latitude(), newLong));
-            }
-        }
+        StringJoiner joiner = new StringJoiner(", ");
+        Crashes.getCrashIds().forEach(crash -> joiner.add(String.valueOf(crash)));
 
-        webEngine.executeScript(markerString.toString());
-
-        postMarkers();
-    }
-
-    /**
-     * Tells the WebEngine to clear all points from the heatmap
-     */
-    private void clearMarkers() {
-        webEngine.executeScript("clearMarkers();");
+        webEngine.executeScript("displayPoints([" + joiner + "]);");
     }
 
     /**
      * Tells the WebEngine to update the intensity of the heatmap
      */
-    private void postMarkers() {
-        webEngine.executeScript("postMarkers();");
-    }
-
-    /**
-     * Initialise the map
-     *
-     * @param mainController The mainController of the application. Needed to display the loading screen
-     */
-    void init(MainController mainController) {
-        initMap();
-        this.mainController = mainController;
+    private void refreshHeatmap() {
+        webEngine.executeScript("refreshIntensity();");
     }
 }
 

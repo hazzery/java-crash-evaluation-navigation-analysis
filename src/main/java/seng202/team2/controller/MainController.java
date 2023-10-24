@@ -167,7 +167,7 @@ public class MainController {
      * Updates the map and table views to reflect new changes in filter options
      */
     public void updateViews() {
-        mapViewController.addAllCrashMarkers();
+        mapViewController.filterHeatmapPoints();
         tableViewController.updatePageCount();
     }
 
