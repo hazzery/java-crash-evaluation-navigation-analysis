@@ -85,17 +85,17 @@ public class MapViewController {
     public void passInAllCrashes() {
         Dao<Location> dao = new LocationDao();
 
-        StringJoiner jsFunctionCall = new StringJoiner(", ");
+        StringJoiner jsCrashArray = new StringJoiner(", ");
 
         for (Location crash : dao.getAll()) {
             double longitude = crash.longitude();
             if (longitude < 0) {
                 longitude += 360;
             }
-            jsFunctionCall.add(String.format("{id: %d, latitude: %f, longitude: %f, severity: %d}",
+            jsCrashArray.add(String.format("{id: %d, latitude: %f, longitude: %f, severity: %d}",
                             crash.id(), crash.latitude(), longitude, crash.severity().ordinal()));
         }
-        webEngine.executeScript("CrashManager.setAllCrashes([" + jsFunctionCall + "]);");
+        webEngine.executeScript("CrashManager.setAllCrashes([" + jsCrashArray + "]);");
     }
 
     /**
@@ -103,10 +103,10 @@ public class MapViewController {
      */
     public void filterHeatmapPoints() {
         // load the crashes onto the map
-        StringJoiner joiner = new StringJoiner(", ");
-        Crashes.getCrashIds().forEach(crash -> joiner.add(String.valueOf(crash)));
+        StringJoiner jsCrashIdArray = new StringJoiner(", ");
+        Crashes.getCrashIds().forEach(crash -> jsCrashIdArray.add(String.valueOf(crash)));
 
-        webEngine.executeScript("displayPoints([" + joiner + "]);");
+        webEngine.executeScript("displayPoints([" + jsCrashIdArray + "]);");
     }
 }
 
