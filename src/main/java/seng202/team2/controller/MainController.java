@@ -34,8 +34,6 @@ public class MainController {
     private TableViewController tableViewController;
     private MapViewController mapViewController;
     private LoadingScreenController loadingScreenController;
-    private int currentView;
-
 
     private static final Duration tooltipDelaySec = Duration.millis(300);
 
@@ -152,7 +150,6 @@ public class MainController {
      */
     public void displayTableView() {
         mainViewPane.setCenter(tableViewParent);
-        currentView = 0;
     }
 
     /**
@@ -160,7 +157,6 @@ public class MainController {
      */
     public void displayMapView() {
         mainViewPane.setCenter(mapViewParent);
-        currentView = 1;
     }
 
     /**
