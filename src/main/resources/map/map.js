@@ -8,7 +8,7 @@
 
 let map;
 let heatmapLayer;
-let heatmapData = {max: 10000,data: []};
+let heatmapData = {max: 10000, data: []};
 
 /**
  * Manually defined values to adjust the intensity of the heatmap at different zoom levels
@@ -28,7 +28,7 @@ const heatmapMaxValues = {
     15: 40,
     16: 35,
     17: 25,
-    18: 20,
+    18: 20
 };
 
 // Prevent the context menu from opening when the user right-clicks on the map.
@@ -66,22 +66,24 @@ function initHeatmap() {
     // Create the heatmap layer using the defined configuration
     heatmapLayer = new HeatmapOverlay(cfg);
 
-    // Create the leaflet map using the UC tileserver for the baseLayer
+    // Create the leaflet map using the UC tile-server for the baseLayer
     const mapOptions = {
         center: [-44.0, 171.0],
         zoom: 5,
         minZoom: 5,
         maxZoom: 18,
         layers: [heatmapLayer],
-        maxBounds: [ [-60.0, 140], [-15.0, 205] ]
+        maxBounds: [[-60.0, 140], [-15.0, 205]]
     };
+
     map = new L.map('map', mapOptions);
+
     new L.TileLayer('https://tile.csse.canterbury.ac.nz/hot/{z}/{x}/{y}.png', { // UCs tilemap server
-        attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
+        attribution: '© OpenStreetMap contributors<br>Served by the University of Canterbury'
     }).addTo(map)
 
     // Update the max value of the heatmap when the map has been zoomed
-    map.on('zoomend', function() {
+    map.on('zoomend', function () {
         refreshIntensity();
     });
 }
