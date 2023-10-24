@@ -3,6 +3,7 @@
  * Exposes functions to manipulate the heatmap to the mapViewController class.
  *
  * @author Findlay Royds
+ * @author Harrison Parkes
  */
 
 let map;
