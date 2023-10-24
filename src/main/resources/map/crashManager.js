@@ -1,4 +1,4 @@
-import Crash from './crash.js';
+// import Crash from './crash.js';
 
 /**
  * @typedef {Object} CrashEntry
@@ -9,7 +9,7 @@ import Crash from './crash.js';
  */
 
 
-export default class CrashManager {
+class CrashManager {
     /**
      * Stores the crash data in a hashmap using the crash ID as the key
      * @type {Map<int, Crash>}

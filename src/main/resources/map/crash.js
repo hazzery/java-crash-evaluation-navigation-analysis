@@ -1,4 +1,4 @@
-export default class Crash {
+class Crash {
     /**
      * Creates a new crash object
      *
