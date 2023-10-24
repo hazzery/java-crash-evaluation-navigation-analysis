@@ -4,7 +4,12 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import seng202.team2.models.Crash;
+
+import netscape.javascript.JSObject;
+
+import seng202.team2.database.Dao;
+import seng202.team2.database.LocationDao;
+import seng202.team2.models.Location;
 import seng202.team2.models.Crashes;
 
 import java.util.Objects;
@@ -29,6 +34,26 @@ public class MapViewController {
     private MainController mainController;
 
     /**
+     * Initialise the map view
+     *
+     * @param mainController The mainController of the application. Needed to display the loading screen
+     */
+    void init(MainController mainController) {
+        this.mainController = mainController;
+        initMap();
+    }
+    public static class JavaBridge
+    {
+        public void log(String text)
+        {
+            System.out.println(text);
+        }
+    }
+    // Maintain a strong reference to prevent garbage collection:
+    // https://bugs.openjdk.java.net/browse/JDK-8154127
+    private final JavaBridge bridge = new JavaBridge();
+
+    /**
      * Initialises the WebView loading in the appropriate html and initialising important communicator
      * objects between Java and Javascript
      */
@@ -46,6 +71,10 @@ public class MapViewController {
                         mainController.getLoadingScreen().hide();
                     }
                 });
+                //This redirects JavaScript's `console.log` to Java `System.out.println`
+                JSObject window = (JSObject) webEngine.executeScript("window");
+                window.setMember("java", bridge);
+                webEngine.executeScript("console.log = function(message){java.log(message);};");
     }
 
     /**
