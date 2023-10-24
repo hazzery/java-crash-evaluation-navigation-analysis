@@ -7,8 +7,8 @@ class Crash {
      * @param {int} severity
      */
     constructor(latitude, longitude, severity) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.severity = severity;
+        this.lat = latitude;
+        this.lng = longitude;
+        this.value = severity;
     }
 }
