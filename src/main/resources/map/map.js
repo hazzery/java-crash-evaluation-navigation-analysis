@@ -10,7 +10,10 @@ let map;
 let heatmapLayer;
 let heatmapData = {max: 10000,data: []};
 
-// Manually defined values to adjust the intensity of the heatmap at different zoom levels
+/**
+ * Manually defined values to adjust the intensity of the heatmap at different zoom levels
+ * @type {Record<int, int>}
+ */
 const heatmapMaxValues = {
     5: 10000,
     6: 6000,
@@ -50,15 +53,17 @@ function clearMarkers() {
 }
 
 /**
- * Sets the data of the heatmap layer to the crash data
+ * Updates the heatmap with the new crash locations
+ * @param {int[]} ids - The ids of the crashes to display
  */
 function postMarkers() {
     refreshIntensity();
 }
 
 /**
- * Initialises the map + the heatmap layer with default configuration.
- * Connects the leaflet zoomend event to adjusting the
+ * Initialises the map and heatmap layers with default configuration.
+ * Connects the leaflet zoom-end event to adjusting the intensity of the heatmap.
+ * @returns {void}
  */
 function initHeatmap() {
     // Configuration for the heatmap
@@ -98,8 +103,11 @@ function initHeatmap() {
     });
 }
 
-// Calculate the intensity config value for the heatmap based off the zoom level
-// and number of crashes being shown
+/**
+ * Calculate the intensity config value for the heatmap based off the zoom level
+ * and the number of crashes being shown.
+ * @returns {void}
+ */
 function refreshIntensity() {
     heatmapData.max = heatmapMaxValues[map.getZoom()] * (heatmapData.data.length / 800000);
     heatmapLayer.setData(heatmapData);
